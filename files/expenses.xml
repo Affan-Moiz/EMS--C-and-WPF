@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Expenses>
+    <Id>da694d60-ef3d-47ac-8c7b-38e744d009a6</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>1</Amount>
+    <Description>FirstExpense</Description>
+    <Category>Food</Category>
+    <PMethod>CreditCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-18T15:51:46.1236317+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>0b0b76f3-cb70-4dd8-bc9f-2ee24fba30eb</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>123456</Amount>
+    <Description>SecondExpense</Description>
+    <Category>Health</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-18T16:58:29.6952852+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>4376c354-dde6-40c6-a480-1fe1227b5a11</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>123</Amount>
+    <Description>Ex1</Description>
+    <Category>Transport</Category>
+    <PMethod>CreditCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-18T17:04:23.5655058+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>322806b8-be57-43b3-b278-554ed1019af9</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>789</Amount>
+    <Description>Ex2</Description>
+    <Category>Transport</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-18T17:06:52.4618034+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+  </Expenses>
+</ArrayOfExpenses>

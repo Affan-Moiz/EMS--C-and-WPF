@@ -1,0 +1,46 @@
+﻿<Window x:Class="ProjectVersion2.Views.ManagerDashboardScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectVersion2.Views"
+        mc:Ignorable="d"
+        Title="Manager Dashboard" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="16" Margin="5" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="Pending Expense Approvals" FontWeight="Bold" FontSize="16" Margin="5" Grid.Row="0" Grid.Column="1"/>
+
+        <ListBox x:Name="PendingUserApprovalsListBox" Grid.Row="1" Grid.Column="0" Margin="5"/>
+        <ListBox x:Name="PendingExpenseApprovalsListBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Approve User" Margin="5" Click="ApproveUser_Click"/>
+            <Button Content="Reject User" Margin="5" Click="RejectUser_Click"/>
+            <Button Content="Edit User" Margin="5" Click="EditUser_Click"/>
+            <Button Content="View All Pending Users" Margin="5" Click="ViewAllPendingUsers_Click"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Approve Expense" Margin="5" Click="ApproveExpense_Click"/>
+            <Button Content="Reject Expense" Margin="5" Click="RejectExpense_Click"/>
+            <Button Content="Edit Expense" Margin="5" Click="EditExpense_Click"/>
+            <Button Content="View All Pending Expenses" Margin="5" Click="ViewAllPendingExpenses_Click"/>
+        </StackPanel>
+
+        <Button Content="User Management" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Click="UserManagement_Click"/>
+    </Grid>
+</Window>
+
+
+

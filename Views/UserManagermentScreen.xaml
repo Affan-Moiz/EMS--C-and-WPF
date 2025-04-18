@@ -1,0 +1,31 @@
+﻿<Window x:Class="ProjectVersion2.Views.UserManagementScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectVersion2.Views"
+        mc:Ignorable="d"
+        Title="User Management" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="User Management" FontWeight="Bold" FontSize="16" Margin="5"/>
+
+        <ListBox x:Name="UsersListBox" Grid.Row="1" Margin="5"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Add User" Margin="5" Click="AddUser_Click"/>
+            <Button Content="Edit User" Margin="5" Click="EditUser_Click"/>
+            <Button Content="Remove User" Margin="5" Click="RemoveUser_Click"/>
+            <Button Content="Assign Role" Margin="5" Click="AssignRole_Click"/>
+            <Button Content="Approve User" Margin="5" Click="ApproveUser_Click"/>
+            <Button Content="Reject User" Margin="5" Click="RejectUser_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+
+

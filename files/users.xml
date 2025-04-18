@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUsers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Users>
+    <Id>250216c6-db27-4fa7-a690-214ecbf1daee</Id>
+    <Username>new</Username>
+    <HashedPassword>new</HashedPassword>
+    <Email>new</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>89036060-a047-4424-9217-2de8a9c48fe7</Id>
+    <Username>test</Username>
+    <HashedPassword>test</HashedPassword>
+    <Email>tester@testing.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+</ArrayOfUsers>
