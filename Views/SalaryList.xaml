@@ -22,7 +22,7 @@
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False" 
                       IsReadOnly="True" 
-                      ItemsSource="{Binding Path=_salariesList}" 
+                      ItemsSource="{Binding Path=SalariesList}" 
                       Margin="0" 
                       GridLinesVisibility="Horizontal" 
                       AlternatingRowBackground="#F5F5F5" 

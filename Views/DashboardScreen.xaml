@@ -31,7 +31,9 @@
                            FontSize="20" 
                            FontWeight="Bold" 
                            Foreground="#007ACC" 
-                           Margin="0,5,0,0" />
+                           Margin="0,5,0,0" 
+                           Text="{Binding TotalExpenses}"
+                           />
             </StackPanel>
         </Border>
 
@@ -43,7 +45,8 @@
                            FontSize="20" 
                            FontWeight="Bold" 
                            Foreground="#28A745" 
-                           Margin="0,5,0,0" />
+                           Margin="0,5,0,0"
+                           Text="{Binding RemainingBalance}"/>
             </StackPanel>
         </Border>
 
@@ -55,7 +58,8 @@
                            FontSize="20" 
                            FontWeight="Bold" 
                            Foreground="#DC3545" 
-                           Margin="0,5,0,0" />
+                           Margin="0,5,0,0"
+                           Text="{Binding PercentSpent, StringFormat={}{0:P2}}"/>
             </StackPanel>
         </Border>
 

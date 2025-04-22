@@ -1,146 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Expenses>
-    <Id>da694d60-ef3d-47ac-8c7b-38e744d009a6</Id>
+    <Id>6b0fd999-76a1-4a20-9dd9-5f5f868f83b7</Id>
     <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>1</Amount>
-    <Description>FirstExpense</Description>
-    <Category>Food</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T15:51:46.1236317+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>0b0b76f3-cb70-4dd8-bc9f-2ee24fba30eb</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>123456</Amount>
-    <Description>SecondExpense</Description>
-    <Category>Health</Category>
-    <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T16:58:29.6952852+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>4376c354-dde6-40c6-a480-1fe1227b5a11</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>123</Amount>
-    <Description>Ex1</Description>
+    <Amount>55000</Amount>
+    <Description>Car</Description>
     <Category>Transport</Category>
     <PMethod>CreditCard</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-18T17:04:23.5655058+05:00</Date>
+    <Date>2025-04-22T15:26:32.524493+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>322806b8-be57-43b3-b278-554ed1019af9</Id>
+    <Id>1a10f421-4c15-4df3-87b0-3b32fb32f0dd</Id>
     <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>789</Amount>
-    <Description>Ex2</Description>
-    <Category>Transport</Category>
-    <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T17:06:52.4618034+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>c2c4987e-d016-4d1c-9436-66a5965451a7</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>123</Amount>
-    <Description>Ex3</Description>
-    <Category>Utilities</Category>
-    <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T17:39:09.6079271+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>ab0c61e7-1747-4ed9-b41e-895d59a65850</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>1987</Amount>
-    <Description>Ex4</Description>
+    <Amount>10000</Amount>
+    <Description>checking percent</Description>
     <Category>Entertainment</Category>
     <PMethod>CreditCard</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-18T17:41:50.9264777+05:00</Date>
+    <Date>2025-04-22T15:33:22.6665363+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>8ecf44d3-10c3-4bde-a3f0-94b700520e77</Id>
+    <Id>9516d124-796d-443f-9b59-166eccde4e07</Id>
     <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>456</Amount>
-    <Description>Ex5</Description>
-    <Category>Entertainment</Category>
-    <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T17:43:32.7186751+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>0f62f189-3bd9-4e5b-abbb-f70db525294b</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>797898</Amount>
-    <Description>yyyy</Description>
-    <Category>Entertainment</Category>
-    <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T17:50:57.6209754+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>2aaaa6de-d427-4a93-82e0-0b0b41e4f120</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>1987</Amount>
-    <Description>gggg</Description>
-    <Category>Entertainment</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-18T17:54:38.8377562+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>c7f36c20-07a3-44da-8a72-1b28ca4c3bf8</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>123456789</Amount>
-    <Description>alirghty then</Description>
+    <Amount>4000</Amount>
+    <Description>bus</Description>
     <Category>Transport</Category>
     <PMethod>Cash</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-21T13:09:08.6193526+05:00</Date>
+    <Date>2025-04-22T15:34:43.7709399+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>3b001e8d-d985-4036-b53e-820c5c5db9ba</Id>
+    <Id>f443fa13-5a6a-4a0a-90ed-f01d9db0cbe9</Id>
     <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>12312</Amount>
-    <Description>righty</Description>
-    <Category>Transport</Category>
-    <PMethod>Cash</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-21T13:11:49.6032701+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>8841e60a-5c8d-4817-8529-4ca6945f2eab</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>1987</Amount>
-    <Description>Checiing</Description>
+    <Amount>3000</Amount>
+    <Description>check</Description>
     <Category>Transport</Category>
     <PMethod>CreditCard</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-21T13:40:23.7417661+05:00</Date>
+    <Date>2025-04-22T15:38:15.827337+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>baf130d3-c1dd-4c6a-a25a-75ab7a767c9c</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>2500</Amount>
+    <Description>checking decimal</Description>
+    <Category>Transport</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-22T15:43:30.3371634+05:00</Date>
     <IsRecurring>false</IsRecurring>
   </Expenses>
 </ArrayOfExpenses>

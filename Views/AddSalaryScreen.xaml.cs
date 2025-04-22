@@ -10,14 +10,14 @@ namespace ProjectVersion2.Views
     public partial class AddSalaryScreen : Window
     {
         private readonly UserViewModel _userViewModel;
-        public ObservableCollection<string> Salaries { get; set; }
 
-        public AddSalaryScreen(Guid userId)
+        public AddSalaryScreen(Guid userId, ref UserViewModel UVModel)
         {
             InitializeComponent();
-            _userViewModel = new UserViewModel(userId);
-            Salaries = new ObservableCollection<string>(_userViewModel.salaryType);
-            DataContext = this;
+            DataContext = UVModel;
+
+            _userViewModel = UVModel;
+            
 
 
             
