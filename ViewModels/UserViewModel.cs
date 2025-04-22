@@ -4,44 +4,111 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectVersion2.Services;
 using ProjectVersion2.Utilities;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace ProjectVersion2.ViewModels
 {
-    public class UserViewModel
+    public class UserViewModel : INotifyPropertyChanged
     {
-        Users? CurrUser;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+
+        Users? ActiveUser;
         Dictionary<Guid, Expenses> expenses;
         Dictionary<Guid, Salary> salaries;
-        public string[]? expensesCategory;
-        public string[]? paymentMethod;
-        public string[]? salaryType;
-        public decimal TotalExpenses { get; set; }
+        public ObservableCollection<string>? expensesCategory;
+        public ObservableCollection<string>? paymentMethod;
+        public ObservableCollection<string>? salaryType;
 
-        
+        public ObservableCollection<string> Categories { get { return expensesCategory; } }
+
+        public ObservableCollection<string> PaymentMethods { get { return paymentMethod; } }
+
+        public ObservableCollection<string> Salaries { get { return salaryType; } }
+
+        public ObservableCollection<Expenses> ExpensesList { get; set; }
+        public ObservableCollection<Salary> SalariesList { get; set; }
+
+
+        private decimal _remainingBalance;
+
+        private decimal _totalExpenses;
+
+        private decimal _percentSpent;
+
+        public decimal TotalExpenses
+        {
+            get { return _totalExpenses; }
+            set
+            {
+                if (_totalExpenses != value)
+                {
+                    _totalExpenses = value;
+                    OnPropertyChanged(nameof(TotalExpenses));
+                }
+            }
+        }
+
+        public decimal RemainingBalance
+        {
+            get { return _remainingBalance; }
+            set
+            {
+                if (_remainingBalance != value)
+                {
+                    _remainingBalance = value;
+                    OnPropertyChanged(nameof(RemainingBalance));
+                }
+            }
+        }
+
+        public decimal PercentSpent
+        {
+            get { return _percentSpent; }
+            set
+            {
+                if (_percentSpent != value)
+                {
+                    _percentSpent = value;
+                    OnPropertyChanged(nameof(PercentSpent));
+                }
+            }
+        }
+
+
 
         public UserViewModel(Guid UserID)
         {
-            UserDataService userDataService = new UserDataService();
+            UserDataService userDataService = new();
             var users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
-            ExpenseDataService expenseDataService = new ExpenseDataService();
+            ExpenseDataService expenseDataService = new();
             expenses = expenseDataService.LoadExpensesAsDictionary(); // Load expenses as a dictionary
-            SalaryService salaryService = new SalaryService();
+            SalaryService salaryService = new();
             salaries = salaryService.LoadSalariesAsDictionary(); // Load salaries as a dictionary
 
-            CurrUser = users.TryGetValue(UserID, out var user) ? user : null;
+            ActiveUser = users.TryGetValue(UserID, out var user) ? user : null;
             expenses = GetExpensesByUserId(UserID).ToDictionary(e => e.Id); // Filter expenses for the current user
             salaries = GetSalariesByUserId(UserID).ToDictionary(s => s.Id); // Filter salaries for the current user
 
-            expensesCategory = Enum.GetNames(typeof(ExpenseCategories));
-            paymentMethod = Enum.GetNames(typeof(PaymentMethod));
-            salaryType = Enum.GetNames(typeof(SalaryType));
+            expensesCategory = [.. Enum.GetNames(typeof(ExpenseCategories))];
+            paymentMethod = [.. Enum.GetNames(typeof(PaymentMethod))];
+            salaryType = [.. Enum.GetNames(typeof(SalaryType))];
 
-            TotalExpenses = GetTotalExpensesByUserId(UserID);
+            ExpensesList = [.. expenses.Values]; // Initialize the expenses list for the current user
+            SalariesList = [.. salaries.Values]; // Initialize the salaries list for the current user
+
+            _totalExpenses = GetTotalExpensesByUserId(UserID); // Initialize total expenses for the current user
+            _remainingBalance = GetTotalIncomeByUserId(UserID); // Initialize remaining balance for the current user
+            if (GetTotalSalariesByUserId(UserID)==0) // Avoid division by zero
+                _percentSpent = 0;
+            else
+                _percentSpent = (GetTotalExpensesByUserId(UserID)/GetTotalSalariesByUserId(UserID));
         }
 
         public Users? GetUserByID(Guid id)
         {
-            return CurrUser;
+            return ActiveUser;
         }
 
         public List<Expenses> GetExpenses()
@@ -52,8 +119,12 @@ namespace ProjectVersion2.ViewModels
         public void AddExpense(Expenses expense)
         {
             expenses[expense.Id] = expense;
-            SaveExpenses();
+            ExpensesList.Add(expense); 
+            RemainingBalance -= expense.Amount; 
             TotalExpenses += expense.Amount;
+            UpdatePercentSpent(ActiveUser.Id);
+            SaveExpenses();
+
         }
 
         public void RemoveExpense(Guid expenseId)
@@ -78,27 +149,27 @@ namespace ProjectVersion2.ViewModels
         private void SaveExpenses()
         {
             ExpenseDataService expenseDataService = new ExpenseDataService();
-            expenseDataService.SaveExpensesFromDictionary(expenses); // Save expenses as a dictionary
+            expenseDataService.SaveExpensesFromDictionary(expenses); 
         }
 
-        public Guid GetUserID ()
+        public Guid GetUserID()
         {
-            return CurrUser?.Id ?? Guid.Empty;
+            return ActiveUser?.Id ?? Guid.Empty;
         }
 
         public string GetUserName()
         {
-            return CurrUser?.Username ?? string.Empty;
+            return ActiveUser?.Username ?? string.Empty;
         }
 
         public string GetUserEmail()
         {
-            return CurrUser?.Email ?? string.Empty;
+            return ActiveUser?.Email ?? string.Empty;
         }
 
         public string GetUserRole()
         {
-            return CurrUser?.Role.ToString() ?? string.Empty;
+            return ActiveUser?.Role.ToString() ?? string.Empty;
         }
 
         //Get Salaries by UserId
@@ -110,13 +181,18 @@ namespace ProjectVersion2.ViewModels
         public void AddSalary(Salary salary)
         {
             salaries[salary.Id] = salary;
+            SalariesList.Add(salary); 
+            RemainingBalance += salary.Amount;
+            UpdatePercentSpent(ActiveUser.Id);
             SaveSalaries();
+            
         }
 
         public void RemoveSalary(Guid salaryId)
         {
             if (salaries.Remove(salaryId))
             {
+
                 SaveSalaries();
             }
         }
@@ -153,6 +229,51 @@ namespace ProjectVersion2.ViewModels
             return expenses.Values.Where(e => e.UserId == userId).Sum(e => e.Amount);
         }
 
+        public decimal GetTotalSalariesByUserId(Guid userId)
+        {
+            return salaries.Values.Where(s => s.UserId == userId).Sum(s => s.Amount);
+        }
 
+        public decimal GetTotalSalaries()
+        {
+            return salaries.Values.Sum(s => s.Amount);
+        }
+
+        public decimal GetTotalIncome()
+        {
+            return GetTotalSalaries() - GetTotalExpenses();
+        }
+
+        public decimal GetTotalIncomeByUserId(Guid UserID)
+        {
+            return GetTotalSalariesByUserId(UserID) - GetTotalExpensesByUserId(UserID);
+        }
+
+        public void UpdateExpense(Guid expenseId, Expenses updatedExpense)
+        {
+            if (expenses.ContainsKey(expenseId))
+            {
+                expenses[expenseId] = updatedExpense;
+                SaveExpenses();
+            }
+        }
+
+        public void UpdateIncome(Guid userId)
+        {
+            RemainingBalance = GetTotalIncomeByUserId(userId);
+        }
+
+        public void UpdatePercentSpent(Guid userId)
+        {
+            if (GetTotalSalariesByUserId(userId) == 0) // Avoid division by zero
+                PercentSpent = 0;
+            else
+                PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

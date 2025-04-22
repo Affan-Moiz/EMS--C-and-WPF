@@ -13,54 +13,23 @@ namespace ProjectVersion2.Views
     /// </summary>
     public partial class ExpenseList : Window
     {
-        private readonly UserViewModel _userViewModel;
-        private ObservableCollection<Expenses> _expensesList;
+        private  UserViewModel _userViewModel;
 
-        public ExpenseList(Guid userId)
+        public ExpenseList(Guid userId,ref UserViewModel UVModel)
         {
             InitializeComponent();
-            _userViewModel = new UserViewModel(userId); // Initialize the UserViewModel with the current user ID
-            LoadExpenses();
+            DataContext = UVModel;
+            _userViewModel = UVModel; // Initialize the UserViewModel with the current user ID
+      
         }
 
-        private void LoadExpenses()
-        {
-            try
-            {
-                // Convert the List<Expenses> to ObservableCollection<Expenses>
-                var expensesList = _userViewModel.GetExpenses();
-                _expensesList = new ObservableCollection<Expenses>(expensesList);
-
-                // Bind the ObservableCollection to the DataGrid
-                ExpenseDataGrid.ItemsSource = _expensesList; // Assuming the DataGrid is named ExpenseDataGrid in the XAML
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while loading expenses: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void ViewExpenseDetails_Click(object sender, RoutedEventArgs e)
-        {
-            if (ExpenseDataGrid.SelectedItem is Expenses selectedExpense)
-            {
-                // Open the ExpenseDetailsScreen for the selected expense
-                var expenseDetailsScreen = new ExpenseDetailsScreen( selectedExpense);
-                expenseDetailsScreen.ShowDialog();
-                LoadExpenses(); // Reload the expenses in case they were updated
-            }
-            else
-            {
-                MessageBox.Show("Please select an expense to view details.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+        
 
         private void AddExpense_Click(object sender, RoutedEventArgs e)
         {
             // Open the AddExpenseScreen to add a new expense
-            var addExpenseScreen = new AddExpenseScreen(_userViewModel.GetUserID());
+            var addExpenseScreen = new AddExpenseScreen(_userViewModel.GetUserID(), ref _userViewModel);
             addExpenseScreen.ShowDialog();
-            LoadExpenses(); // Reload the expenses after adding a new one
         }
 
         private void RemoveExpense_Click(object sender, RoutedEventArgs e)
@@ -74,7 +43,7 @@ namespace ProjectVersion2.Views
                     // Remove the selected expense
                     _userViewModel.RemoveExpense(selectedExpense.Id);
                     MessageBox.Show("Expense removed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoadExpenses(); // Reload the expenses after removal
+                   
                 }
             }
             else
@@ -83,30 +52,11 @@ namespace ProjectVersion2.Views
             }
         }
 
-        //private void EditExpense_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (ExpenseDataGrid.SelectedItem is Expenses selectedExpense)
-        //    {
-        //        // Open the AddExpenseScreen in edit mode
-        //        var editExpenseScreen = new AddExpenseScreen(_userViewModel.GetUserID(), selectedExpense);
-        //        editExpenseScreen.ShowDialog();
-        //        LoadExpenses(); // Reload the expenses after editing
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Please select an expense to edit.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        //    }
-        //}
+        
 
-        private void DeleteExpense_Click(object sender, RoutedEventArgs e)
-        {
-            RemoveExpense_Click(sender, e); // Reuse the RemoveExpense logic
-        }
+       
 
-        private void ViewExpense_Click(object sender, RoutedEventArgs e)
-        {
-            ViewExpenseDetails_Click(sender, e); // Reuse the ViewExpenseDetails logic
-        }
+        
 
         private void EditExpense_Click(object sender, RoutedEventArgs e)
         {
@@ -115,7 +65,9 @@ namespace ProjectVersion2.Views
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Close(); // Close the ExpenseList window
+            Close(); 
         }
+
+
     }
 }

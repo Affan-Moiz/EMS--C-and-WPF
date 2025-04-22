@@ -37,7 +37,7 @@ namespace ProjectVersion2.Services
         }
 
         //Sign Up 
-        public bool SignUp(string username, string password, string email)
+        public bool SignUp(string username, string password, string email, Role role)
         {
             if (users.Values.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase))) return false;
             var newUser = new Users
@@ -47,9 +47,19 @@ namespace ProjectVersion2.Services
                 HashedPassword = password,
                 Email = email,
                 IsApproved = true,
-                Role = Role.User
+                Role = role
             };
             users[newUser.Id] = newUser;
+            SaveUsers();
+            return true;
+        }
+
+        public bool SignUp(Users user)
+        {
+            if (users.Values.Any(u => u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase))) return false;
+            user.Id = Guid.NewGuid();
+            user.IsApproved = true;
+            users[user.Id] = user;
             SaveUsers();
             return true;
         }

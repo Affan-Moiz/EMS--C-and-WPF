@@ -12,30 +12,17 @@ namespace ProjectVersion2.Views
     /// </summary>
     public partial class SalaryList : Window
     {
-        private readonly UserViewModel _userViewModel;
-        private List<Salary> _salariesList;
+        private UserViewModel _userViewModel;
 
-        public SalaryList(Guid userId)
+        public SalaryList(Guid userId,ref UserViewModel UVModel)
         {
             InitializeComponent();
-            DataContext = this; // Set the DataContext for data binding
-            _userViewModel = new UserViewModel(userId); // Initialize the UserViewModel with the current user ID
-            LoadSalaries();
+            DataContext = UVModel; // Set the DataContext for data binding
+            _userViewModel = UVModel; // Initialize the UserViewModel with the current user ID
+           
         }
 
-        private void LoadSalaries()
-        {
-            try
-            {
-                // Load the salaries for the current user and bind them to the DataGrid
-                _salariesList = _userViewModel.GetSalariesByUserId(_userViewModel.GetUserID());
-                SalaryDataGrid.ItemsSource = _salariesList; // Assuming the DataGrid is named SalaryDataGrid in the XAML
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while loading salaries: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+       
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
@@ -44,9 +31,9 @@ namespace ProjectVersion2.Views
 
         private void AddSalary_Click(object sender, RoutedEventArgs e)
         {
-            AddSalaryScreen addSalaryScreen = new AddSalaryScreen(_userViewModel.GetUserID());
+            AddSalaryScreen addSalaryScreen = new AddSalaryScreen(_userViewModel.GetUserID(), ref _userViewModel);
             addSalaryScreen.ShowDialog();
-            LoadSalaries(); // Reload the salaries after adding a new one
+          
         }
 
         //private void ViewSalaryDetails_Click(object sender, RoutedEventArgs e)

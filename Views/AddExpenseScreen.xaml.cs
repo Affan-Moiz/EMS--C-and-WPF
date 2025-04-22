@@ -12,17 +12,18 @@ namespace ProjectVersion2.Views
     {
         public UserViewModel userViewModel;
         private bool _isRecurring;
-        public ObservableCollection<string> Categories { get; set; }
+       
 
-        public ObservableCollection<string> PaymentMethods { get; set; }
-
-        public AddExpenseScreen(Guid userId)
+        public AddExpenseScreen(Guid userId, ref UserViewModel UVModel)
         {
+           // DataContext = this;
             InitializeComponent();
-            userViewModel = new UserViewModel(userId); // Initialize the UserViewModel with the current user ID
-            Categories = new ObservableCollection<string>(userViewModel.expensesCategory);
-            PaymentMethods = new ObservableCollection<string>(userViewModel.paymentMethod);
-            DataContext = this;
+
+            DataContext = UVModel;
+
+            userViewModel = UVModel; // Initialize the UserViewModel with the current user ID
+
+            
 
            // CategoryComboBox.ItemsSource = Categories;
         }
