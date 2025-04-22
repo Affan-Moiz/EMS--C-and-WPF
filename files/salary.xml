@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfSalary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Salary>
-    <Id>4dfd9c93-0f96-4680-939d-d3a9d96c7e23</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Id>d969211a-d87e-4a99-9347-01120609dfd0</Id>
+    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
     <Amount>100000</Amount>
     <Date>2025-04-22T00:00:00</Date>
-    <Description>anas bhai aid</Description>
-    <SalaryType>Fixed</SalaryType>
-    <IsRecurring>false</IsRecurring>
-  </Salary>
-  <Salary>
-    <Id>04e2dcfd-b857-4540-bac0-48851179a484</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>100000</Amount>
-    <Date>2025-04-17T00:00:00</Date>
-    <Description>Salary of May</Description>
+    <Description>Job Salary for January</Description>
     <SalaryType>Fixed</SalaryType>
     <IsRecurring>false</IsRecurring>
   </Salary>

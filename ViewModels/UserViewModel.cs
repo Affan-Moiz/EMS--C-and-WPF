@@ -14,7 +14,7 @@ namespace ProjectVersion2.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
 
-        Users? CurrUser;
+        Users? ActiveUser;
         Dictionary<Guid, Expenses> expenses;
         Dictionary<Guid, Salary> salaries;
         public ObservableCollection<string>? expensesCategory;
@@ -80,32 +80,35 @@ namespace ProjectVersion2.ViewModels
 
         public UserViewModel(Guid UserID)
         {
-            UserDataService userDataService = new UserDataService();
+            UserDataService userDataService = new();
             var users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
-            ExpenseDataService expenseDataService = new ExpenseDataService();
+            ExpenseDataService expenseDataService = new();
             expenses = expenseDataService.LoadExpensesAsDictionary(); // Load expenses as a dictionary
-            SalaryService salaryService = new SalaryService();
+            SalaryService salaryService = new();
             salaries = salaryService.LoadSalariesAsDictionary(); // Load salaries as a dictionary
 
-            CurrUser = users.TryGetValue(UserID, out var user) ? user : null;
+            ActiveUser = users.TryGetValue(UserID, out var user) ? user : null;
             expenses = GetExpensesByUserId(UserID).ToDictionary(e => e.Id); // Filter expenses for the current user
             salaries = GetSalariesByUserId(UserID).ToDictionary(s => s.Id); // Filter salaries for the current user
 
-            expensesCategory = new ObservableCollection<string>(Enum.GetNames(typeof(ExpenseCategories)));
-            paymentMethod = new ObservableCollection<string>(Enum.GetNames(typeof(PaymentMethod)));
-            salaryType = new ObservableCollection<string>(Enum.GetNames(typeof(SalaryType)));
+            expensesCategory = [.. Enum.GetNames(typeof(ExpenseCategories))];
+            paymentMethod = [.. Enum.GetNames(typeof(PaymentMethod))];
+            salaryType = [.. Enum.GetNames(typeof(SalaryType))];
 
-            ExpensesList = new ObservableCollection<Expenses>(expenses.Values); // Initialize the expenses list for the current user
-            SalariesList = new ObservableCollection<Salary>(salaries.Values); // Initialize the salaries list for the current user
+            ExpensesList = [.. expenses.Values]; // Initialize the expenses list for the current user
+            SalariesList = [.. salaries.Values]; // Initialize the salaries list for the current user
 
             _totalExpenses = GetTotalExpensesByUserId(UserID); // Initialize total expenses for the current user
             _remainingBalance = GetTotalIncomeByUserId(UserID); // Initialize remaining balance for the current user
-            _percentSpent= (GetTotalExpensesByUserId(UserID)/GetTotalSalariesByUserId(UserID));
+            if (GetTotalSalariesByUserId(UserID)==0) // Avoid division by zero
+                _percentSpent = 0;
+            else
+                _percentSpent = (GetTotalExpensesByUserId(UserID)/GetTotalSalariesByUserId(UserID));
         }
 
         public Users? GetUserByID(Guid id)
         {
-            return CurrUser;
+            return ActiveUser;
         }
 
         public List<Expenses> GetExpenses()
@@ -116,11 +119,10 @@ namespace ProjectVersion2.ViewModels
         public void AddExpense(Expenses expense)
         {
             expenses[expense.Id] = expense;
-            ExpensesList.Add(expense); // Add the new expense to the ObservableCollection
-            //UpdateIncome(CurrUser.Id);
-            RemainingBalance -= expense.Amount; // Update the remaining balance
+            ExpensesList.Add(expense); 
+            RemainingBalance -= expense.Amount; 
             TotalExpenses += expense.Amount;
-            UpdatePercentSpent(CurrUser.Id);
+            UpdatePercentSpent(ActiveUser.Id);
             SaveExpenses();
 
         }
@@ -147,27 +149,27 @@ namespace ProjectVersion2.ViewModels
         private void SaveExpenses()
         {
             ExpenseDataService expenseDataService = new ExpenseDataService();
-            expenseDataService.SaveExpensesFromDictionary(expenses); // Save expenses as a dictionary
+            expenseDataService.SaveExpensesFromDictionary(expenses); 
         }
 
         public Guid GetUserID()
         {
-            return CurrUser?.Id ?? Guid.Empty;
+            return ActiveUser?.Id ?? Guid.Empty;
         }
 
         public string GetUserName()
         {
-            return CurrUser?.Username ?? string.Empty;
+            return ActiveUser?.Username ?? string.Empty;
         }
 
         public string GetUserEmail()
         {
-            return CurrUser?.Email ?? string.Empty;
+            return ActiveUser?.Email ?? string.Empty;
         }
 
         public string GetUserRole()
         {
-            return CurrUser?.Role.ToString() ?? string.Empty;
+            return ActiveUser?.Role.ToString() ?? string.Empty;
         }
 
         //Get Salaries by UserId
@@ -179,9 +181,9 @@ namespace ProjectVersion2.ViewModels
         public void AddSalary(Salary salary)
         {
             salaries[salary.Id] = salary;
-            SalariesList.Add(salary); // Add the new salary to the ObservableCollection
-            RemainingBalance += salary.Amount; // Update the remaining balance
-            UpdatePercentSpent(CurrUser.Id);
+            SalariesList.Add(salary); 
+            RemainingBalance += salary.Amount;
+            UpdatePercentSpent(ActiveUser.Id);
             SaveSalaries();
             
         }
@@ -263,7 +265,10 @@ namespace ProjectVersion2.ViewModels
 
         public void UpdatePercentSpent(Guid userId)
         {
-            PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
+            if (GetTotalSalariesByUserId(userId) == 0) // Avoid division by zero
+                PercentSpent = 0;
+            else
+                PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
         }
 
         public void OnPropertyChanged(string propertyName)

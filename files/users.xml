@@ -32,4 +32,12 @@
     <Role>Admin</Role>
     <IsApproved>true</IsApproved>
   </Users>
+  <Users>
+    <Id>ae76730b-f370-4bbd-85af-1aa8bd857005</Id>
+    <Username>Ali Ahmed</Username>
+    <HashedPassword>12345</HashedPassword>
+    <Email>AA@gmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
 </ArrayOfUsers>

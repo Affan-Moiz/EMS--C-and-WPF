@@ -1,62 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Expenses>
-    <Id>6b0fd999-76a1-4a20-9dd9-5f5f868f83b7</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>55000</Amount>
-    <Description>Car</Description>
-    <Category>Transport</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-22T15:26:32.524493+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>1a10f421-4c15-4df3-87b0-3b32fb32f0dd</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>10000</Amount>
-    <Description>checking percent</Description>
-    <Category>Entertainment</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-22T15:33:22.6665363+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>9516d124-796d-443f-9b59-166eccde4e07</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>4000</Amount>
-    <Description>bus</Description>
-    <Category>Transport</Category>
+    <Id>99aae87c-b772-45af-97de-3127e7a6c564</Id>
+    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
+    <Amount>100</Amount>
+    <Description>Chips</Description>
+    <Category>Food</Category>
     <PMethod>Cash</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-22T15:34:43.7709399+05:00</Date>
+    <Date>2025-04-22T16:00:48.3580478+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>f443fa13-5a6a-4a0a-90ed-f01d9db0cbe9</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>3000</Amount>
-    <Description>check</Description>
-    <Category>Transport</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-22T15:38:15.827337+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>baf130d3-c1dd-4c6a-a25a-75ab7a767c9c</Id>
-    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
-    <Amount>2500</Amount>
-    <Description>checking decimal</Description>
+    <Id>e8603253-f897-4006-ba83-f1703e06b241</Id>
+    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
+    <Amount>1500</Amount>
+    <Description>Bus</Description>
     <Category>Transport</Category>
     <PMethod>DebitCard</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-22T15:43:30.3371634+05:00</Date>
+    <Date>2025-04-22T16:07:31.8601954+05:00</Date>
     <IsRecurring>false</IsRecurring>
+  </Expenses>
+  <Expenses>
+    <Id>103de9c6-00b3-400a-9880-77e2b55e054d</Id>
+    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
+    <Amount>750</Amount>
+    <Description>Lunch</Description>
+    <Category>Food</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-16T00:00:00</Date>
+    <IsRecurring>true</IsRecurring>
   </Expenses>
 </ArrayOfExpenses>
