@@ -22,7 +22,7 @@
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False" 
                       IsReadOnly="True" 
-                      ItemsSource="{Binding _expensesList,UpdateSourceTrigger=PropertyChanged}" 
+                      ItemsSource="{Binding ExpensesList, Mode=TwoWay}" 
                       Margin="0" 
                       GridLinesVisibility="Horizontal" 
                       AlternatingRowBackground="#F5F5F5" 

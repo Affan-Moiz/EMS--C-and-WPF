@@ -191,5 +191,6 @@ namespace ProjectVersion2.ViewModels
                 SaveExpenses();
             }
         }
+
     }
 }

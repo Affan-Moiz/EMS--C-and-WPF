@@ -34,18 +34,101 @@ namespace ProjectVersion2.Views
             Close();
         }
 
+        //private void Signup_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Creating an instance of a user to send to the signup function in auth service
+        //    Users newUser = new Users()
+        //    {
+        //        Username = UsernameTextBox.Text.Trim(),
+        //        Email = EmailTextBox.Text.Trim(),
+        //        HashedPassword = PasswordBox.Password.Trim(),
+        //        IsApproved = true
+        //    };
+
+        //    if (RoleComboBox.SelectedItem.ToString() == "User")
+        //    {
+        //        newUser.Role = Role.User;
+        //    }
+        //    else if (RoleComboBox.SelectedItem.ToString() == "Admin")
+        //    {
+        //        newUser.Role = Role.Admin;
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Please select a role.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
+
+
+        //        //Input validation
+        //        if (string.IsNullOrWhiteSpace(newUser.Username))
+        //    {
+        //        MessageBox.Show("Username cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
+        //    if (string.IsNullOrWhiteSpace(newUser.HashedPassword))
+        //    {
+        //        MessageBox.Show("Password cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
+        //    if (string.IsNullOrWhiteSpace(newUser.Email))
+        //    {
+        //        MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
+        //    // Attempt signup
+        //    try
+        //    {
+        //        AuthService authService = new AuthService();
+        //        bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email);
+        //        if (isSignedUp)
+        //        {
+        //            MessageBox.Show("Signup successful! You can now log in.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        //            Close();
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Username or email already exists. Please try again.", "Signup Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"An error occurred during signup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
+
+
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
-            //Creating an instance of a user to send to the signup function in auth service
+            // Creating an instance of a user to send to the signup function in auth service
             Users newUser = new Users()
             {
                 Username = UsernameTextBox.Text.Trim(),
                 Email = EmailTextBox.Text.Trim(),
                 HashedPassword = PasswordBox.Password.Trim(),
-                Role = Role.User,
                 IsApproved = true
             };
-            //Input validation
+
+            // Check if a role is selected
+            if (RoleComboBox.SelectedItem is ComboBoxItem selectedRole)
+            {
+                string role = selectedRole.Content.ToString();
+                if (role == "User")
+                {
+                    newUser.Role = Role.User;
+                }
+                else if (role == "Admin")
+                {
+                    newUser.Role = Role.Admin;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a role.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Input validation
             if (string.IsNullOrWhiteSpace(newUser.Username))
             {
                 MessageBox.Show("Username cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -61,11 +144,12 @@ namespace ProjectVersion2.Views
                 MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             // Attempt signup
             try
             {
                 AuthService authService = new AuthService();
-                bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email);
+                bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email, newUser.Role);
                 if (isSignedUp)
                 {
                     MessageBox.Show("Signup successful! You can now log in.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -81,5 +165,6 @@ namespace ProjectVersion2.Views
                 MessageBox.Show($"An error occurred during signup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

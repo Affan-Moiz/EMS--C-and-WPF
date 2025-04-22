@@ -14,10 +14,11 @@ namespace ProjectVersion2.Views
     public partial class ExpenseList : Window
     {
         private readonly UserViewModel _userViewModel;
-        private ObservableCollection<Expenses> _expensesList;
+        public ObservableCollection<Expenses> ExpensesList { get; set; }
 
         public ExpenseList(Guid userId)
         {
+            DataContext = this;
             InitializeComponent();
             _userViewModel = new UserViewModel(userId); // Initialize the UserViewModel with the current user ID
             LoadExpenses();
@@ -29,10 +30,10 @@ namespace ProjectVersion2.Views
             {
                 // Convert the List<Expenses> to ObservableCollection<Expenses>
                 var expensesList = _userViewModel.GetExpenses();
-                _expensesList = new ObservableCollection<Expenses>(expensesList);
+                ExpensesList = new ObservableCollection<Expenses>(expensesList);
 
                 // Bind the ObservableCollection to the DataGrid
-                ExpenseDataGrid.ItemsSource = _expensesList; // Assuming the DataGrid is named ExpenseDataGrid in the XAML
+                ExpenseDataGrid.ItemsSource = ExpensesList; // Assuming the DataGrid is named ExpenseDataGrid in the XAML
             }
             catch (Exception ex)
             {
@@ -48,6 +49,7 @@ namespace ProjectVersion2.Views
                 var expenseDetailsScreen = new ExpenseDetailsScreen( selectedExpense);
                 expenseDetailsScreen.ShowDialog();
                 LoadExpenses(); // Reload the expenses in case they were updated
+                
             }
             else
             {
@@ -117,5 +119,7 @@ namespace ProjectVersion2.Views
         {
             Close(); // Close the ExpenseList window
         }
+
+
     }
 }

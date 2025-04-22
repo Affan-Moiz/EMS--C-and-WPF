@@ -153,6 +153,33 @@ namespace ProjectVersion2.ViewModels
             return expenses.Values.Where(e => e.UserId == userId).Sum(e => e.Amount);
         }
 
+        public decimal GetTotalSalariesByUserId(Guid userId)
+        {
+            return salaries.Values.Where(s => s.UserId == userId).Sum(s => s.Amount);
+        }
 
+        public decimal GetTotalSalaries()
+        {
+            return salaries.Values.Sum(s => s.Amount);
+        }
+
+        public decimal GetTotalIncome()
+        {
+            return GetTotalSalaries() - GetTotalExpenses();
+        }
+
+        public decimal GetTotalIncomeByUserId (Guid UserID)
+        {
+            return GetTotalSalariesByUserId(UserID) - GetTotalExpensesByUserId(UserID);
+        }
+
+        public void UpdateExpense(Guid expenseId, Expenses updatedExpense)
+        {
+            if(expenses.ContainsKey(expenseId))
+            {
+                expenses[expenseId] = updatedExpense;
+                SaveExpenses();
+            }
+        }
     }
 }
