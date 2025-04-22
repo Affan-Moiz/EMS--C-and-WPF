@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfSalary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Salary>
-    <Id>d969211a-d87e-4a99-9347-01120609dfd0</Id>
-    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
+    <Id>6028b86e-3585-42c6-98ed-11b44f6e83cc</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
     <Amount>100000</Amount>
-    <Date>2025-04-22T00:00:00</Date>
-    <Description>Job Salary for January</Description>
+    <Date>2025-01-14T00:00:00</Date>
+    <Description>Salary Jan</Description>
     <SalaryType>Fixed</SalaryType>
-    <IsRecurring>false</IsRecurring>
+    <IsRecurring>true</IsRecurring>
+  </Salary>
+  <Salary>
+    <Id>bd753ac4-c1f0-4aba-8c2a-1cf04d9c42da</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>500000</Amount>
+    <Date>2025-04-10T00:00:00</Date>
+    <Description>Salary Feb</Description>
+    <SalaryType>Fixed</SalaryType>
+    <IsRecurring>true</IsRecurring>
   </Salary>
 </ArrayOfSalary>

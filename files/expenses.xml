@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Expenses>
-    <Id>99aae87c-b772-45af-97de-3127e7a6c564</Id>
-    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
-    <Amount>100</Amount>
-    <Description>Chips</Description>
-    <Category>Food</Category>
+    <Id>4865f025-d39c-498c-adc8-7fcf3dc70eb1</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>1500</Amount>
+    <Description>bux</Description>
+    <Category>Transport</Category>
     <PMethod>Cash</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-22T16:00:48.3580478+05:00</Date>
+    <Date>2025-04-22T16:25:01.3369388+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>e8603253-f897-4006-ba83-f1703e06b241</Id>
-    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
-    <Amount>1500</Amount>
-    <Description>Bus</Description>
-    <Category>Transport</Category>
-    <PMethod>DebitCard</PMethod>
+    <Id>876e8068-628c-4b8a-bfe4-b14674a6562e</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>159000</Amount>
+    <Description>Cow</Description>
+    <Category>Other</Category>
+    <PMethod>BankTransfer</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-22T16:07:31.8601954+05:00</Date>
+    <Date>2025-04-22T16:28:31.0401385+05:00</Date>
     <IsRecurring>false</IsRecurring>
+    <Payees />
   </Expenses>
   <Expenses>
-    <Id>103de9c6-00b3-400a-9880-77e2b55e054d</Id>
-    <UserId>ae76730b-f370-4bbd-85af-1aa8bd857005</UserId>
-    <Amount>750</Amount>
-    <Description>Lunch</Description>
-    <Category>Food</Category>
-    <PMethod>Cash</PMethod>
+    <Id>97f063f3-bab7-4a4b-9c5c-2160c40e199c</Id>
+    <UserId>89036060-a047-4424-9217-2de8a9c48fe7</UserId>
+    <Amount>1800</Amount>
+    <Description>gas bill</Description>
+    <Category>Utilities</Category>
+    <PMethod>CreditCard</PMethod>
     <Status>Pending</Status>
-    <Date>2025-04-16T00:00:00</Date>
-    <IsRecurring>true</IsRecurring>
+    <Date>2025-04-22T16:30:13.1140526+05:00</Date>
+    <IsRecurring>false</IsRecurring>
   </Expenses>
 </ArrayOfExpenses>
