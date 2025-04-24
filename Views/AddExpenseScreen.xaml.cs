@@ -88,7 +88,7 @@ namespace ProjectVersion2.Views
                     Description = DescriptionTextBox.Text,
                     Category = (ExpenseCategories)Enum.Parse(typeof(ExpenseCategories), CategoryComboBox.SelectedItem.ToString()),
                     PMethod = (PaymentMethod)Enum.Parse(typeof(PaymentMethod), PaymentMethodComboBox.SelectedItem.ToString()),
-                    Status = ExpenseStatus.Pending,
+                    Status = ExpenseStatus.Completed,
                     Date = DateTime.Now, 
                     IsRecurring = _isRecurring
                 };

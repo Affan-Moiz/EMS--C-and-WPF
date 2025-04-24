@@ -32,8 +32,11 @@
             <Button Content="Login" 
                     Width="120" Height="35" 
                     Margin="5" Padding="10,5" 
-                    Background="#007ACC" Foreground="White" 
-                    FontWeight="Bold" Click="Login_Click" />
+                    Background="#007ACC" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="Login_Click" 
+                    IsDefault="True"/>
             <Button Content="Sign Up" 
                     Width="120" Height="35" 
                     Margin="5" Padding="10,5" 

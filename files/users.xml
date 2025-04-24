@@ -9,22 +9,6 @@
     <IsApproved>true</IsApproved>
   </Users>
   <Users>
-    <Id>89036060-a047-4424-9217-2de8a9c48fe7</Id>
-    <Username>test</Username>
-    <HashedPassword>test</HashedPassword>
-    <Email>tester@testing.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>c1ac03f2-2c7b-4b03-b2a6-a21d430681fb</Id>
-    <Username>testadmin</Username>
-    <HashedPassword>testadmin</HashedPassword>
-    <Email>testadmin@gmail.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
     <Id>22a128f1-cd30-4810-9d38-d0fa2455b1b6</Id>
     <Username>tadmin</Username>
     <HashedPassword>tadmin</HashedPassword>
@@ -33,10 +17,34 @@
     <IsApproved>true</IsApproved>
   </Users>
   <Users>
-    <Id>ae76730b-f370-4bbd-85af-1aa8bd857005</Id>
-    <Username>Ali Ahmed</Username>
+    <Id>9a5b9fb8-f2c2-4fcf-9416-fe8e84cc0d85</Id>
+    <Username>test</Username>
+    <HashedPassword>test</HashedPassword>
+    <Email>test@test.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>9e67acde-fff5-447c-ac10-ea4cf883907f</Id>
+    <Username>ali</Username>
+    <HashedPassword>ali</HashedPassword>
+    <Email>ali@gmail</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>2e3b254d-e449-4a37-a155-7736f51dd042</Id>
+    <Username>test2</Username>
+    <HashedPassword>test</HashedPassword>
+    <Email>test2@gmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>b51be274-1557-40c1-b663-de9951aa4ece</Id>
+    <Username>NewUser</Username>
     <HashedPassword>12345</HashedPassword>
-    <Email>AA@gmail.com</Email>
+    <Email>nu@gmail.com</Email>
     <Role>User</Role>
     <IsApproved>true</IsApproved>
   </Users>

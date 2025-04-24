@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,31 +17,59 @@ namespace ProjectVersion2.ViewModels
     
         Dictionary<Guid, Users> users;
         Dictionary<Guid, Expenses> expenses;
+        Dictionary<Guid, Salary> salaries;
 
-        public ExpenseCategories[] Categories;
+        public ObservableCollection<Users> PendingUserList { get; set; }
+        public ObservableCollection<Expenses> PendingExpensesList { get; set; }
+        public ObservableCollection<Users> UsersList { get; set; }
+
+
+        UserDataService userDataService = new UserDataService();
+        ExpenseDataService expenseDataService = new ExpenseDataService();
+        SalaryService salaryDataService = new SalaryService();
+
+
+
+
+        public ObservableCollection<string> Roles { get { return rolesCategory; } }
+
+        public ObservableCollection<string>? rolesCategory;
+
 
         public AdminUserModel()
         {
-            UserDataService userDataService = new UserDataService();
             users = userDataService.LoadUsersAsDictionary();
-            ExpenseDataService expenseDataService = new ExpenseDataService();
             expenses = expenseDataService.LoadExpensesAsDictionary();
+            salaries = salaryDataService.LoadSalariesAsDictionary();
 
-            Categories = Enum.GetValues(typeof(ExpenseCategories)) as ExpenseCategories[];
+
+            PendingUserList = [.. GetPendingUsers()];
+            PendingExpensesList = [.. GetPendingExpenses()];
+            UsersList = [.. GetAllUsers()];
+            rolesCategory = [.. Enum.GetNames(typeof(Role))];
+
+
+            //Categories = Enum.GetValues(typeof(ExpenseCategories)) as ExpenseCategories[];
 
         }
 
         public void AddUser(Users user)
         {
             users[user.Id] = user;
+            UsersList.Add(user);
             SaveUsers();
         }
 
-        public void RemoveUser(Guid userId)
+
+        public void RemoveUser(Users user)
         {
-            if (users.Remove(userId)) 
+            if (users.Remove(user.Id))
             {
+                UsersList.Remove(user);
                 SaveUsers();
+                DeleteUserExpenses(user.Id);
+                DeleteUserSalaries(user.Id);
+
             }
         }
 
@@ -60,15 +89,25 @@ namespace ProjectVersion2.ViewModels
             if (users.ContainsKey(user.Id))
             {
                 users[user.Id] = user;
+                //Find the user in the UsersList and update it
+                var index = UsersList.IndexOf(UsersList.FirstOrDefault(u => u.Id == user.Id));
+                if (index != -1)
+                {
+                    UsersList[index] = user;
+                }else {
+                    UsersList.Add(user);
+                }
                 SaveUsers();
             }
         }
 
-        public void ApproveUser(Guid userId)
+        public void ApproveUser(Users user)
         {
-            if (users.TryGetValue(userId, out var user))
+            if (users.ContainsKey(user.Id))
             {
-                user.IsApproved = true;
+                users[user.Id].IsApproved = true;
+                PendingUserList.Remove(user);
+                UsersList[UsersList.IndexOf(user)].IsApproved = true;
                 SaveUsers();
             }
         }
@@ -77,7 +116,20 @@ namespace ProjectVersion2.ViewModels
         {
             if (users.TryGetValue(userId, out var user))
             {
-                user.IsApproved = false;
+                PendingUserList.Remove(user);
+                users.Remove(userId);
+                UsersList.Remove(user);
+                SaveUsers();
+            }
+        }
+
+        public void RejectUser(Users user)
+        {
+            if (users.ContainsKey(user.Id))
+            {
+                users.Remove(user.Id);
+                PendingUserList.Remove(user);
+                UsersList.Remove(user);
                 SaveUsers();
             }
         }
@@ -101,38 +153,37 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
+        public void RejectExpense(Guid expenseId)
+        {
+            if (expenses.TryGetValue(expenseId, out var expense))
+            {
+                expenses.Remove(expenseId);
+                SaveExpenses();
+            }
+        }
+
+        public void RejectExpense(Expenses expense)
+        {
+            if (expenses.ContainsKey(expense.Id))
+            {
+                expenses.Remove(expense.Id);
+                PendingExpensesList.Remove(expense);
+                SaveExpenses();
+            }
+        }
+
         public Expenses? GetExpenseById(Guid id)
         {
             expenses.TryGetValue(id, out var expense);
             return expense;
         }
 
-        public void ApproveExpense(Guid expenseId)
+        public void ApproveExpense(Expenses expense)
         {
-            if (expenses.TryGetValue(expenseId, out var expense))
+            if (expenses.ContainsKey(expense.Id))
             {
-                expense.Status = ExpenseStatus.Approved;
-
-                foreach (var payeeId in expense.Payees ?? new List<Guid>())
-                {
-                    if (users.TryGetValue(payeeId, out var payee))
-                    {
-                        var newExpense = new Expenses
-                        {
-                            Id = Guid.NewGuid(),
-                            UserId = payee.Id,
-                            Amount = expense.Amount,
-                            Description = expense.Description,
-                            Category = expense.Category,
-                            PMethod = expense.PMethod,
-                            Status = ExpenseStatus.Approved,
-                            Date = expense.Date,
-                            IsRecurring = expense.IsRecurring
-                        };
-                        expenses[newExpense.Id] = newExpense;
-                    }
-                }
-
+                expenses[expense.Id].Status = ExpenseStatus.Approved;
+                PendingExpensesList.Remove(expense);
                 SaveExpenses();
             }
         }
@@ -144,14 +195,17 @@ namespace ProjectVersion2.ViewModels
 
         private void SaveUsers()
         {
-            UserDataService userDataService = new UserDataService();
             userDataService.SaveUsersFromDictionary(users);
         }
 
         private void SaveExpenses()
         {
-            ExpenseDataService expenseDataService = new ExpenseDataService();
             expenseDataService.SaveExpensesFromDictionary(expenses);
+        }
+
+        private void SaveSalaries()
+        {
+            salaryDataService.SaveSalariesFromDictionary(salaries);
         }
 
         public List<Users> GetAllUsers()
@@ -195,6 +249,27 @@ namespace ProjectVersion2.ViewModels
                 SaveExpenses();
             }
         }
+
+       public void DeleteUserExpenses(Guid UserID)
+        {
+            var userExpenses = expenses.Values.Where(e => e.UserId == UserID).ToList();
+            foreach (var expense in userExpenses)
+            {
+                expenses.Remove(expense.Id);
+            }
+            SaveExpenses();
+        }
+
+        public void DeleteUserSalaries(Guid UserID)
+        {
+            var userSalaries = salaries.Values.Where(s => s.UserId == UserID).ToList();
+            foreach (var salary in userSalaries)
+            {
+                salaries.Remove(salary.Id);
+            }
+            SaveSalaries();
+        }
+
 
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

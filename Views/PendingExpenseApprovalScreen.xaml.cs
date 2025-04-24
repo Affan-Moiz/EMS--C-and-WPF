@@ -1,30 +1,33 @@
-﻿using System.Windows;
+﻿using ProjectVersion2.ViewModels;
+using ProjectVersion2.Model;
+using System.Windows;
 
 namespace ProjectVersion2.Views
 {
     public partial class PendingExpenseApprovalsScreen : Window
     {
-        public PendingExpenseApprovalsScreen()
+
+        public AdminUserModel _adminUserModel;
+
+        public PendingExpenseApprovalsScreen(ref AdminUserModel adminUserModel)
         {
             InitializeComponent();
-            LoadPendingExpenses();
+            DataContext = adminUserModel;
+            _adminUserModel = adminUserModel;
         }
 
-        private void LoadPendingExpenses()
-        {
-            // Load pending expenses from the data source
-            // Example:
-            // PendingExpensesListBox.ItemsSource = GetPendingExpenses();
-        }
+        
 
         private void ApproveExpense_Click(object sender, RoutedEventArgs e)
         {
             // Approve selected expense
+            _adminUserModel.ApproveExpense((Expenses)PendingExpensesDataGrid.SelectedItem);
         }
 
         private void RejectExpense_Click(object sender, RoutedEventArgs e)
         {
             // Reject selected expense
+            _adminUserModel.RejectExpense((Expenses)PendingExpensesDataGrid.SelectedItem);
         }
 
         private void EditExpense_Click(object sender, RoutedEventArgs e)

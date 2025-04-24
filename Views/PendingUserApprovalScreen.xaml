@@ -3,25 +3,122 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectVersion2.Views"
         mc:Ignorable="d"
-        Title="Pending User Approvals" Height="450" Width="800">
-    <Grid Margin="10">
+        Title="Pending User Approvals" Height="500" Width="800" WindowStartupLocation="CenterScreen" Background="#F9F9F9">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="16" Margin="5"/>
+        <!-- Header -->
+        <TextBlock Text="Pending User Approvals" 
+                   Grid.Row="0" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#333333" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,0,0,20" />
 
-        <ListBox x:Name="PendingUsersListBox" Grid.Row="1" Margin="5"/>
+        <!-- DataGrid -->
+        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+            <DataGrid x:Name="PendingUsersDataGrid" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False" 
+                      IsReadOnly="True" 
+                      ItemsSource="{Binding PendingUserList}" 
+                      Margin="0" 
+                      GridLinesVisibility="None" 
+                      AlternatingRowBackground="#F3F4F6" 
+                      RowBackground="White" 
+                      BorderThickness="0" 
+                      HeadersVisibility="Column">
+                <DataGrid.Resources>
+                    <!-- Header Style -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#005B96" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="12,6" />
+                        <Setter Property="BorderBrush" Value="#E0E0E0" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    </Style>
+                    <!-- Row Hover Effect -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Foreground" Value="#333333" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E8F4FC" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto" MinWidth="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Is Approved" Binding="{Binding IsApproved}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="5">
-            <Button Content="Approve" Margin="5" Click="ApproveUser_Click"/>
-            <Button Content="Reject" Margin="5" Click="RejectUser_Click"/>
-            <Button Content="Edit" Margin="5" Click="EditUser_Click"/>
+        <!-- Footer Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Approve" 
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#007ACC" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="ApproveUser_Click" />
+            <Button Content="Reject" 
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#D9534F" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="RejectUser_Click" />
+            <Button Content="Edit" 
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#5BC0DE" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="EditUser_Click" />
         </StackPanel>
     </Grid>
 </Window>
-

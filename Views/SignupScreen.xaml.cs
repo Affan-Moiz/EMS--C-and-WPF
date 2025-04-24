@@ -152,7 +152,7 @@ namespace ProjectVersion2.Views
                 bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email, newUser.Role);
                 if (isSignedUp)
                 {
-                    MessageBox.Show("Signup successful! You can now log in.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Signup successful! You can log in once an admin approves your request.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
                 }
                 else

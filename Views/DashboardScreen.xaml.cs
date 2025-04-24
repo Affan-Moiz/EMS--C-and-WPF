@@ -57,6 +57,11 @@ namespace ProjectVersion2.Views
             expenseListScreen.Show();
         }
 
-        
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            var loginScreen = new LoginScreen();
+            loginScreen.Show();
+            this.Close();
+        }
     }
 }

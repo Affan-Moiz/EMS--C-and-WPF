@@ -46,7 +46,7 @@ namespace ProjectVersion2.Services
                 Username = username,
                 HashedPassword = password,
                 Email = email,
-                IsApproved = true,
+                IsApproved = false,
                 Role = role
             };
             users[newUser.Id] = newUser;
@@ -61,7 +61,7 @@ namespace ProjectVersion2.Services
             user.IsApproved = true;
             users[user.Id] = user;
             SaveUsers();
-            return true;
+            return false;
         }
         private void SaveUsers()
         {

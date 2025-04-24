@@ -1,30 +1,32 @@
-﻿using System.Windows;
+﻿using ProjectVersion2.ViewModels;
+using ProjectVersion2.Model;
+using System.Windows;
 
 namespace ProjectVersion2.Views
 {
     public partial class PendingUserApprovalsScreen : Window
     {
-        public PendingUserApprovalsScreen()
+
+        AdminUserModel adminUserModel;
+
+        public PendingUserApprovalsScreen(ref AdminUserModel adminUserModel)
         {
             InitializeComponent();
-            LoadPendingUsers();
+            DataContext = adminUserModel;
+            this.adminUserModel = adminUserModel;
         }
 
-        private void LoadPendingUsers()
-        {
-            // Load pending users from the data source
-            // Example:
-            // PendingUsersListBox.ItemsSource = GetPendingUsers();
-        }
 
         private void ApproveUser_Click(object sender, RoutedEventArgs e)
         {
             // Approve selected user
+            adminUserModel.ApproveUser((Users)PendingUsersDataGrid.SelectedItem);
         }
 
         private void RejectUser_Click(object sender, RoutedEventArgs e)
         {
             // Reject selected user
+            adminUserModel.RejectUser((Users)PendingUsersDataGrid.SelectedItem);
         }
 
         private void EditUser_Click(object sender, RoutedEventArgs e)
