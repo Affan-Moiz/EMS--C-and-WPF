@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfSalary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Salary>
-    <Id>c3af8843-cec8-4386-bd25-ed233916be60</Id>
-    <UserId>9a5b9fb8-f2c2-4fcf-9416-fe8e84cc0d85</UserId>
-    <Amount>123</Amount>
-    <Date>2025-04-24T00:00:00</Date>
-    <Description>testSalary1</Description>
-    <SalaryType>Variable</SalaryType>
+    <Id>811f757c-c267-4c1d-b011-59f9c563801f</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>100000</Amount>
+    <Date>2025-01-01T00:00:00</Date>
+    <Description>Jan Salary</Description>
+    <SalaryType>Fixed</SalaryType>
     <IsRecurring>true</IsRecurring>
   </Salary>
 </ArrayOfSalary>

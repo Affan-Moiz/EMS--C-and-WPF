@@ -31,6 +31,17 @@ namespace ProjectVersion2.Views
         private void EditUser_Click(object sender, RoutedEventArgs e)
         {
             // Navigate to Edit User screen
+            var selectedUser = (Users)UsersDataGrid.SelectedItem;
+            //var selectedUser = (Users)UsersDataGrid.SelectedItem;
+            if (selectedUser != null)
+            {
+                var addEditUserWindow = new AddEditUserWindow(ref adminUserModel, selectedUser.Id);
+                addEditUserWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a user to edit.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ApproveExpense_Click(object sender, RoutedEventArgs e)
@@ -70,9 +81,52 @@ namespace ProjectVersion2.Views
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
+        }
+
+        private void AddUser_Click(object sender, RoutedEventArgs e)
+        {
+            var addEditUserWindow = new AddEditUserWindow(ref adminUserModel, Guid.Empty);
+            addEditUserWindow.Show();
+        }
+
+        private void RemoveUser_Click(object sender, RoutedEventArgs e)
+        {
+            // Show a message box that asks for confirmation
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to remove this user?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No)
+            {
+                return; // User clicked "No", so do nothing
+            }
+            else if (result == MessageBoxResult.Yes)
+            {
+                //Check if the user has pending expenses
+                if (adminUserModel.HasPendingExpenses((Users)UsersDataGrid.SelectedItem))
+                {
+                    MessageBox.Show("This user has pending expenses and cannot be removed. Please complete all pending expenses before deletion", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    adminUserModel.RemoveUser((Users)UsersDataGrid.SelectedItem);
+                    MessageBox.Show("User removed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+               
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Logout();
+        }
+
+        private void Logout()
+        {
+            adminUserModel.Save();
             var loginScreen = new LoginScreen();
             loginScreen.Show();
-            this.Close();
+      
         }
     }
 }

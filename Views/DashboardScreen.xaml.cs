@@ -59,9 +59,20 @@ namespace ProjectVersion2.Views
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Logout();
+        }
+
+        private void Logout()
+        {
+            UserViewModel.Save();
             var loginScreen = new LoginScreen();
             loginScreen.Show();
-            this.Close();
         }
     }
 }

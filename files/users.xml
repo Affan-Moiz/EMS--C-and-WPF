@@ -17,14 +17,6 @@
     <IsApproved>true</IsApproved>
   </Users>
   <Users>
-    <Id>9a5b9fb8-f2c2-4fcf-9416-fe8e84cc0d85</Id>
-    <Username>test</Username>
-    <HashedPassword>test</HashedPassword>
-    <Email>test@test.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
     <Id>9e67acde-fff5-447c-ac10-ea4cf883907f</Id>
     <Username>ali</Username>
     <HashedPassword>ali</HashedPassword>
@@ -45,6 +37,22 @@
     <Username>NewUser</Username>
     <HashedPassword>12345</HashedPassword>
     <Email>nu@gmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>346f6a24-a4b8-49b9-9406-e476e2db204d</Id>
+    <Username>NU</Username>
+    <HashedPassword>12345</HashedPassword>
+    <Email>NU2@gmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>fe0eeced-a220-45c0-8b48-0d9f64344552</Id>
+    <Username>test</Username>
+    <HashedPassword>test</HashedPassword>
+    <Email>test@test.com</Email>
     <Role>User</Role>
     <IsApproved>true</IsApproved>
   </Users>

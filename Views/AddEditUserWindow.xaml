@@ -44,11 +44,10 @@
                 </ComboBox>
 
                 <!-- Is Approved -->
-                <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                    <TextBlock Text="Is Approved" FontSize="16" FontWeight="Bold" Foreground="#555555" VerticalAlignment="Center" />
-                    <CheckBox x:Name="IsApprovedCheckBox" Margin="10,0,0,0"
-                              VerticalAlignment="Center" 
-                               />
+                <StackPanel Orientation="Horizontal" Margin="2,15,0,0">
+                    <CheckBox x:Name="IsApprovedCheckBox" Margin="0,0,10,0" VerticalAlignment="Center" 
+           />
+                    <TextBlock Text="Account Enabled" FontSize="16" FontWeight="Bold" Foreground="#555555" VerticalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </Border>

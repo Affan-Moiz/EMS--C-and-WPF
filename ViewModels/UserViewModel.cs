@@ -74,15 +74,17 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
+        private UserDataService userDataService = new();
+        private ExpenseDataService expenseDataService = new();
+        private SalaryService salaryService = new();
+
 
 
         public UserViewModel(Guid UserID)
         {
-            UserDataService userDataService = new();
+
             var users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
-            ExpenseDataService expenseDataService = new();
             expenses = expenseDataService.LoadExpensesAsDictionary(); // Load expenses as a dictionary
-            SalaryService salaryService = new();
             salaries = salaryService.LoadSalariesAsDictionary(); // Load salaries as a dictionary
 
             ActiveUser = users.TryGetValue(UserID, out var user) ? user : null;
@@ -137,16 +139,12 @@ namespace ProjectVersion2.ViewModels
             RemainingBalance -= expense.Amount; 
             TotalExpenses += expense.Amount;
             PercentSpent=GetPercentSpent(ActiveUser.Id);
-            SaveExpenses();
 
         }
 
         public void RemoveExpense(Guid expenseId)
         {
-            if (expenses.Remove(expenseId))
-            {
-                SaveExpenses();
-            }
+            expenses.Remove(expenseId);
         }
 
         public Expenses? GetExpenseById(Guid id)
@@ -162,7 +160,6 @@ namespace ProjectVersion2.ViewModels
 
         private void SaveExpenses()
         {
-            ExpenseDataService expenseDataService = new ExpenseDataService();
             expenseDataService.SaveExpensesFromDictionary(expenses); 
         }
 
@@ -198,17 +195,12 @@ namespace ProjectVersion2.ViewModels
             SalariesList.Add(salary); 
             RemainingBalance += salary.Amount;
             PercentSpent=GetPercentSpent(ActiveUser.Id);
-            SaveSalaries();
             
         }
 
         public void RemoveSalary(Guid salaryId)
         {
-            if (salaries.Remove(salaryId))
-            {
-
-                SaveSalaries();
-            }
+            salaries.Remove(salaryId);
         }
 
         public Salary? GetSalaryById(Guid id)
@@ -219,8 +211,6 @@ namespace ProjectVersion2.ViewModels
 
         public void SaveSalaries()
         {
-            SalaryService salaryService = new SalaryService();
-
             salaryService.SaveSalariesFromDictionary(salaries); // Save salaries as a dictionary
         }
 
@@ -229,7 +219,6 @@ namespace ProjectVersion2.ViewModels
             if (salaries.ContainsKey(salaryId))
             {
                 salaries[salaryId] = updatedSalary;
-                SaveSalaries();
             }
         }
 
@@ -268,7 +257,6 @@ namespace ProjectVersion2.ViewModels
             if (expenses.ContainsKey(expenseId))
             {
                 expenses[expenseId] = updatedExpense;
-                SaveExpenses();
             }
         }
 
@@ -283,6 +271,12 @@ namespace ProjectVersion2.ViewModels
                 PercentSpent = 0;
             else
                 PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
+        }
+
+        public void Save()
+        {
+            SaveExpenses();
+            SaveSalaries();
         }
 
         public void OnPropertyChanged(string propertyName)

@@ -22,7 +22,7 @@ namespace ProjectVersion2.Services
         {
             var user = users.Values.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
             if (user == null || !VerifyPassword(password, user.HashedPassword)) return null;
-            return user.IsApproved ? user : null;
+            return user;
         }
         //public Users? Login(string username, string password, Dictionary<Guid, Users> usersDictionary)
         //{

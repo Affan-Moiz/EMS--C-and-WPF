@@ -4,23 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Dashboard" Height="600" Width="900" WindowStartupLocation="CenterScreen" Background="#F9F9F9">
+        Title="Dashboard" Height="900" Width="900" WindowStartupLocation="CenterScreen" Background="#F9F9F9"
+        Closing="Window_Closing">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
         <!-- Header -->
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0">
             <TextBlock Text="Dashboard" 
                        FontSize="24" FontWeight="Bold" Foreground="#333333" 
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20" />
@@ -31,68 +24,185 @@
                     Click="Logout_Click" />
         </Grid>
 
-        <!-- Total Expenses -->
-        <Border Grid.Row="1" Grid.Column="0" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Total Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                <TextBlock x:Name="TotalExpensesTextBlock" 
-                           FontSize="20" 
-                           FontWeight="Bold" 
-                           Foreground="#007ACC" 
-                           Margin="0,5,0,0" 
-                           Text="{Binding TotalExpenses}" />
-            </StackPanel>
-        </Border>
+        <!-- TabControl -->
+        <TabControl Grid.Row="1" Margin="0,20,0,0">
+            <!-- Dashboard Tab -->
+            <TabItem Header="Dashboard">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-        <!-- Remaining Budget -->
-        <Border Grid.Row="1" Grid.Column="1" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Remaining Budget" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                <TextBlock x:Name="RemainingBudgetTextBlock" 
-                           FontSize="20" 
-                           FontWeight="Bold" 
-                           Foreground="#28A745" 
-                           Margin="0,5,0,0"
-                           Text="{Binding RemainingBalance}" />
-            </StackPanel>
-        </Border>
+                    <!-- Total Expenses -->
+                    <Border Grid.Row="0" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Total Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                            <TextBlock x:Name="TotalExpensesTextBlock" 
+                                       FontSize="20" 
+                                       FontWeight="Bold" 
+                                       Foreground="#007ACC" 
+                                       Margin="0,5,0,0" 
+                                       Text="{Binding TotalExpenses,StringFormat='$ {0:N2}'}"  />
+                        </StackPanel>
+                    </Border>
 
-        <!-- Percentage of Salary Spent -->
-        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Percentage of Salary Spent" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                <TextBlock x:Name="PercentageOfSalarySpentTextBlock" 
-                           FontSize="20" 
-                           FontWeight="Bold" 
-                           Foreground="#DC3545" 
-                           Margin="0,5,0,0"
-                           Text="{Binding PercentSpent, StringFormat={}{0:P2}}" />
-            </StackPanel>
-        </Border>
+                    <!-- Remaining Budget -->
+                    <Border Grid.Row="1" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Remaining Budget" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                            <TextBlock x:Name="RemainingBudgetTextBlock" 
+                                       FontSize="20" 
+                                       FontWeight="Bold" 
+                                       Foreground="#28A745" 
+                                       Margin="0,5,0,0"
+                                       Text="{Binding RemainingBalance, StringFormat='$ {0:N2}'}" />
+                        </StackPanel>
+                    </Border>
 
-        <!-- Salary vs Expenses Graph -->
-        <Border Grid.Row="3" Grid.Column="0" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Salary vs Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                <Grid x:Name="SalaryVsExpensesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" />
-            </StackPanel>
-        </Border>
+                    <!-- Percentage of Salary Spent -->
+                    <Border Grid.Row="2" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Percentage of Salary Spent" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                            <TextBlock x:Name="PercentageOfSalarySpentTextBlock" 
+                                       FontSize="20" 
+                                       FontWeight="Bold" 
+                                       Foreground="#DC3545" 
+                                       Margin="0,5,0,0"
+                                       Text="{Binding PercentSpent, StringFormat={}{0:P2}}" />
+                        </StackPanel>
+                    </Border>
 
-        <!-- Expense Categories Overview -->
-        <Border Grid.Row="3" Grid.Column="1" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Expense Categories Overview" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                <Grid x:Name="ExpenseCategoriesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" />
-            </StackPanel>
-        </Border>
+                    <!-- Salary vs Expenses Graph -->
+                    <Border Grid.Row="3" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Salary vs Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                            <Grid x:Name="SalaryVsExpensesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
 
-        <!-- Actions -->
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Content="Add Expense" Click="AddExpense_Click" Margin="5" Padding="10,5" Background="#007ACC" Foreground="White" FontWeight="Bold" Width="120" />
-            <Button Content="View Expenses" Click="ViewExpenses_Click" Margin="5" Padding="10,5" Background="#007ACC" Foreground="White" FontWeight="Bold" Width="120" />
-            <Button Content="Add Salary" Click="AddSalary_Click" Margin="5" Padding="10,5" Background="#28A745" Foreground="White" FontWeight="Bold" Width="120" />
-            <Button Content="View Salary" Click="ViewSalary_Click" Margin="5" Padding="10,5" Background="#28A745" Foreground="White" FontWeight="Bold" Width="120" />
-        </StackPanel>
+                    <!-- Expense Categories Overview -->
+                    <Border Grid.Row="4" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Expense Categories Overview" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                            <Grid x:Name="ExpenseCategoriesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- Expense List Tab -->
+            <TabItem Header="Expense List">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <TextBlock Text="Expense List" 
+                               Grid.Row="0" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#333333" 
+                               Margin="0,0,0,20" />
+
+                    <!-- DataGrid -->
+                    <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+                        <DataGrid x:Name="ExpenseDataGrid" 
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" 
+                                  IsReadOnly="True" 
+                                  ItemsSource="{Binding ExpensesList}" 
+                                  Margin="0" 
+                                  GridLinesVisibility="Horizontal" 
+                                  AlternatingRowBackground="#F3F4F6" 
+                                  RowBackground="White" 
+                                  BorderThickness="0" 
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=C}" Width="*" MinWidth="80" />
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Payment Method" Binding="{Binding PMethod}" Width="*" MinWidth="120" />
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" MinWidth="80" />
+                                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MM-yyyy}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Recurring" Binding="{Binding IsRecurring}" Width="*" MinWidth="80" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <!-- Add Expense Button -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                        <Button Content="Add Expense" 
+                                Width="120" 
+                                Margin="5" 
+                                Padding="10,5" 
+                                Background="#007ACC" 
+                                Foreground="White" 
+                                FontWeight="Bold" 
+                                Click="AddExpense_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Salary List Tab -->
+            <TabItem Header="Salary List">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <TextBlock Text="Salary List" 
+                               Grid.Row="0" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#333333" 
+                               Margin="0,0,0,20" />
+
+                    <!-- DataGrid -->
+                    <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+                        <DataGrid x:Name="SalaryDataGrid" 
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" 
+                                  IsReadOnly="True" 
+                                  ItemsSource="{Binding SalariesList}" 
+                                  Margin="0" 
+                                  GridLinesVisibility="Horizontal" 
+                                  AlternatingRowBackground="#F3F4F6" 
+                                  RowBackground="White" 
+                                  BorderThickness="0" 
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=C}" Width="*" MinWidth="80" />
+                                <DataGridTextColumn Header="Type" Binding="{Binding SalaryType}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MM-yyyy}" Width="*" MinWidth="100" />
+                                <DataGridTextColumn Header="Recurring" Binding="{Binding IsRecurring}" Width="*" MinWidth="80" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <!-- Add Salary Button -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                        <Button Content="Add Salary" 
+                                Width="120" 
+                                Margin="5" 
+                                Padding="10,5" 
+                                Background="#28A745" 
+                                Foreground="White" 
+                                FontWeight="Bold" 
+                                Click="AddSalary_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
-

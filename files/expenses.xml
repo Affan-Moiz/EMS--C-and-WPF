@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Expenses>
-    <Id>11b1721d-429e-4268-a049-17d7aa723abd</Id>
-    <UserId>9a5b9fb8-f2c2-4fcf-9416-fe8e84cc0d85</UserId>
-    <Amount>123</Amount>
-    <Description>testExpense1</Description>
+    <Id>30ca024f-7b3e-46b5-aa29-70d664ebbcb4</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>100</Amount>
+    <Description>chips</Description>
     <Category>Food</Category>
-    <PMethod>CreditCard</PMethod>
+    <PMethod>Cash</PMethod>
     <Status>Completed</Status>
-    <Date>2025-04-23T13:20:46.9332959+05:00</Date>
+    <Date>2025-04-24T16:12:50.7479627+05:00</Date>
     <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>7d0829b6-f213-494a-ac5a-248f816fffa0</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>8600</Amount>
+    <Description>Hungry Habibi</Description>
+    <Category>Food</Category>
+    <PMethod>BankTransfer</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-04-24T16:13:07.187392+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>11c5dcf9-e8df-4a35-9902-1fbddc426dfa</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>70</Amount>
+    <Description>Cold Drink</Description>
+    <Category>Food</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-04-24T16:13:22.5393521+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>241d10cb-5ce6-44f6-a50c-d95c525d7c28</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>8125</Amount>
+    <Description>Game Pass</Description>
+    <Category>Entertainment</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-04-24T16:14:14.5147571+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
   </Expenses>
 </ArrayOfExpenses>

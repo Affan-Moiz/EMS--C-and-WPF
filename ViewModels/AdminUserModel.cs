@@ -28,9 +28,6 @@ namespace ProjectVersion2.ViewModels
         ExpenseDataService expenseDataService = new ExpenseDataService();
         SalaryService salaryDataService = new SalaryService();
 
-
-
-
         public ObservableCollection<string> Roles { get { return rolesCategory; } }
 
         public ObservableCollection<string>? rolesCategory;
@@ -57,7 +54,6 @@ namespace ProjectVersion2.ViewModels
         {
             users[user.Id] = user;
             UsersList.Add(user);
-            SaveUsers();
         }
 
 
@@ -66,7 +62,6 @@ namespace ProjectVersion2.ViewModels
             if (users.Remove(user.Id))
             {
                 UsersList.Remove(user);
-                SaveUsers();
                 DeleteUserExpenses(user.Id);
                 DeleteUserSalaries(user.Id);
 
@@ -97,7 +92,16 @@ namespace ProjectVersion2.ViewModels
                 }else {
                     UsersList.Add(user);
                 }
-                SaveUsers();
+
+                if (user.IsApproved && PendingUserList.Contains(user))
+                {
+                    PendingUserList.Remove(user);
+                }
+                else if (!user.IsApproved && !PendingUserList.Contains(user) )
+                {
+                    PendingUserList.Add(user);
+                }
+
             }
         }
 
@@ -108,7 +112,6 @@ namespace ProjectVersion2.ViewModels
                 users[user.Id].IsApproved = true;
                 PendingUserList.Remove(user);
                 UsersList[UsersList.IndexOf(user)].IsApproved = true;
-                SaveUsers();
             }
         }
 
@@ -119,7 +122,6 @@ namespace ProjectVersion2.ViewModels
                 PendingUserList.Remove(user);
                 users.Remove(userId);
                 UsersList.Remove(user);
-                SaveUsers();
             }
         }
 
@@ -130,7 +132,6 @@ namespace ProjectVersion2.ViewModels
                 users.Remove(user.Id);
                 PendingUserList.Remove(user);
                 UsersList.Remove(user);
-                SaveUsers();
             }
         }
 
@@ -142,15 +143,11 @@ namespace ProjectVersion2.ViewModels
         public void AddExpense(Expenses expense)
         {
             expenses[expense.Id] = expense;
-            SaveExpenses();
         }
 
         public void RemoveExpense(Guid expenseId)
         {
-            if (expenses.Remove(expenseId))
-            {
-                SaveExpenses();
-            }
+            expenses.Remove(expenseId);
         }
 
         public void RejectExpense(Guid expenseId)
@@ -158,7 +155,6 @@ namespace ProjectVersion2.ViewModels
             if (expenses.TryGetValue(expenseId, out var expense))
             {
                 expenses.Remove(expenseId);
-                SaveExpenses();
             }
         }
 
@@ -168,7 +164,6 @@ namespace ProjectVersion2.ViewModels
             {
                 expenses.Remove(expense.Id);
                 PendingExpensesList.Remove(expense);
-                SaveExpenses();
             }
         }
 
@@ -184,7 +179,6 @@ namespace ProjectVersion2.ViewModels
             {
                 expenses[expense.Id].Status = ExpenseStatus.Approved;
                 PendingExpensesList.Remove(expense);
-                SaveExpenses();
             }
         }
 
@@ -218,13 +212,17 @@ namespace ProjectVersion2.ViewModels
             if (expenses.ContainsKey(expense.Id))
             {
                 expenses[expense.Id] = expense;
-                SaveExpenses();
             }
         }
 
         public List<Expenses> GetExpensesById (Guid UserId)
         {
             return expenses.Values.Where(e => e.UserId == UserId).ToList();
+        }
+
+        public bool HasPendingExpenses(Users user)
+        {
+            return expenses.Values.Any(e => e.UserId == user.Id && e.Status == ExpenseStatus.Pending);
         }
 
         public List<Expenses> GetAllExpenses()
@@ -237,7 +235,6 @@ namespace ProjectVersion2.ViewModels
             if(expenses.TryGetValue(expenseId, out var expense))
             {
                 expense.Status = ExpenseStatus.Approved;
-                SaveExpenses();
             }
         }
 
@@ -246,7 +243,6 @@ namespace ProjectVersion2.ViewModels
             if (expenses.TryGetValue(expenseId,out var expense))
             {
                 expense.Status = ExpenseStatus.Rejected;
-                SaveExpenses();
             }
         }
 
@@ -257,7 +253,6 @@ namespace ProjectVersion2.ViewModels
             {
                 expenses.Remove(expense.Id);
             }
-            SaveExpenses();
         }
 
         public void DeleteUserSalaries(Guid UserID)
@@ -267,6 +262,12 @@ namespace ProjectVersion2.ViewModels
             {
                 salaries.Remove(salary.Id);
             }
+        }
+
+        public void Save()
+        {
+            SaveExpenses();
+            SaveUsers();
             SaveSalaries();
         }
 
