@@ -20,8 +20,16 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Dashboard" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
-                   FontSize="24" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20" />
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Dashboard" 
+                       FontSize="24" FontWeight="Bold" Foreground="#333333" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20" />
+            <Button Content="Logout" 
+                    Width="100" Height="30" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" 
+                    Background="#D9534F" Foreground="White" FontWeight="Bold" 
+                    Click="Logout_Click" />
+        </Grid>
 
         <!-- Total Expenses -->
         <Border Grid.Row="1" Grid.Column="0" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
@@ -32,8 +40,7 @@
                            FontWeight="Bold" 
                            Foreground="#007ACC" 
                            Margin="0,5,0,0" 
-                           Text="{Binding TotalExpenses}"
-                           />
+                           Text="{Binding TotalExpenses}" />
             </StackPanel>
         </Border>
 
@@ -46,7 +53,7 @@
                            FontWeight="Bold" 
                            Foreground="#28A745" 
                            Margin="0,5,0,0"
-                           Text="{Binding RemainingBalance}"/>
+                           Text="{Binding RemainingBalance}" />
             </StackPanel>
         </Border>
 
@@ -59,7 +66,7 @@
                            FontWeight="Bold" 
                            Foreground="#DC3545" 
                            Margin="0,5,0,0"
-                           Text="{Binding PercentSpent, StringFormat={}{0:P2}}"/>
+                           Text="{Binding PercentSpent, StringFormat={}{0:P2}}" />
             </StackPanel>
         </Border>
 
@@ -88,3 +95,4 @@
         </StackPanel>
     </Grid>
 </Window>
+

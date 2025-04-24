@@ -22,9 +22,7 @@ namespace ProjectVersion2.ViewModels
         public ObservableCollection<string>? salaryType;
 
         public ObservableCollection<string> Categories { get { return expensesCategory; } }
-
         public ObservableCollection<string> PaymentMethods { get { return paymentMethod; } }
-
         public ObservableCollection<string> Salaries { get { return salaryType; } }
 
         public ObservableCollection<Expenses> ExpensesList { get; set; }
@@ -100,10 +98,26 @@ namespace ProjectVersion2.ViewModels
 
             _totalExpenses = GetTotalExpensesByUserId(UserID); // Initialize total expenses for the current user
             _remainingBalance = GetTotalIncomeByUserId(UserID); // Initialize remaining balance for the current user
-            if (GetTotalSalariesByUserId(UserID)==0) // Avoid division by zero
-                _percentSpent = 0;
-            else
-                _percentSpent = (GetTotalExpensesByUserId(UserID)/GetTotalSalariesByUserId(UserID));
+            _percentSpent = GetPercentSpent(UserID); // Initialize percent spent for the current user
+
+        }
+
+        public decimal GetPercentSpent(Guid userId)
+        {
+            if (GetTotalSalariesByUserId(userId) == 0) // Avoid division by zero
+                return 0;
+            
+            if(GetTotalExpensesByUserId(userId) == 0)
+                return 0;
+
+            PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
+
+            if (PercentSpent > 1)
+            {
+                return 1;
+            }
+
+            return (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
         }
 
         public Users? GetUserByID(Guid id)
@@ -122,7 +136,7 @@ namespace ProjectVersion2.ViewModels
             ExpensesList.Add(expense); 
             RemainingBalance -= expense.Amount; 
             TotalExpenses += expense.Amount;
-            UpdatePercentSpent(ActiveUser.Id);
+            PercentSpent=GetPercentSpent(ActiveUser.Id);
             SaveExpenses();
 
         }
@@ -183,7 +197,7 @@ namespace ProjectVersion2.ViewModels
             salaries[salary.Id] = salary;
             SalariesList.Add(salary); 
             RemainingBalance += salary.Amount;
-            UpdatePercentSpent(ActiveUser.Id);
+            PercentSpent=GetPercentSpent(ActiveUser.Id);
             SaveSalaries();
             
         }

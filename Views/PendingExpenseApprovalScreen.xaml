@@ -14,36 +14,127 @@
 
         <!-- Header -->
         <TextBlock Text="Pending Expense Approvals" 
-                   FontSize="28" FontWeight="Bold" Foreground="#333333" 
-                   HorizontalAlignment="Center" Margin="0,0,0,20" />
+                   Grid.Row="0" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#333333" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,0,0,20" />
 
-        <!-- Pending Expenses List -->
+        <!-- DataGrid -->
         <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
-            <ListBox x:Name="PendingExpensesListBox" 
-                     Background="#F5F5F5" 
-                     BorderBrush="#CCCCCC" 
-                     BorderThickness="1" 
-                     Margin="0" />
+            <DataGrid x:Name="PendingExpensesDataGrid" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False" 
+                      IsReadOnly="True" 
+                      ItemsSource="{Binding PendingExpensesList}" 
+                      Margin="0" 
+                      GridLinesVisibility="None" 
+                      AlternatingRowBackground="#F3F4F6" 
+                      RowBackground="White" 
+                      BorderThickness="0" 
+                      HeadersVisibility="Column">
+                <DataGrid.Resources>
+                    <!-- Header Style -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#005B96" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="12,6" />
+                        <Setter Property="BorderBrush" Value="#E0E0E0" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    </Style>
+                    <!-- Row Hover Effect -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Foreground" Value="#333333" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E8F4FC" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto" MinWidth="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=C}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="Auto" MinWidth="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MM-yyyy}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Payment Method" Binding="{Binding PMethod}" Width="Auto" MinWidth="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Recurring" Binding="{Binding IsRecurring}" Width="Auto" MinWidth="100">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Border>
 
         <!-- Footer Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Approve" 
-                    Width="120" Height="35" 
-                    Margin="5" Padding="10,5" 
-                    Background="#007ACC" Foreground="White" 
-                    FontWeight="Bold" Click="ApproveExpense_Click" />
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#007ACC" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="ApproveExpense_Click" />
             <Button Content="Reject" 
-                    Width="120" Height="35" 
-                    Margin="5" Padding="10,5" 
-                    Background="#D9534F" Foreground="White" 
-                    FontWeight="Bold" Click="RejectExpense_Click" />
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#D9534F" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="RejectExpense_Click" />
             <Button Content="Edit" 
-                    Width="120" Height="35" 
-                    Margin="5" Padding="10,5" 
-                    Background="#5CB85C" Foreground="White" 
-                    FontWeight="Bold" Click="EditExpense_Click" />
+                    Width="120" 
+                    Margin="5" 
+                    Padding="10,5" 
+                    Background="#5BC0DE" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Click="EditExpense_Click" />
         </StackPanel>
     </Grid>
 </Window>
-

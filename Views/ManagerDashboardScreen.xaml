@@ -18,22 +18,110 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Manager Dashboard" 
-                   FontSize="28" FontWeight="Bold" Foreground="#333333" 
-                   HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,20" />
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Manager Dashboard" 
+                       FontSize="28" FontWeight="Bold" Foreground="#333333" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20" />
+            <Button Content="Logout" 
+                    Width="100" Height="30" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" 
+                    Background="#D9534F" Foreground="White" FontWeight="Bold" 
+                    Click="Logout_Click" />
+        </Grid>
 
-        <!-- Pending Approvals Section -->
+        <!-- Pending User Approvals -->
         <Border Grid.Row="1" Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10" Margin="10">
             <StackPanel>
                 <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                <ListBox x:Name="PendingUserApprovalsListBox" Background="#F5F5F5" BorderBrush="#CCCCCC" BorderThickness="1" />
+                <DataGrid x:Name="PendingUserApprovalsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          IsReadOnly="True" 
+                          ItemsSource="{Binding PendingUserList}" 
+                          Margin="0" 
+                          GridLinesVisibility="None" 
+                          AlternatingRowBackground="#F3F4F6" 
+                          RowBackground="White" 
+                          BorderThickness="0" 
+                          HeadersVisibility="Column">
+                    <DataGrid.Resources>
+                        <!-- Header Style -->
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#005B96" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="12,6" />
+                            <Setter Property="BorderBrush" Value="#E0E0E0" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        </Style>
+                        <!-- Row Hover Effect -->
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="#333333" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#E8F4FC" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="Auto" MinWidth="150" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto" MinWidth="200" />
+                        <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="Auto" MinWidth="100" />
+                        <DataGridTextColumn Header="Is Approved" Binding="{Binding IsApproved}" Width="Auto" MinWidth="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </Border>
 
+        <!-- Pending Expense Approvals -->
         <Border Grid.Row="1" Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10" Margin="10">
             <StackPanel>
                 <TextBlock Text="Pending Expense Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                <ListBox x:Name="PendingExpenseApprovalsListBox" Background="#F5F5F5" BorderBrush="#CCCCCC" BorderThickness="1" />
+                <DataGrid x:Name="PendingExpenseApprovalsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          IsReadOnly="True" 
+                          ItemsSource="{Binding PendingExpensesList}" 
+                          Margin="0" 
+                          GridLinesVisibility="None" 
+                          AlternatingRowBackground="#F3F4F6" 
+                          RowBackground="White" 
+                          BorderThickness="0" 
+                          HeadersVisibility="Column">
+                    <DataGrid.Resources>
+                        <!-- Header Style -->
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#005B96" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="12,6" />
+                            <Setter Property="BorderBrush" Value="#E0E0E0" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        </Style>
+                        <!-- Row Hover Effect -->
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="#333333" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#E8F4FC" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto" MinWidth="150" />
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=C}" Width="Auto" MinWidth="100" />
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="Auto" MinWidth="120" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MM-yyyy}" Width="Auto" MinWidth="100" />
+                        <DataGridTextColumn Header="Payment Method" Binding="{Binding PMethod}" Width="Auto" MinWidth="120" />
+                        <DataGridTextColumn Header="Recurring" Binding="{Binding IsRecurring}" Width="Auto" MinWidth="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </Border>
 
