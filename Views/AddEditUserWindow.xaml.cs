@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ProjectVersion2.Views
 {
@@ -22,13 +23,13 @@ namespace ProjectVersion2.Views
     /// </summary>
     public partial class AddEditUserWindow : Window
     {
-        public AdminUserModel adminUser;
+        public AdminViewModel adminUser;
 
         private Guid _guid;
 
         private bool IsEditMode = false;
 
-        public AddEditUserWindow(ref AdminUserModel adminUserModel, Guid UserID)
+        public AddEditUserWindow(ref AdminViewModel adminUserModel, Guid UserID)
         {
             InitializeComponent();
             DataContext = adminUserModel;
@@ -55,6 +56,8 @@ namespace ProjectVersion2.Views
                 RoleComboBox.SelectedItem = Role.Admin; // Default to "User" role
                 IsApprovedCheckBox.IsChecked = false;
             }
+
+            UsernameTextBox.Focus();
         }
 
 

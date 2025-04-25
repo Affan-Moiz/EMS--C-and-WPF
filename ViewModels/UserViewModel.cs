@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ProjectVersion2.Services;
 using ProjectVersion2.Utilities;
 using System.ComponentModel;
@@ -79,7 +80,10 @@ namespace ProjectVersion2.ViewModels
         private SalaryService salaryService = new();
 
 
+        public UserViewModel()
+        {
 
+        }
         public UserViewModel(Guid UserID)
         {
 

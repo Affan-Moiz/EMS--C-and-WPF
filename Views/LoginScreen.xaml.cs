@@ -14,6 +14,7 @@ namespace ProjectVersion2.Views
         public LoginScreen()
         {
             InitializeComponent();
+            UsernameTextBox.Focus();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)

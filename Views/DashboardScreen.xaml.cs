@@ -1,6 +1,7 @@
 ﻿using ProjectVersion2.Model;
 using System.Windows;
 using ProjectVersion2.ViewModels;
+using System.Windows.Data;
 
 namespace ProjectVersion2.Views
 {
@@ -73,6 +74,17 @@ namespace ProjectVersion2.Views
             UserViewModel.Save();
             var loginScreen = new LoginScreen();
             loginScreen.Show();
+        }
+
+        private void GridControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
+
+            var IdColumn = gridControl?.Columns["Id"];
+            var UserIdColumn = gridControl?.Columns["UserId"];
+
+            IdColumn.Visible = false;
+            UserIdColumn.Visible = false;
         }
     }
 }

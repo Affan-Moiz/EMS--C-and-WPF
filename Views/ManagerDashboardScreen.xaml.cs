@@ -6,7 +6,7 @@ namespace ProjectVersion2.Views
 {
     public partial class ManagerDashboardScreen : Window
     {
-        AdminUserModel adminUserModel = new();
+        AdminViewModel adminUserModel = new();
         public ManagerDashboardScreen(Guid UserId)
         {
             InitializeComponent();
@@ -18,20 +18,20 @@ namespace ProjectVersion2.Views
         private void ApproveUser_Click(object sender, RoutedEventArgs e)
         {
             // Approve selected user
-            adminUserModel.ApproveUser((Users)PendingUserApprovalsDataGrid.SelectedItem);
+            adminUserModel.ApproveUser((Users)PendingUserApprovalsGridControl.SelectedItem);
 
         }
 
         private void RejectUser_Click(object sender, RoutedEventArgs e)
         {
             // Reject selected user
-            adminUserModel.RejectUser((Users)PendingUserApprovalsDataGrid.SelectedItem);
+            adminUserModel.RejectUser((Users)PendingUserApprovalsGridControl.SelectedItem);
         }
 
         private void EditUser_Click(object sender, RoutedEventArgs e)
         {
             // Navigate to Edit User screen
-            var selectedUser = (Users)UsersDataGrid.SelectedItem;
+            var selectedUser = (Users)UsersGridControl.SelectedItem;
             //var selectedUser = (Users)UsersDataGrid.SelectedItem;
             if (selectedUser != null)
             {
@@ -47,13 +47,13 @@ namespace ProjectVersion2.Views
         private void ApproveExpense_Click(object sender, RoutedEventArgs e)
         {
             // Approve selected expense
-            adminUserModel.ApproveExpense((Expenses)PendingExpenseApprovalsDataGrid.SelectedItem);
+            adminUserModel.ApproveExpense((Expenses)PendingExpensesApprovalsGridControl.SelectedItem);
         }
 
         private void RejectExpense_Click(object sender, RoutedEventArgs e)
         {
             // Reject selected expense
-            adminUserModel.RejectExpense((Expenses)PendingExpenseApprovalsDataGrid.SelectedItem);
+            adminUserModel.RejectExpense((Expenses)PendingExpensesApprovalsGridControl.SelectedItem);
         }
 
         private void EditExpense_Click(object sender, RoutedEventArgs e)
@@ -101,14 +101,14 @@ namespace ProjectVersion2.Views
             else if (result == MessageBoxResult.Yes)
             {
                 //Check if the user has pending expenses
-                if (adminUserModel.HasPendingExpenses((Users)UsersDataGrid.SelectedItem))
+                if (adminUserModel.HasPendingExpenses((Users)UsersGridControl.SelectedItem))
                 {
                     MessageBox.Show("This user has pending expenses and cannot be removed. Please complete all pending expenses before deletion", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 else
                 {
-                    adminUserModel.RemoveUser((Users)UsersDataGrid.SelectedItem);
+                    adminUserModel.RemoveUser((Users)UsersGridControl.SelectedItem);
                     MessageBox.Show("User removed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
@@ -127,6 +127,50 @@ namespace ProjectVersion2.Views
             var loginScreen = new LoginScreen();
             loginScreen.Show();
       
+        }
+
+        public void ShowPendingUserApprovals()
+        {
+            var pendingUserApprovalsScreen = new PendingUserApprovalsScreen(ref adminUserModel);
+            pendingUserApprovalsScreen.Show();  
+        }
+
+        private void PendingUserApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
+        {
+           
+        
+            var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
+
+            var IdColumn = gridControl?.Columns["Id"];
+            var IsApprovedColumn = gridControl?.Columns["IsApproved"];
+
+            IdColumn.Visible = false;
+            IsApprovedColumn.Visible = false;
+
+        }
+
+        private void PendingExpensesApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
+
+            var IdColumn = gridControl?.Columns["Id"];
+            var UserIdColumn = gridControl?.Columns["UserId"];
+
+            IdColumn.Visible = false;
+            UserIdColumn.Visible = false;
+        }
+
+        private void UsersGridControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
+
+            var IsApprovedColumn = gridControl?.Columns["IsApproved"];
+
+            // Change the heading of the IsApproved column to "Account Enabled"
+            if (IsApprovedColumn != null)
+            {
+                IsApprovedColumn.Header = "Account Enabled";
+            }
         }
     }
 }

@@ -7,9 +7,9 @@ namespace ProjectVersion2.Views
     public partial class PendingExpenseApprovalsScreen : Window
     {
 
-        public AdminUserModel _adminUserModel;
+        public AdminViewModel _adminUserModel;
 
-        public PendingExpenseApprovalsScreen(ref AdminUserModel adminUserModel)
+        public PendingExpenseApprovalsScreen(ref AdminViewModel adminUserModel)
         {
             InitializeComponent();
             DataContext = adminUserModel;

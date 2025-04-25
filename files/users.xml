@@ -56,4 +56,20 @@
     <Role>User</Role>
     <IsApproved>true</IsApproved>
   </Users>
+  <Users>
+    <Id>073fee20-4b72-46aa-a66d-fad9834f690b</Id>
+    <Username>s</Username>
+    <HashedPassword>s</HashedPassword>
+    <Email>s@s.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
+  </Users>
+  <Users>
+    <Id>1b50e64b-c68b-47e5-871b-2f354402332d</Id>
+    <Username>a</Username>
+    <HashedPassword>a</HashedPassword>
+    <Email>a</Email>
+    <Role>User</Role>
+    <IsApproved>false</IsApproved>
+  </Users>
 </ArrayOfUsers>

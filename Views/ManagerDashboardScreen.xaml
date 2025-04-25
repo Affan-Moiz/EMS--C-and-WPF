@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels"
         mc:Ignorable="d"
         Title="Manager Dashboard" Height="650" Width="800" WindowStartupLocation="CenterScreen" Background="#F9F9F9" Closing="Window_Closing">
     <Grid Margin="20">
@@ -13,14 +14,20 @@
 
         <!-- Header -->
         <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="231*"/>
+                <ColumnDefinition Width="149*"/>
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
             <TextBlock Text="Manager Dashboard" 
                        FontSize="28" FontWeight="Bold" Foreground="#333333" 
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20" />
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Button Content="Logout" 
                     Width="100" Height="30" 
                     HorizontalAlignment="Right" VerticalAlignment="Center" 
                     Background="#D9534F" Foreground="White" FontWeight="Bold" 
-                    Click="Logout_Click" />
+                    Click="Logout_Click" Grid.Row="1" Grid.Column="2" Margin="0,0,0,0" />
         </Grid>
 
         <!-- TabControl -->
@@ -35,30 +42,24 @@
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
                         <StackPanel>
                             <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                            <DataGrid x:Name="PendingUserApprovalsDataGrid" 
-                                      AutoGenerateColumns="False" 
-                                      CanUserAddRows="False" 
-                                      IsReadOnly="True" 
-                                      ItemsSource="{Binding PendingUserList}" 
-                                      Margin="0" 
-                                      GridLinesVisibility="None" 
-                                      AlternatingRowBackground="#F3F4F6" 
-                                      RowBackground="White" 
-                                      BorderThickness="0" 
-                                      HeadersVisibility="Column">
-                                <DataGrid.Resources>
+                            <dxg:GridControl x:Name="PendingUserApprovalsGridControl" 
+                 AutoGenerateColumns="AddNew" 
+                 ItemsSource="{Binding PendingUserList}" 
+                 Margin="0"
+                                             MaxHeight="1000"
+                                             Height="300"
+                                             Loaded="PendingUserApprovalsGridControl_Loaded">
+                                <dxg:GridControl.Resources>
                                     <!-- Header Style -->
-                                    <Style TargetType="DataGridColumnHeader">
+                                    <Style TargetType="dxg:GridColumnHeader">
                                         <Setter Property="Background" Value="#005B96" />
                                         <Setter Property="Foreground" Value="White" />
                                         <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="Padding" Value="12,6" />
-                                        <Setter Property="BorderBrush" Value="#E0E0E0" />
-                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
                                     </Style>
                                     <!-- Row Hover Effect -->
-                                    <Style TargetType="DataGridRow">
+                                    <Style TargetType="dxg:GridRow">
                                         <Setter Property="Background" Value="White" />
                                         <Setter Property="Foreground" Value="#333333" />
                                         <Style.Triggers>
@@ -67,14 +68,13 @@
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="Auto" MinWidth="150" />
-                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto" MinWidth="200" />
-                                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="Auto" MinWidth="100" />
-                                    <DataGridTextColumn Header="Account Enabled" Binding="{Binding IsApproved}" Width="Auto" MinWidth="100" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False"  />
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+
                         </StackPanel>
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
@@ -94,30 +94,24 @@
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
                         <StackPanel>
                             <TextBlock Text="Pending Expense Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                            <DataGrid x:Name="PendingExpenseApprovalsDataGrid" 
-                                      AutoGenerateColumns="False" 
-                                      CanUserAddRows="False" 
-                                      IsReadOnly="True" 
-                                      ItemsSource="{Binding PendingExpensesList}" 
-                                      Margin="0" 
-                                      GridLinesVisibility="None" 
-                                      AlternatingRowBackground="#F3F4F6" 
-                                      RowBackground="White" 
-                                      BorderThickness="0" 
-                                      HeadersVisibility="Column">
-                                <DataGrid.Resources>
+                            <dxg:GridControl x:Name="PendingExpensesApprovalsGridControl" 
+AutoGenerateColumns="AddNew" 
+ItemsSource="{Binding PendingExpensesList}" 
+Margin="0"
+                            MaxHeight="1000"
+                            Height="300"
+                            Loaded="PendingExpensesApprovalsGridControl_Loaded">
+                                <dxg:GridControl.Resources>
                                     <!-- Header Style -->
-                                    <Style TargetType="DataGridColumnHeader">
+                                    <Style TargetType="dxg:GridColumnHeader">
                                         <Setter Property="Background" Value="#005B96" />
                                         <Setter Property="Foreground" Value="White" />
                                         <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="Padding" Value="12,6" />
-                                        <Setter Property="BorderBrush" Value="#E0E0E0" />
-                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
                                     </Style>
                                     <!-- Row Hover Effect -->
-                                    <Style TargetType="DataGridRow">
+                                    <Style TargetType="dxg:GridRow">
                                         <Setter Property="Background" Value="White" />
                                         <Setter Property="Foreground" Value="#333333" />
                                         <Style.Triggers>
@@ -126,16 +120,12 @@
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto" MinWidth="150" />
-                                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=C}" Width="Auto" MinWidth="100" />
-                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="Auto" MinWidth="120" />
-                                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd-MM-yyyy}" Width="Auto" MinWidth="100" />
-                                    <DataGridTextColumn Header="Payment Method" Binding="{Binding PMethod}" Width="Auto" MinWidth="120" />
-                                    <DataGridTextColumn Header="Recurring" Binding="{Binding IsRecurring}" Width="Auto" MinWidth="100" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False"  />
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
                         </StackPanel>
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
@@ -155,30 +145,24 @@
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
                         <StackPanel>
                             <TextBlock Text="User Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                            <DataGrid x:Name="UsersDataGrid" 
-                                      AutoGenerateColumns="False" 
-                                      CanUserAddRows="False" 
-                                      IsReadOnly="True" 
-                                      ItemsSource="{Binding UsersList, Mode=TwoWay}" 
-                                      Margin="0" 
-                                      GridLinesVisibility="None" 
-                                      AlternatingRowBackground="#F3F4F6" 
-                                      RowBackground="White" 
-                                      BorderThickness="0" 
-                                      HeadersVisibility="Column">
-                                <DataGrid.Resources>
+                            <dxg:GridControl x:Name="UsersGridControl" 
+AutoGenerateColumns="AddNew" 
+ItemsSource="{Binding UsersList}" 
+Margin="0"
+                            MaxHeight="1000"
+                            Height="300"
+                            Loaded="UsersGridControl_Loaded">
+                                <dxg:GridControl.Resources>
                                     <!-- Header Style -->
-                                    <Style TargetType="DataGridColumnHeader">
+                                    <Style TargetType="dxg:GridColumnHeader">
                                         <Setter Property="Background" Value="#005B96" />
                                         <Setter Property="Foreground" Value="White" />
                                         <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="Padding" Value="12,6" />
-                                        <Setter Property="BorderBrush" Value="#E0E0E0" />
-                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
                                     </Style>
                                     <!-- Row Hover Effect -->
-                                    <Style TargetType="DataGridRow">
+                                    <Style TargetType="dxg:GridRow">
                                         <Setter Property="Background" Value="White" />
                                         <Setter Property="Foreground" Value="#333333" />
                                         <Style.Triggers>
@@ -187,14 +171,12 @@
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="Auto" MinWidth="150" />
-                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto" MinWidth="200" />
-                                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="Auto" MinWidth="100" />
-                                    <DataGridTextColumn Header="Account Enabled" Binding="{Binding IsApproved, UpdateSourceTrigger=PropertyChanged}" Width="Auto" MinWidth="100" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False"  />
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
                         </StackPanel>
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">

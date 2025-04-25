@@ -9,4 +9,16 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\AdminControls\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Using Remove="System.Windows.Forms"/>
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="devexpress.wpf.grid.core" Version="24.2.6" />
+  </ItemGroup>
+
 </Project>

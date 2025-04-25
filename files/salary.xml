@@ -9,4 +9,13 @@
     <SalaryType>Fixed</SalaryType>
     <IsRecurring>true</IsRecurring>
   </Salary>
+  <Salary>
+    <Id>7307eb2b-9a75-4f02-b59b-a2345c1ddf06</Id>
+    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Amount>200000</Amount>
+    <Date>2025-04-17T00:00:00</Date>
+    <Description>Securiti Salary</Description>
+    <SalaryType>Fixed</SalaryType>
+    <IsRecurring>true</IsRecurring>
+  </Salary>
 </ArrayOfSalary>

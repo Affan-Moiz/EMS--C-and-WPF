@@ -1,15 +1,16 @@
 ﻿using ProjectVersion2.ViewModels;
 using ProjectVersion2.Model;
 using System.Windows;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ProjectVersion2.Views
 {
     public partial class UserManagementScreen : Window
     {
 
-        AdminUserModel adminUser;
+        AdminViewModel adminUser;
 
-        public UserManagementScreen(ref AdminUserModel adminUserModel)
+        public UserManagementScreen(ref AdminViewModel adminUserModel)
         {
             InitializeComponent();
             DataContext = adminUserModel;

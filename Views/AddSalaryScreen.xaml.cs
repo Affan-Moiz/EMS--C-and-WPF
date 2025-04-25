@@ -17,10 +17,8 @@ namespace ProjectVersion2.Views
             DataContext = UVModel;
 
             _userViewModel = UVModel;
-            
 
-
-            
+            AmountTextBox.Focus();
         }
 
         private void SubmitSalary_Click(object sender, RoutedEventArgs e)

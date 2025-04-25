@@ -27,6 +27,7 @@ namespace ProjectVersion2.Views
         {
             InitializeComponent();
             AuthService authService = new AuthService();
+            UsernameTextBox.Focus();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

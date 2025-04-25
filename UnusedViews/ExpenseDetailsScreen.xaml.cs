@@ -2,6 +2,7 @@
 using System.Windows;
 using ProjectVersion2.Model;
 using ProjectVersion2.ViewModels;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ProjectVersion2.Views
 {

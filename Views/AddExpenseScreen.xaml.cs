@@ -23,9 +23,9 @@ namespace ProjectVersion2.Views
 
             userViewModel = UVModel; // Initialize the UserViewModel with the current user ID
 
-            
 
-           // CategoryComboBox.ItemsSource = Categories;
+            AmountTextBox.Focus();
+
         }
 
         private void RecurringCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -187,15 +187,11 @@ namespace ProjectVersion2.Views
             }
         }
 
-        private void PaymentMethodComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        
 
-        }
+        
 
-        private void Window_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }
 

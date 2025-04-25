@@ -10,7 +10,7 @@ using ProjectVersion2.Utilities;
 
 namespace ProjectVersion2.ViewModels
 {
-    public class AdminUserModel : INotifyPropertyChanged
+    public class AdminViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
        
@@ -19,7 +19,18 @@ namespace ProjectVersion2.ViewModels
         Dictionary<Guid, Expenses> expenses;
         Dictionary<Guid, Salary> salaries;
 
-        public ObservableCollection<Users> PendingUserList { get; set; }
+        public ObservableCollection<Users> PendingUserList
+        {
+            get { return _pendingUserList; }
+            set
+            {
+                if (_pendingUserList != value)
+                {
+                    _pendingUserList = value;
+                    OnPropertyChanged(nameof(_pendingUserList)); // Notify the UI about the change
+                }
+            }
+        }
         public ObservableCollection<Expenses> PendingExpensesList { get; set; }
         public ObservableCollection<Users> UsersList { get; set; }
 
@@ -32,15 +43,18 @@ namespace ProjectVersion2.ViewModels
 
         public ObservableCollection<string>? rolesCategory;
 
+        public ObservableCollection<Users> _pendingUserList;
 
-        public AdminUserModel()
+
+
+        public AdminViewModel()
         {
             users = userDataService.LoadUsersAsDictionary();
             expenses = expenseDataService.LoadExpensesAsDictionary();
             salaries = salaryDataService.LoadSalariesAsDictionary();
 
 
-            PendingUserList = [.. GetPendingUsers()];
+            _pendingUserList = [.. GetPendingUsers()];
             PendingExpensesList = [.. GetPendingExpenses()];
             UsersList = [.. GetAllUsers()];
             rolesCategory = [.. Enum.GetNames(typeof(Role))];
@@ -93,13 +107,31 @@ namespace ProjectVersion2.ViewModels
                     UsersList.Add(user);
                 }
 
-                if (user.IsApproved && PendingUserList.Contains(user))
+                //if (user.IsApproved && PendingUserList.Contains(user))
+                //{
+                //    PendingUserList.Remove(user);
+                //}
+                //else if (!user.IsApproved && !PendingUserList.Contains(user) )
+                //{
+                //    PendingUserList.Add(user);
+                //}
+
+                var pendingUser = PendingUserList.FirstOrDefault(u => u.Id == user.Id);
+
+                if (user.IsApproved)
                 {
-                    PendingUserList.Remove(user);
+                    //If Pending users list contains a user with the same id 
+                    if (pendingUser != null)
+                    {
+                        PendingUserList.Remove(pendingUser);
+                    }
                 }
-                else if (!user.IsApproved && !PendingUserList.Contains(user) )
+                else
                 {
-                    PendingUserList.Add(user);
+                    if (pendingUser == null)
+                    {
+                        PendingUserList.Add(user);
+                    }
                 }
 
             }
