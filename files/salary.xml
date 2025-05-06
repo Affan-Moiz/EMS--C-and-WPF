@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfSalary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Salary>
-    <Id>811f757c-c267-4c1d-b011-59f9c563801f</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Id>9b57de2d-d09c-48a3-a1a4-c32d41bcafba</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
     <Amount>100000</Amount>
-    <Date>2025-01-01T00:00:00</Date>
-    <Description>Jan Salary</Description>
-    <SalaryType>Fixed</SalaryType>
-    <IsRecurring>true</IsRecurring>
-  </Salary>
-  <Salary>
-    <Id>7307eb2b-9a75-4f02-b59b-a2345c1ddf06</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
-    <Amount>200000</Amount>
-    <Date>2025-04-17T00:00:00</Date>
-    <Description>Securiti Salary</Description>
+    <Date>2025-05-01T00:00:00</Date>
+    <Description>Monthly Salary</Description>
     <SalaryType>Fixed</SalaryType>
     <IsRecurring>true</IsRecurring>
   </Salary>

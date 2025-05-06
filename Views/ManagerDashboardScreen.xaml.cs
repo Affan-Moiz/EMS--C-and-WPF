@@ -1,4 +1,7 @@
-﻿using ProjectVersion2.Model;
+﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid;
+using ProjectVersion2.Model;
+using ProjectVersion2.Utilities;
 using ProjectVersion2.ViewModels;
 using System.Windows;
 
@@ -6,10 +9,11 @@ namespace ProjectVersion2.Views
 {
     public partial class ManagerDashboardScreen : Window
     {
-        AdminViewModel adminUserModel = new();
+        AdminViewModel adminUserModel;
         public ManagerDashboardScreen(Guid UserId)
         {
             InitializeComponent();
+            adminUserModel = new AdminViewModel(UserId);
             DataContext = adminUserModel;
         }
 
@@ -36,7 +40,7 @@ namespace ProjectVersion2.Views
             if (selectedUser != null)
             {
                 var addEditUserWindow = new AddEditUserWindow(ref adminUserModel, selectedUser.Id);
-                addEditUserWindow.Show();
+                addEditUserWindow.ShowDialog();
             }
             else
             {
@@ -61,23 +65,6 @@ namespace ProjectVersion2.Views
             // Navigate to Edit Expense screen
         }
 
-        private void ViewAllPendingUsers_Click(object sender, RoutedEventArgs e)
-        {
-            var pendingUserApprovalsScreen = new PendingUserApprovalsScreen(ref adminUserModel);
-            pendingUserApprovalsScreen.Show();
-        }
-
-        private void ViewAllPendingExpenses_Click(object sender, RoutedEventArgs e)
-        {
-            var pendingExpenseApprovalsScreen = new PendingExpenseApprovalsScreen(ref adminUserModel);
-            pendingExpenseApprovalsScreen.Show();
-        }
-
-        private void UserManagement_Click(object sender, RoutedEventArgs e)
-        {
-            var userManagementScreen = new UserManagementScreen(ref adminUserModel);
-            userManagementScreen.Show();
-        }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
@@ -87,7 +74,7 @@ namespace ProjectVersion2.Views
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
             var addEditUserWindow = new AddEditUserWindow(ref adminUserModel, Guid.Empty);
-            addEditUserWindow.Show();
+            addEditUserWindow.ShowDialog();
         }
 
         private void RemoveUser_Click(object sender, RoutedEventArgs e)
@@ -137,40 +124,168 @@ namespace ProjectVersion2.Views
 
         private void PendingUserApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
         {
-           
-        
             var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
 
-            var IdColumn = gridControl?.Columns["Id"];
-            var IsApprovedColumn = gridControl?.Columns["IsApproved"];
+            if (gridControl != null)
+            {
+                var IdColumn = gridControl.Columns["Id"];
+                var IsApprovedColumn = gridControl.Columns["IsApproved"];
+                var HashedPasswordColumn = gridControl.Columns["HashedPassword"];
 
-            IdColumn.Visible = false;
-            IsApprovedColumn.Visible = false;
+                if (IdColumn != null)
+                {
+                    IdColumn.Visible = false;
+                }
 
+                if (IsApprovedColumn != null)
+                {
+                    IsApprovedColumn.Visible = false;
+                }
+                if (HashedPasswordColumn != null)
+                {
+                    HashedPasswordColumn.Visible = false;
+                }
+                }
         }
 
         private void PendingExpensesApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
         {
             var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
 
-            var IdColumn = gridControl?.Columns["Id"];
-            var UserIdColumn = gridControl?.Columns["UserId"];
+            if (gridControl != null)
+            {
+                var IdColumn = gridControl.Columns["Id"];
+                var UserIdColumn = gridControl.Columns["UserId"];
+                var PayeeColumn = gridControl.Columns["Payees"];
 
-            IdColumn.Visible = false;
-            UserIdColumn.Visible = false;
+                if(PayeeColumn != null)
+                {
+                    PayeeColumn.Header = "Payees Name";
+                    PayeeColumn.Visible = true;
+                }
+
+                if (IdColumn != null)
+                {
+                    IdColumn.Visible = false;
+                }
+
+                if (UserIdColumn != null)
+                {
+                    UserIdColumn.Visible = false;
+                }
+            }
         }
 
         private void UsersGridControl_Loaded(object sender, RoutedEventArgs e)
         {
             var gridControl = sender as DevExpress.Xpf.Grid.GridControl;
 
-            var IsApprovedColumn = gridControl?.Columns["IsApproved"];
-
-            // Change the heading of the IsApproved column to "Account Enabled"
-            if (IsApprovedColumn != null)
+            if (gridControl != null)
             {
-                IsApprovedColumn.Header = "Account Enabled";
+                var IsApprovedColumn = gridControl.Columns["IsApproved"];
+                var HashedPasswordColumn = gridControl.Columns["HashedPassword"];
+
+                if (IsApprovedColumn != null)
+                {
+                    // Change the heading of the IsApproved column to "Account Enabled"
+                    IsApprovedColumn.Header = "Account Enabled";
+                }
+                if (HashedPasswordColumn != null)
+                {
+                    HashedPasswordColumn.Visible = false;
+                }
             }
+        }
+
+        private void TableView_CellValueChanged(object sender, DevExpress.Xpf.Grid.CellValueChangedEventArgs e)
+        {
+            if (e.Column.FieldName == "IsApproved")
+            {
+                var user = (Users)e.Row;
+                if (user!=null)
+                {
+                    adminUserModel.UpdateUser(user);
+                }else
+                {
+                    MessageBox.Show("User not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+         }
+
+        private void PendingUserApprovalsGridControl_AutoGeneratedColumns(object sender, RoutedEventArgs e)
+        {
+        }
+
+        
+
+        private void ExpenseTableView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var gridControl = sender as GridControl;
+
+            if (gridControl != null)
+            {
+                var RecurringColumn = gridControl.Columns["IsRecurring"];
+
+                if (RecurringColumn != null)
+                {
+                    RecurringColumn.Header = "Recurring";
+                }
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            //CenterWindow();
+        }
+
+        
+
+        private void AddExpense_Click(object sender, RoutedEventArgs e)
+        {
+            AddExpenseScreen addExpenseScreen = new(ref adminUserModel);
+            addExpenseScreen.Show();
+        }
+
+        private void RemoveExpense_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.RemoveExpense((Expenses)ExpensesGridControl.SelectedItem);
+        }
+
+        private void RemoveSalay_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddSalary_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SalaryTableView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TableView_CellValueChanged_1(object sender, CellValueChangedEventArgs e)
+        {
+
+        }
+
+        private void ExpenseTableView_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            
+                var expense = (Expenses)e.Row;
+                if (expense != null)
+                {
+                    adminUserModel.UpdateExpense(expense);
+                }
+                else
+                {
+                    MessageBox.Show("Expense not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            
+
+            
         }
     }
 }

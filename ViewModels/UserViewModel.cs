@@ -15,12 +15,17 @@ namespace ProjectVersion2.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
 
-        Users? ActiveUser;
+        Dictionary<Guid, Users>? users; // Dictionary to hold users
         Dictionary<Guid, Expenses> expenses;
         Dictionary<Guid, Salary> salaries;
         public ObservableCollection<string>? expensesCategory;
         public ObservableCollection<string>? paymentMethod;
         public ObservableCollection<string>? salaryType;
+        private ObservableCollection<String> _availableUsernames;
+
+        private UserDataService userDataService = new();
+        private ExpenseDataService expenseDataService = new();
+        private SalaryService salaryService = new();
 
         public ObservableCollection<string> Categories { get { return expensesCategory; } }
         public ObservableCollection<string> PaymentMethods { get { return paymentMethod; } }
@@ -29,12 +34,26 @@ namespace ProjectVersion2.ViewModels
         public ObservableCollection<Expenses> ExpensesList { get; set; }
         public ObservableCollection<Salary> SalariesList { get; set; }
 
+        public ObservableCollection<string> AvailableUsernames { get { return _availableUsernames; } }
+
 
         private decimal _remainingBalance;
-
         private decimal _totalExpenses;
-
         private decimal _percentSpent;
+        private Users? _activeUser;
+        public Users? ActiveUser
+        {
+            get => _activeUser;
+            set
+            {
+                if (_activeUser != value)
+                {
+                    _activeUser = value;
+                    OnPropertyChanged(nameof(ActiveUser));
+                }
+            }
+        }
+
 
         public decimal TotalExpenses
         {
@@ -75,9 +94,7 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
-        private UserDataService userDataService = new();
-        private ExpenseDataService expenseDataService = new();
-        private SalaryService salaryService = new();
+       
 
 
         public UserViewModel()
@@ -87,11 +104,11 @@ namespace ProjectVersion2.ViewModels
         public UserViewModel(Guid UserID)
         {
 
-            var users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
+            users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
             expenses = expenseDataService.LoadExpensesAsDictionary(); // Load expenses as a dictionary
             salaries = salaryService.LoadSalariesAsDictionary(); // Load salaries as a dictionary
 
-            ActiveUser = users.TryGetValue(UserID, out var user) ? user : null;
+            _activeUser = users.TryGetValue(UserID, out var user) ? user : null;
             expenses = GetExpensesByUserId(UserID).ToDictionary(e => e.Id); // Filter expenses for the current user
             salaries = GetSalariesByUserId(UserID).ToDictionary(s => s.Id); // Filter salaries for the current user
 
@@ -105,6 +122,7 @@ namespace ProjectVersion2.ViewModels
             _totalExpenses = GetTotalExpensesByUserId(UserID); // Initialize total expenses for the current user
             _remainingBalance = GetTotalIncomeByUserId(UserID); // Initialize remaining balance for the current user
             _percentSpent = GetPercentSpent(UserID); // Initialize percent spent for the current user
+            _availableUsernames = GetApprovedUsernames();
 
         }
 
@@ -126,10 +144,43 @@ namespace ProjectVersion2.ViewModels
             return (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
         }
 
-        public Users? GetUserByID(Guid id)
+        public Users? GetUser()
         {
             return ActiveUser;
         }
+
+        public void UpdateUser(Users updatedUser)
+        {
+            //Update the active users details other than his ID
+            if (users.ContainsKey(updatedUser.Id))
+            {
+                users[updatedUser.Id].Username = updatedUser.Username;
+                users[updatedUser.Id].Email = updatedUser.Email;
+                users[updatedUser.Id].Role = updatedUser.Role;
+                users[updatedUser.Id].IsApproved = updatedUser.IsApproved;
+            }
+            SaveUsers();
+
+        }
+
+        public void SaveUsers()
+        {
+            userDataService.SaveUsersFromDictionary(users); // Save users as a dictionary
+        }
+
+        public ObservableCollection<string> GetApprovedUsernames()
+        {
+            var approvedUsernames = new ObservableCollection<string>();
+            foreach (var user in users.Values)
+            {
+                if (user.IsApproved)
+                {
+                    approvedUsernames.Add(user.Username);
+                }
+            }
+            return approvedUsernames;
+        }
+
 
         public List<Expenses> GetExpenses()
         {
@@ -281,6 +332,7 @@ namespace ProjectVersion2.ViewModels
         {
             SaveExpenses();
             SaveSalaries();
+
         }
 
         public void OnPropertyChanged(string propertyName)

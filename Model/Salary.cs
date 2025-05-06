@@ -10,20 +10,105 @@ namespace ProjectVersion2.Model
 {
     public class Salary : INotifyPropertyChanged
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        private Guid _id;
+        public Guid Id
+        {
+            get => _id;
+            set
+            {
+                if (_id != value)
+                {
+                    _id = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public decimal Amount { get; set; }
+        private Guid _userId;
+        public Guid UserId
+        {
+            get => _userId;
+            set
+            {
+                if (_userId != value)
+                {
+                    _userId = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public DateTime Date { get; set; } = DateTime.Now;
+        private decimal _amount;
+        public decimal Amount
+        {
+            get => _amount;
+            set
+            {
+                if (_amount != value)
+                {
+                    _amount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public string Description { get; set; }
+        private DateTime _date = DateTime.Now;
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                if (_date != value)
+                {
+                    _date = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public SalaryType SalaryType { get; set; }
+        private string _description = string.Empty;
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public bool IsRecurring { get; set; }    
+        private SalaryType _salaryType;
+        public SalaryType SalaryType
+        {
+            get => _salaryType;
+            set
+            {
+                if (_salaryType != value)
+                {
+                    _salaryType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+        private bool _isRecurring;
+        public bool IsRecurring
+        {
+            get => _isRecurring;
+            set
+            {
+                if (_isRecurring != value)
+                {
+                    _isRecurring = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {

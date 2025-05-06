@@ -29,7 +29,7 @@ namespace ProjectVersion2.Views
         private void AddExpense_Click(object sender, RoutedEventArgs e)
         {
             // Open the AddExpenseScreen to add a new expense
-            var addExpenseScreen = new AddExpenseScreen(_userViewModel.GetUserID(), ref _userViewModel);
+            var addExpenseScreen = new AddExpenseScreen(_userViewModel.GetUserID(), ref _userViewModel, false);
             addExpenseScreen.ShowDialog();
         }
 

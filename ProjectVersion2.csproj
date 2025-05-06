@@ -14,11 +14,13 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Using Remove="System.Windows.Forms"/>
+		<Using Remove="System.Windows.Forms" />
 	</ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="devexpress.wpf.charts" Version="24.2.6" />
     <PackageReference Include="devexpress.wpf.grid.core" Version="24.2.6" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

@@ -7,23 +7,17 @@ namespace ProjectVersion2.Model
     public class Users: INotifyPropertyChanged
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public required string Username { get; set; }
-        public required string HashedPassword { get; set; }
-        public required string Email { get; set; }
-        public Role Role { get; set; }
-        public bool IsApproved
-        {
-            get { return _isApproved; }
-            set
-            {
-                if (_isApproved != value)
-                {
-                    _isApproved = value;
-                    OnPropertyChanged(nameof(IsApproved)); // Notify the UI about the change
-                }
-            }
-        }
+        public required string Username { get { return _username; } set { _username = value; OnPropertyChanged(); } }
+        public required string HashedPassword { get { return _password; } set { _password = value; OnPropertyChanged(); } }
+        public required string Email { get { return _email; } set { _email = value; OnPropertyChanged(); } }
+        public Role Role { get { return _role; } set { _role = value; OnPropertyChanged(); } }
+        public bool IsApproved { get { return _isApproved; } set { _isApproved = value; OnPropertyChanged(); } }
 
+
+        private string _username = "";
+        private string _password = "";
+        private string _email="";
+        private Role _role;
         private bool _isApproved=false;
 
         public event PropertyChangedEventHandler? PropertyChanged;

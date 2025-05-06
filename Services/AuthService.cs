@@ -11,9 +11,10 @@ namespace ProjectVersion2.Services
     {
 
         Dictionary<Guid, Users> users;
+        EncryptorDecryptor encryptorDecryptor = new();
+        UserDataService userDataService = new UserDataService();
 
         public AuthService() {
-            UserDataService userDataService = new UserDataService();
             users = userDataService.LoadUsersAsDictionary();
         }
 
@@ -33,7 +34,8 @@ namespace ProjectVersion2.Services
 
         private bool VerifyPassword(string input, string hashed)
         {
-            return input == hashed;
+            string hashedInput = encryptorDecryptor.MD5Hash(input);
+            return hashedInput.Equals(hashed);
         }
 
         //Sign Up 
@@ -44,7 +46,7 @@ namespace ProjectVersion2.Services
             {
                 Id = Guid.NewGuid(),
                 Username = username,
-                HashedPassword = password,
+                HashedPassword = encryptorDecryptor.MD5Hash(password),
                 Email = email,
                 IsApproved = false,
                 Role = role
@@ -59,13 +61,13 @@ namespace ProjectVersion2.Services
             if (users.Values.Any(u => u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase))) return false;
             user.Id = Guid.NewGuid();
             user.IsApproved = true;
+            user.HashedPassword = encryptorDecryptor.MD5Hash(user.HashedPassword);
             users[user.Id] = user;
             SaveUsers();
             return false;
         }
         private void SaveUsers()
         {
-            UserDataService userDataService = new UserDataService();
             userDataService.SaveUsersFromDictionary(users);
         }
     }

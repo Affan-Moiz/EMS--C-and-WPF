@@ -2,6 +2,7 @@
 using System.Windows;
 using ProjectVersion2.ViewModels;
 using System.Windows.Data;
+using ProjectVersion2.Services;
 
 namespace ProjectVersion2.Views
 {
@@ -11,10 +12,12 @@ namespace ProjectVersion2.Views
     public partial class DashboardScreen : Window
     {
         UserViewModel UserViewModel;
+        ExportExpensesService ExportExpensesService;
+        ExportSalaryService exportSalaryService;
+        ExportExpensesService exportExpensesService;
 
-        
 
-       
+
         public DashboardScreen(Guid UserId)
         {
             InitializeComponent();
@@ -22,17 +25,12 @@ namespace ProjectVersion2.Views
             DataContext = UserViewModel;
         }
 
-        private void ViewExpenseList_Click(object sender, RoutedEventArgs e)
-        {
-            var expenseListScreen = new ExpenseList(UserViewModel.GetUserID(), ref UserViewModel);
-            expenseListScreen.Show();
-            this.Close();
-        }
+        
 
         private void AddExpense_Click(object sender, RoutedEventArgs e)
         {
-            AddExpenseScreen addExpenseScreen = new AddExpenseScreen(UserViewModel.GetUserID(), ref UserViewModel);
-            addExpenseScreen.Show();
+            AddExpenseScreen addExpenseScreen = new AddExpenseScreen(UserViewModel.GetUserID(), ref UserViewModel, false);
+            addExpenseScreen.ShowDialog();
         }
 
         
@@ -41,21 +39,8 @@ namespace ProjectVersion2.Views
         {
             //Navigate to the AddSalaryScreen
             AddSalaryScreen addSalaryScreen = new AddSalaryScreen(UserViewModel.GetUserID(),ref UserViewModel);
-            addSalaryScreen.Show();
+            addSalaryScreen.ShowDialog();
 
-        }
-
-        private void ViewSalary_Click(object sender, RoutedEventArgs e)
-        {
-            //Navigate to the SalaryList
-            SalaryList salaryListScreen = new SalaryList(UserViewModel.GetUserID(), ref UserViewModel);
-            salaryListScreen.Show();
-        }
-
-        private void ViewExpenses_Click(object sender, RoutedEventArgs e)
-        {
-            ExpenseList expenseListScreen = new ExpenseList(UserViewModel.GetUserID(), ref UserViewModel);
-            expenseListScreen.Show();
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -85,6 +70,32 @@ namespace ProjectVersion2.Views
 
             IdColumn.Visible = false;
             UserIdColumn.Visible = false;
+        }
+
+        private void RequestExpense_Click(object sender, RoutedEventArgs e)
+        {
+            AddExpenseScreen addExpenseScreen = new AddExpenseScreen(UserViewModel.GetUserID(), ref UserViewModel, true);
+            addExpenseScreen.ShowDialog();
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserSettingsScreen userSettingsScreen = new UserSettingsScreen(ref UserViewModel);
+            userSettingsScreen.ShowDialog();
+        }
+        private void ExportExpenses_Click(object sender, RoutedEventArgs e)
+        {
+            exportExpensesService = new();
+            exportExpensesService.ExportExpensesToCSV(UserViewModel.ExpensesList.ToList(),true);
+            MessageBox.Show("Operation Successful", "Export to CSV");
+
+        }
+
+        private void ExportSalary_Click(object sender, RoutedEventArgs e)
+        {
+            exportSalaryService = new ExportSalaryService();
+            exportSalaryService.ExportSalaryToCSV(UserViewModel.SalariesList.ToList(),true);
+            MessageBox.Show("Operation Successful", "Export to CSV");
         }
     }
 }

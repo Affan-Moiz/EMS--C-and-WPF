@@ -1,75 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfUsers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Users>
-    <Id>250216c6-db27-4fa7-a690-214ecbf1daee</Id>
-    <Username>new</Username>
-    <HashedPassword>new</HashedPassword>
-    <Email>new</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>22a128f1-cd30-4810-9d38-d0fa2455b1b6</Id>
-    <Username>tadmin</Username>
-    <HashedPassword>tadmin</HashedPassword>
-    <Email>tadmin@tadmin.com</Email>
+    <Id>ee435a0e-e441-42d8-a335-268a18a582c6</Id>
+    <Username>amin</Username>
+    <HashedPassword>48174671732616016422105144811835861252246</HashedPassword>
+    <Email>amin@amin.com</Email>
     <Role>Admin</Role>
     <IsApproved>true</IsApproved>
   </Users>
   <Users>
-    <Id>9e67acde-fff5-447c-ac10-ea4cf883907f</Id>
-    <Username>ali</Username>
-    <HashedPassword>ali</HashedPassword>
-    <Email>ali@gmail</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>2e3b254d-e449-4a37-a155-7736f51dd042</Id>
-    <Username>test2</Username>
-    <HashedPassword>test</HashedPassword>
-    <Email>test2@gmail.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>b51be274-1557-40c1-b663-de9951aa4ece</Id>
-    <Username>NewUser</Username>
-    <HashedPassword>12345</HashedPassword>
-    <Email>nu@gmail.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>346f6a24-a4b8-49b9-9406-e476e2db204d</Id>
-    <Username>NU</Username>
-    <HashedPassword>12345</HashedPassword>
-    <Email>NU2@gmail.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>fe0eeced-a220-45c0-8b48-0d9f64344552</Id>
+    <Id>f76848cc-5f2c-4f17-a97b-a35e0f03647b</Id>
     <Username>test</Username>
-    <HashedPassword>test</HashedPassword>
+    <HashedPassword>91431072057033211115202222781313839180246</HashedPassword>
     <Email>test@test.com</Email>
     <Role>User</Role>
     <IsApproved>true</IsApproved>
   </Users>
   <Users>
-    <Id>073fee20-4b72-46aa-a66d-fad9834f690b</Id>
-    <Username>s</Username>
-    <HashedPassword>s</HashedPassword>
-    <Email>s@s.com</Email>
-    <Role>User</Role>
-    <IsApproved>true</IsApproved>
-  </Users>
-  <Users>
-    <Id>1b50e64b-c68b-47e5-871b-2f354402332d</Id>
-    <Username>a</Username>
-    <HashedPassword>a</HashedPassword>
-    <Email>a</Email>
+    <Id>b8d1f768-a1a5-4c01-b0be-b4fa99bb53b4</Id>
+    <Username>test2</Username>
+    <HashedPassword>173252130146518534915018612914312213543</HashedPassword>
+    <Email>test2@gmail.com</Email>
     <Role>User</Role>
     <IsApproved>false</IsApproved>
+  </Users>
+  <Users>
+    <Id>ffaa60a2-8d7f-4aa1-9f30-5a83a113cf4c</Id>
+    <Username>NU</Username>
+    <HashedPassword>14714720311230253152116243139231155202119207185</HashedPassword>
+    <Email>NU@gmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>false</IsApproved>
+  </Users>
+  <Users>
+    <Id>235ce6ca-135d-40da-b90d-186b04adb7be</Id>
+    <Username>red</Username>
+    <HashedPassword>1891691005819896233416214335135203977164</HashedPassword>
+    <Email>red@hotmail.com</Email>
+    <Role>User</Role>
+    <IsApproved>true</IsApproved>
   </Users>
 </ArrayOfUsers>

@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels" x:Class="ProjectVersion2.Views.DashboardScreen"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+        xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels" x:Class="ProjectVersion2.Views.DashboardScreen"
         mc:Ignorable="d"
         Title="Dashboard" Height="900" Width="980" WindowStartupLocation="CenterScreen" Background="#F9F9F9"
         Closing="Window_Closing">
@@ -15,15 +17,26 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Grid Grid.Row="0">
-            <TextBlock Text="Dashboard" 
+        <Grid Grid.Row="0" DataContext="{Binding ActiveUser}">
+            <TextBlock
                        FontSize="24" FontWeight="Bold" Foreground="#333333" 
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20" />
-            <Button Content="Logout" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,20">
+                <Run Text="Welcome," />
+                <Run Text="{Binding Username}" FontWeight="Bold" />
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Content="Settings" 
+                    Width="100" Height="30" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" 
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" 
+                    Click="SettingsButton_Click" />
+                <Button Content="Logout" 
                     Width="100" Height="30" 
                     HorizontalAlignment="Right" VerticalAlignment="Center" 
                     Background="#D9534F" Foreground="White" FontWeight="Bold" 
-                    Click="Logout_Click" />
+                    Click="Logout_Click" Margin="10" />
+            </StackPanel>
+                
         </Grid>
 
         <!-- TabControl -->
@@ -90,7 +103,10 @@
                     <Border Grid.Row="4" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
                         <StackPanel>
                             <TextBlock Text="Expense Categories Overview" FontSize="16" FontWeight="Bold" Foreground="#555555" />
-                            <Grid x:Name="ExpenseCategoriesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" />
+                            <Grid x:Name="ExpenseCategoriesGraph" Background="#F5F5F5" Height="200" Margin="0,10,0,0" >
+                                <dxc:ChartControl Name ="PieChart"/>
+
+                            </Grid>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -139,6 +155,22 @@
                                 Foreground="White" 
                                 FontWeight="Bold" 
                                 Click="AddExpense_Click" />
+                        <Button Content="Request Expense"
+                                Width="120"
+                                Margin="5"
+                                Padding="10,5"
+                                Background="BlueViolet"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                Click="RequestExpense_Click" />
+                        <Button Content="Export to CSV"
+                                Width="120"
+                                Margin="5"
+                                Padding="10,5"
+                                Background="#007ACC"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                Click="ExportExpenses_Click" />
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -186,6 +218,14 @@
                                 Foreground="White" 
                                 FontWeight="Bold" 
                                 Click="AddSalary_Click" />
+                        <Button Content="Export to CSV" 
+                                Width="120" 
+                                Margin="5" 
+                                Padding="10,5" 
+                                Background="BlueViolet"  
+                                Foreground="White" 
+                                FontWeight="Bold" 
+                                Click="ExportSalary_Click" />
                     </StackPanel>
                 </Grid>
             </TabItem>

@@ -15,12 +15,17 @@ public class UserDataService
         if (!File.Exists(FilePath)) return new List<Users>();
         var serializer = new XmlSerializer(typeof(List<Users>));
         using var stream = File.OpenRead(FilePath);
-        return (List<Users>?)serializer.Deserialize(stream);
+        // Save the result to a variable
+        var users = serializer.Deserialize(stream) as List<Users>;
+
+        return users;
+
     }
 
     // Save users as a list
     public void SaveUsers(List<Users> users)
     {
+       
         var serializer = new XmlSerializer(typeof(List<Users>));
         using var stream = File.Create(FilePath);
         serializer.Serialize(stream, users);

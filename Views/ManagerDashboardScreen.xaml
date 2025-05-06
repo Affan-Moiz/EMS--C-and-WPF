@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels"
         mc:Ignorable="d"
-        Title="Manager Dashboard" Height="650" Width="800" WindowStartupLocation="CenterScreen" Background="#F9F9F9" Closing="Window_Closing">
+        Title="Manager Dashboard" Height="610" Width="500" WindowStartupLocation="CenterScreen" Background="#F9F9F9" Closing="Window_Closing" SizeToContent="Width"  >
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,9 +20,12 @@
                 <ColumnDefinition Width="Auto"/>
 
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Manager Dashboard" 
+            <TextBlock DataContext="{Binding ActiveUser}" 
                        FontSize="28" FontWeight="Bold" Foreground="#333333" 
-                       HorizontalAlignment="Left" VerticalAlignment="Top" />
+                       HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <Run Text="Welcome," />
+                <Run Text="{Binding Username}" />
+            </TextBlock>
             <Button Content="Logout" 
                     Width="100" Height="30" 
                     HorizontalAlignment="Right" VerticalAlignment="Center" 
@@ -31,7 +34,7 @@
         </Grid>
 
         <!-- TabControl -->
-        <TabControl Grid.Row="1" Margin="0,20,0,0">
+        <TabControl Grid.Row="1" Margin="0,20,0,0" SelectionChanged="TabControl_SelectionChanged">
             <!-- Pending User Approvals Tab -->
             <TabItem Header="Pending User Approvals">
                 <Grid Margin="10">
@@ -43,12 +46,12 @@
                         <StackPanel>
                             <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="PendingUserApprovalsGridControl" 
-                 AutoGenerateColumns="AddNew" 
-                 ItemsSource="{Binding PendingUserList}" 
-                 Margin="0"
+                                             AutoGenerateColumns="AddNew" 
+                                             Loaded="PendingUserApprovalsGridControl_Loaded"
+                                             ItemsSource="{Binding PendingUserList}" 
+                                             Margin="0"
                                              MaxHeight="1000"
-                                             Height="300"
-                                             Loaded="PendingUserApprovalsGridControl_Loaded">
+                                             Height="300">
                                 <dxg:GridControl.Resources>
                                     <!-- Header Style -->
                                     <Style TargetType="dxg:GridColumnHeader">
@@ -57,11 +60,13 @@
                                         <Setter Property="FontWeight" Value="Bold" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="Padding" Value="12,6" />
+                                        <Setter Property="Width" Value="Auto"/>
                                     </Style>
                                     <!-- Row Hover Effect -->
                                     <Style TargetType="dxg:GridRow">
                                         <Setter Property="Background" Value="White" />
                                         <Setter Property="Foreground" Value="#333333" />
+                                        <Setter Property="Width" Value="Auto"/>
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Background" Value="#E8F4FC" />
@@ -71,7 +76,7 @@
                                 </dxg:GridControl.Resources>
 
                                 <dxg:GridControl.View>
-                                    <dxg:TableView ShowGroupPanel="False"  />
+                                    <dxg:TableView ShowGroupPanel="False"/>
                                 </dxg:GridControl.View>
                             </dxg:GridControl>
 
@@ -85,7 +90,7 @@
             </TabItem>
 
             <!-- Pending Expense Approvals Tab -->
-            <TabItem Header="Pending Expense Approvals">
+            <TabItem Header="Pending Expense Approvals" >
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -95,9 +100,9 @@
                         <StackPanel>
                             <TextBlock Text="Pending Expense Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="PendingExpensesApprovalsGridControl" 
-AutoGenerateColumns="AddNew" 
-ItemsSource="{Binding PendingExpensesList}" 
-Margin="0"
+                             AutoGenerateColumns="AddNew" 
+                            ItemsSource="{Binding PendingExpensesList}" 
+                            Margin="0"
                             MaxHeight="1000"
                             Height="300"
                             Loaded="PendingExpensesApprovalsGridControl_Loaded">
@@ -139,19 +144,20 @@ Margin="0"
             <TabItem Header="User Management">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
-                        <StackPanel>
+                        <StackPanel >
                             <TextBlock Text="User Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
-                            <dxg:GridControl x:Name="UsersGridControl" 
-AutoGenerateColumns="AddNew" 
-ItemsSource="{Binding UsersList}" 
-Margin="0"
+                            <dxg:GridControl x:Name="UsersGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            AutoGenerateColumns="AddNew" 
+                            ItemsSource="{Binding UsersList}" 
+                            Margin="0"
                             MaxHeight="1000"
                             Height="300"
-                            Loaded="UsersGridControl_Loaded">
+                            Loaded="UsersGridControl_Loaded"
+                                             >
                                 <dxg:GridControl.Resources>
                                     <!-- Header Style -->
                                     <Style TargetType="dxg:GridColumnHeader">
@@ -174,18 +180,121 @@ Margin="0"
                                 </dxg:GridControl.Resources>
 
                                 <dxg:GridControl.View>
-                                    <dxg:TableView ShowGroupPanel="False"  />
+                                    <dxg:TableView ShowGroupPanel="False" CellValueChanged="TableView_CellValueChanged" />
                                 </dxg:GridControl.View>
                             </dxg:GridControl>
                         </StackPanel>
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Add User" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="AddUser_Click" />
-                        <Button Content="Edit User" Width="140" Height="35" Margin="5" Background="#00A693" Foreground="White" FontWeight="Bold" Click="EditUser_Click" />
                         <Button Content="Remove User" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RemoveUser_Click" />
                     </StackPanel>
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Expense Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+                        <StackPanel >
+                            <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
+                            <dxg:GridControl x:Name="ExpensesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 AutoGenerateColumns="AddNew" 
+                 ItemsSource="{Binding ExpensesList}" 
+                 Margin="0"
+                 MaxHeight="1000"
+                 Height="300"
+                                             Loaded="ExpenseTableView_Loaded"
+                                             
+                 
+                                  >
+                                <dxg:GridControl.Resources>
+                                    <!-- Header Style -->
+                                    <Style TargetType="dxg:GridColumnHeader">
+                                        <Setter Property="Background" Value="#005B96" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="Padding" Value="12,6" />
+                                    </Style>
+                                    <!-- Row Hover Effect -->
+                                    <Style TargetType="dxg:GridRow">
+                                        <Setter Property="Background" Value="White" />
+                                        <Setter Property="Foreground" Value="#333333" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#E8F4FC" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False" CellValueChanged="ExpenseTableView_CellValueChanged"/>
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Add Expense" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="AddExpense_Click" />
+                        <Button Content="Remove Expense" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RemoveExpense_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Salary Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+                        <StackPanel >
+                            <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
+                            <dxg:GridControl x:Name="SalariesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+     AutoGenerateColumns="AddNew" 
+     ItemsSource="{Binding SalariesList}" 
+     Margin="0"
+     MaxHeight="1000"
+     Height="300"
+                                 Loaded="SalaryTableView_Loaded"
+     
+                      >
+                                <dxg:GridControl.Resources>
+                                    <!-- Header Style -->
+                                    <Style TargetType="dxg:GridColumnHeader">
+                                        <Setter Property="Background" Value="#005B96" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="Padding" Value="12,6" />
+                                    </Style>
+                                    <!-- Row Hover Effect -->
+                                    <Style TargetType="dxg:GridRow">
+                                        <Setter Property="Background" Value="White" />
+                                        <Setter Property="Foreground" Value="#333333" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#E8F4FC" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False" />
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+                        </StackPanel>
+                    </Border>
+                    
+                </Grid>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

@@ -1,63 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfExpenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Expenses>
-    <Id>30ca024f-7b3e-46b5-aa29-70d664ebbcb4</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
+    <Id>9ebaca1d-8672-46c7-90a1-547313c74fcb</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
     <Amount>100</Amount>
-    <Description>chips</Description>
-    <Category>Food</Category>
-    <PMethod>Cash</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-24T16:12:50.7479627+05:00</Date>
-    <IsRecurring>true</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>7d0829b6-f213-494a-ac5a-248f816fffa0</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
-    <Amount>8600</Amount>
-    <Description>Hungry Habibi</Description>
-    <Category>Food</Category>
-    <PMethod>BankTransfer</PMethod>
-    <Status>Pending</Status>
-    <Date>2025-04-24T16:13:07.187392+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>11c5dcf9-e8df-4a35-9902-1fbddc426dfa</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
-    <Amount>70</Amount>
-    <Description>Cold Drink</Description>
+    <Description>Lays</Description>
     <Category>Food</Category>
     <PMethod>Cash</PMethod>
     <Status>Completed</Status>
-    <Date>2025-04-24T16:13:22.5393521+05:00</Date>
+    <Date>2025-05-06T16:02:43.1351625+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
-    <Id>241d10cb-5ce6-44f6-a50c-d95c525d7c28</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
-    <Amount>8130</Amount>
-    <Description>Game Pass</Description>
+    <Id>67eb1c71-ed9c-4de9-859b-dc4bac558bf3</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>150</Amount>
+    <Description>beyblade</Description>
     <Category>Entertainment</Category>
     <PMethod>DebitCard</PMethod>
-    <Status>Approved</Status>
-    <Date>2025-04-24T16:14:14.5147571+05:00</Date>
+    <Status>Pending</Status>
+    <Date>2025-05-06T16:03:05.9245658+05:00</Date>
     <IsRecurring>false</IsRecurring>
-    <Payees />
-  </Expenses>
-  <Expenses>
-    <Id>63f5ce00-5163-467f-bdb8-fc0787430022</Id>
-    <UserId>fe0eeced-a220-45c0-8b48-0d9f64344552</UserId>
-    <Amount>123</Amount>
-    <Description>car</Description>
-    <Category>Transport</Category>
-    <PMethod>CreditCard</PMethod>
-    <Status>Completed</Status>
-    <Date>2025-04-25T13:08:16.0612966+05:00</Date>
-    <IsRecurring>false</IsRecurring>
-    <Payees />
+    <Payees>
+      <string>red</string>
+    </Payees>
   </Expenses>
 </ArrayOfExpenses>
