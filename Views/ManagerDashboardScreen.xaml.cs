@@ -287,6 +287,59 @@ namespace ProjectVersion2.Views
 
             
         }
+
+        private void ExportPendingUserData_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.ExportUsersToCSV(adminUserModel.PendingUserList,false);
+            MessageBox.Show("Pending user data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ExportUserData_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.ExportUsersToCSV(adminUserModel.UsersList,true);
+            MessageBox.Show("Total user data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ExportPendingExpensesData_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.ExportExpensesToCSV(adminUserModel.PendingExpensesList, false);
+            MessageBox.Show("Pending expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ExportExpensesData_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.ExportExpensesToCSV(adminUserModel.ExpensesList, true);
+            MessageBox.Show("Total expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ExportSalaryData_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.ExportSalariesToCSV(adminUserModel.SalariesList, true);
+            MessageBox.Show("Total salary data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditCategoryScreen addEditCategoryScreen = new(ref adminUserModel, null);
+            addEditCategoryScreen.ShowDialog();
+        }
+
+        private void EditCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditCategoryScreen editCategoryScreen = new(ref adminUserModel, (string)ExpensesCategoriesGridControl.SelectedItem);
+            editCategoryScreen.ShowDialog();
+        }
+
+        private void RemoveCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            adminUserModel.RemoveExpenseCategory((string)ExpensesCategoriesGridControl.SelectedItem);
+
+        }
+
+        private void CategoriesCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+
+        }
     }
 }
 

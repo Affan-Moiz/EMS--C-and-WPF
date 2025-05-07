@@ -18,5 +18,17 @@ namespace ProjectVersion2.Utilities
         public const string PendingUsersFilePathCSV = "C:\\Users\\amoiz\\source\\repos\\ProjectVersion2\\files\\pendingUsers.csv";
         public const string PendingExpensesFilePathCSV = "C:\\Users\\amoiz\\source\\repos\\ProjectVersion2\\files\\pendingExpenses.csv";
 
+        public const string ExpenseCategoriesFilePath = "C:\\Users\\amoiz\\source\\repos\\ProjectVersion2\\files\\customExpenses.xml";
+        public const string NotificationFilePath = "C:\\Users\\amoiz\\source\\repos\\ProjectVersion2\\files\\notification.xml";
+
+
+        public const string LowBalanceMessage = "Your Balance is low. Decrease your expenses or add more capital to you account";
+        public const string BudgetApproaching = "Your Expenses are close to the set budget. Please spend carefully";
+        public const string BudgetConsumed = "Your Expenses crossed the budget threshold. Please avoid any expenses before the next salary";
+        public const string RequestApproved = "Your Expense request was approved by an administrator";
+        public const string RequestRejected = "Your Expense request was rejected by an administrator";
+        public const string RequestAssigned = "You have an assigned Expense by an administrator";
+
+
     }
 }

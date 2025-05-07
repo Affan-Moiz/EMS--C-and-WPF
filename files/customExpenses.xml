@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <string>Food</string>
+  <string>Transport</string>
+  <string>Entertainment</string>
+  <string>Utilities</string>
+  <string>Health</string>
+  <string>Education</string>
+  <string>Travel</string>
+  <string>Other</string>
+  <string>Others</string>
+  <string>Add New</string>
+</ArrayOfString>

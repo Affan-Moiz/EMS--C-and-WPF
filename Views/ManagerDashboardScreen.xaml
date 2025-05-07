@@ -84,6 +84,7 @@
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Approve User" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ApproveUser_Click" />
+                        <Button Content="Export Data" Width="140" Height="35" Margin="5" Background="BlueViolet" Foreground="White" FontWeight="Bold" Click="ExportPendingUserData_Click" />
                         <Button Content="Reject User" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RejectUser_Click" />
                     </StackPanel>
                 </Grid>
@@ -135,6 +136,7 @@
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Approve Expense" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ApproveExpense_Click" />
+                        <Button Content="Export Data" Width="140" Height="35" Margin="5" Background="BlueViolet" Foreground="White" FontWeight="Bold" Click="ExportPendingExpensesData_Click" />
                         <Button Content="Reject Expense" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RejectExpense_Click" />
                     </StackPanel>
                 </Grid>
@@ -187,6 +189,7 @@
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Add User" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="AddUser_Click" />
+                        <Button Content="Export Data" Width="140" Height="35" Margin="5" Background="BlueViolet" Foreground="White" FontWeight="Bold" Click="ExportUserData_Click" />
                         <Button Content="Remove User" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RemoveUser_Click" />
                     </StackPanel>
                 </Grid>
@@ -202,15 +205,13 @@
                         <StackPanel >
                             <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="ExpensesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                 AutoGenerateColumns="AddNew" 
-                 ItemsSource="{Binding ExpensesList}" 
-                 Margin="0"
-                 MaxHeight="1000"
-                 Height="300"
+                                             AutoGenerateColumns="AddNew" 
+                                             ItemsSource="{Binding ExpensesList}" 
+                                             Margin="0"
+                                             MaxHeight="1000"
+                                             Height="300"
                                              Loaded="ExpenseTableView_Loaded"
-                                             
-                 
-                                  >
+                                              >
                                 <dxg:GridControl.Resources>
                                     <!-- Header Style -->
                                     <Style TargetType="dxg:GridColumnHeader">
@@ -240,6 +241,7 @@
                     </Border>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Add Expense" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="AddExpense_Click" />
+                        <Button Content="Export Data" Width="140" Height="35" Margin="5" Background="BlueViolet" Foreground="White" FontWeight="Bold" Click="ExportExpensesData_Click" />
                         <Button Content="Remove Expense" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RemoveExpense_Click" />
                     </StackPanel>
                 </Grid>
@@ -256,14 +258,12 @@
                         <StackPanel >
                             <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="SalariesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-     AutoGenerateColumns="AddNew" 
-     ItemsSource="{Binding SalariesList}" 
-     Margin="0"
-     MaxHeight="1000"
-     Height="300"
-                                 Loaded="SalaryTableView_Loaded"
-     
-                      >
+                                 AutoGenerateColumns="AddNew" 
+                                 ItemsSource="{Binding SalariesList}" 
+                                 Margin="0"
+                                 MaxHeight="1000"
+                                 Height="300"
+                                 Loaded="SalaryTableView_Loaded">
                                 <dxg:GridControl.Resources>
                                     <!-- Header Style -->
                                     <Style TargetType="dxg:GridColumnHeader">
@@ -291,7 +291,59 @@
                             </dxg:GridControl>
                         </StackPanel>
                     </Border>
-                    
+                    <Button Grid.Row="1" Content="Export Data" Width="140" Height="35" Margin="10" Background="BlueViolet" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Click="ExportSalaryData_Click" />
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Categories Management">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
+                        <StackPanel >
+                            <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
+                            <dxg:GridControl x:Name="ExpensesCategoriesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     AutoGenerateColumns="AddNew" 
+                                     ItemsSource="{Binding Categories}" 
+                                     Margin="0"
+                                     MaxHeight="1000"
+                                     Height="300"
+                                     >
+                                <dxg:GridControl.Resources>
+                                    <!-- Header Style -->
+                                    <Style TargetType="dxg:GridColumnHeader">
+                                        <Setter Property="Background" Value="#005B96" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="Padding" Value="12,6" />
+                                    </Style>
+                                    <!-- Row Hover Effect -->
+                                    <Style TargetType="dxg:GridRow">
+                                        <Setter Property="Background" Value="White" />
+                                        <Setter Property="Foreground" Value="#333333" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#E8F4FC" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </dxg:GridControl.Resources>
+
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False" CellValueChanged="CategoriesCellValueChanged" />
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Add Category" Width="140" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="AddCategoryButton_Click" />
+                        <Button Content="Edit Category" Width="140" Height="35" Margin="5" Background="BlueViolet" Foreground="White" FontWeight="Bold" Click="EditCategoryButton_Click" />
+                        <Button Content="Remove Category" Width="140" Height="35" Margin="5" Background="#9B111E" Foreground="White" FontWeight="Bold" Click="RemoveCategoryButton_Click" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
 

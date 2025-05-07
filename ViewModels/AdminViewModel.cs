@@ -19,6 +19,7 @@ namespace ProjectVersion2.ViewModels
         private Dictionary<Guid, Users> users;
         private Dictionary<Guid, Expenses> expenses;
         private Dictionary<Guid, Salary> salaries;
+        Dictionary<Guid, Notification> notifcations;
 
         private ObservableCollection<Users> _pendingUserList;
         private ObservableCollection<Expenses> _pendingExpensesList;
@@ -28,19 +29,26 @@ namespace ProjectVersion2.ViewModels
         private ObservableCollection<String> _availableUsersList;
         private Users _activeUser;
         private EncryptorDecryptor _encryptorDecryptor;
+        private ExpenseCategory _category = new();
+
 
         private ObservableCollection<string>? rolesCategory;
-        private ObservableCollection<string>? expensesCategory;
+        private ObservableCollection<string>? expensesCategory = new();
         private ObservableCollection<string>? paymentMethod;
 
         // Services
         private readonly UserDataService userDataService = new UserDataService();
         private readonly ExpenseDataService expenseDataService = new ExpenseDataService();
         private readonly SalaryService salaryDataService = new SalaryService();
+        private ExportUserServices exportUserServices = new ExportUserServices();
+        private ExportSalaryService exportSalaryService = new ExportSalaryService();
+        private ExportExpensesService exportExpenseService = new ExportExpensesService();
+        private ExpenseCategoriesService expenseCategoriesService = new ExpenseCategoriesService();
+        private NotificationService notificationService = new();
+
 
         // Properties
         public ObservableCollection<string> Roles => rolesCategory;
-        public ObservableCollection<string> Categories => expensesCategory;
         public ObservableCollection<string> PaymentMethods => paymentMethod;
 
         public Users ActiveUser
@@ -53,6 +61,17 @@ namespace ProjectVersion2.ViewModels
                     _activeUser = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+
+        public ObservableCollection<string> Categories
+        {
+            get { return expensesCategory; }
+            set
+            {
+                if (expensesCategory != value)
+                { expensesCategory = value; OnPropertyChanged(); }
             }
         }
 
@@ -140,6 +159,8 @@ namespace ProjectVersion2.ViewModels
             users = userDataService.LoadUsersAsDictionary();
             expenses = expenseDataService.LoadExpensesAsDictionary();
             salaries = salaryDataService.LoadSalariesAsDictionary();
+            notifcations = notificationService.LoadNotificationsAsDictionary(); // Load notifications as a dictionary
+
 
             _pendingUserList = new ObservableCollection<Users>(GetPendingUsers());
             _pendingExpensesList = new ObservableCollection<Expenses>(GetAllPendingExpenses());
@@ -151,8 +172,38 @@ namespace ProjectVersion2.ViewModels
             _encryptorDecryptor = new();
 
             rolesCategory = new ObservableCollection<string>(Enum.GetNames(typeof(Role)));
-            expensesCategory = new ObservableCollection<string>(Enum.GetNames(typeof(ExpenseCategories)));
+            InitExpenseCategories();
             paymentMethod = new ObservableCollection<string>(Enum.GetNames(typeof(PaymentMethod)));
+        }
+
+
+        public void InitExpenseCategories()
+        {
+            //Add all the categories inside the private variable _category to expensesCategories
+            foreach (var category in _category.Categories)
+            {
+                expensesCategory.Add(category);
+            }
+            var temp = expenseCategoriesService.LoadExpenseCategories();
+            //Convert all the categories to string in temp
+
+            foreach (var category in temp)
+            {
+                if (!expensesCategory.Contains(category.ToString()))
+                {
+                    expensesCategory.Add(category.ToString());
+                }
+            }
+
+            if (!expensesCategory.Contains("Add New"))
+            {
+                expensesCategory.Add("Add New");
+            }else
+            {
+                //If the category "Add New" already exists, remove it and add it again
+                expensesCategory.Remove("Add New");
+                expensesCategory.Add("Add New");
+            }
         }
 
         // User Management Methods
@@ -256,6 +307,61 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
+        public void AddExpenseCategory(string category)
+        {
+            if (!expensesCategory.Contains(category))
+            {
+                expensesCategory.Add(category);
+                // Save the new category to the file
+                SaveExpensesCategories();
+            }
+        }
+
+        public void EditExpenseCategory(string previousCategory, string updatedCategory)
+        {
+            if (expensesCategory.Contains(previousCategory))
+            {
+                int index = expensesCategory.IndexOf(previousCategory);
+                if (index != -1)
+                {
+                    expensesCategory[index] = updatedCategory;
+                    // Save the updated category to the file
+                    SaveExpensesCategories();
+                }
+
+                //Convert all the expenses whose Category is about to be updated to the new category
+                foreach (var expense in expenses.Values)
+                {
+                    if (expense.Category == previousCategory)
+                    {
+                        expense.Category = updatedCategory;
+                        UpdateExpense(expense);
+                    }
+                }
+            }
+        }
+
+        public void RemoveExpenseCategory(string category)
+        {
+            if (expensesCategory.Contains(category))
+            {
+                //Convert all the expenses whose Category is about to be deleted to "Other"
+                foreach (var expense in expenses.Values)
+                {
+                    if (expense.Category == category)
+                    {
+                        expense.Category = "Other";
+                        UpdateExpense(expense);
+                    }
+                }
+                expensesCategory.Remove(category);
+                // Save the updated categories to the file
+                SaveExpensesCategories();
+            }
+        }
+        
+
+
         public void RemoveExpense(Guid expenseId)
         {
             expenses.Remove(expenseId);
@@ -309,6 +415,16 @@ namespace ProjectVersion2.ViewModels
             if (expenses.ContainsKey(expense.Id))
             {
                 expenses[expense.Id].Status = ExpenseStatus.Approved;
+                Notification notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = expense.UserId,
+                    Message = $"Your expense '{expense.Description}' has been approved.",
+                    CreatedAt = DateTime.Now
+                };
+
+                AddNotification(notification);
+
                 PendingExpensesList.Remove(expense);
                 //All the users with the usernames stored inside the "Payees" list in this expense should have an expense added to their list
                 foreach (var payee in expense.Payees)
@@ -328,6 +444,16 @@ namespace ProjectVersion2.ViewModels
                             Status = ExpenseStatus.Approved
                         };
                         AddExpense(newExpense);
+                        // Add a notification for the payee
+
+                        Notification payeeNotification = new Notification
+                        {
+                            Id = Guid.NewGuid(),
+                            UserId = user.Id,
+                            Message = $"You have received an expense '{expense.Description}' from the admin.",
+                            CreatedAt = DateTime.Now
+                        };
+                        AddNotification(payeeNotification);
                     }
                 }
             }
@@ -341,6 +467,19 @@ namespace ProjectVersion2.ViewModels
                 PendingExpensesList.Remove(expense);
             }
         }
+
+        public void AddNotification(Notification notification)
+        {
+            if(notifcations.ContainsKey(notification.Id))
+            {
+                notifcations[notification.Id] = notification;
+            }
+            else
+            {
+                notifcations.Add(notification.Id, notification);
+            }
+        }
+
 
         public ObservableCollection<Expenses> GetAllPendingExpenses()
         {
@@ -385,6 +524,8 @@ namespace ProjectVersion2.ViewModels
             SaveExpenses();
             SaveUsers();
             SaveSalaries();
+            SaveExpensesCategories();
+            SaveNotifications();
         }
 
         private void SaveUsers() => userDataService.SaveUsersFromDictionary(users);
@@ -392,6 +533,30 @@ namespace ProjectVersion2.ViewModels
         private void SaveExpenses() => expenseDataService.SaveExpensesFromDictionary(expenses);
 
         private void SaveSalaries() => salaryDataService.SaveSalariesFromDictionary(salaries);
+
+        private void SaveExpensesCategories() => expenseCategoriesService.SaveExpenseCategories(expensesCategory.ToList());
+
+        private void SaveNotifications() => notificationService.SaveNotificationsFromDictionary(notifcations);
+
+
+
+        public void ExportUsersToCSV(ObservableCollection<Users> users, bool flag)
+        {
+            var usersList = users.ToList();
+            exportUserServices.ExportUsersToCSV(usersList, flag);
+        }
+
+        public void ExportSalariesToCSV(ObservableCollection<Salary> salaries, bool flag)
+        {
+            var salariesList = salaries.ToList();
+            exportSalaryService.ExportSalaryToCSV(salariesList, flag);
+        }
+
+        public void ExportExpensesToCSV(ObservableCollection<Expenses> expenses, bool flag)
+        {
+            var expensesList = expenses.ToList();
+            exportExpenseService.ExportExpensesToCSV(expensesList, flag);
+        }
 
         // PropertyChanged Helper
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)

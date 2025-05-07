@@ -1,0 +1,6 @@
+ID,Username,Email,Role,IsApproved
+ee435a0e-e441-42d8-a335-268a18a582c6,amin,amin@amin.com,Admin,True
+f76848cc-5f2c-4f17-a97b-a35e0f03647b,test,test@test.com,User,True
+b8d1f768-a1a5-4c01-b0be-b4fa99bb53b4,test2,test2@gmail.com,User,False
+ffaa60a2-8d7f-4aa1-9f30-5a83a113cf4c,NU,NU@gmail.com,User,False
+235ce6ca-135d-40da-b90d-186b04adb7be,red,red@hotmail.com,User,True

@@ -49,13 +49,23 @@
             <TextBlock Text="Approval Status:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14" Foreground="#555555"/>
             <TextBox x:Name="IsApprovedTextBox" Grid.Row="5" Grid.Column="1" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" IsReadOnly="True" Background="#E0E0E0" />
 
-            <!-- Update Password Button -->
-            <Button Content="Update Password" 
-                    Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
-                    Width="150" Height="30" 
+            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Update Password" 
+                    Grid.Row="6" Grid.Column="0"
+                    Width="120" Height="30" 
                     Margin="10"  HorizontalAlignment="Left"
                     Background="#007ACC" Foreground="White" FontWeight="Bold" 
                     Click="UpdatePasswordButton_Click" />
+                <Button Content="Budget" 
+                    Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                    Width="90" Height="31" 
+                    Margin="10"  HorizontalAlignment="Left"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" 
+                    Click="UpdatePasswordButton_Click" />
+            </StackPanel>
+
+                <!-- Update Password Button -->
+            
 
             <!-- Save and Cancel Buttons -->
             <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">

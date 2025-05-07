@@ -26,4 +26,144 @@
       <string>red</string>
     </Payees>
   </Expenses>
+  <Expenses>
+    <Id>75c8129e-aa80-4420-bfc4-d588fffdecac</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1800</Amount>
+    <Description>Toilet Paper</Description>
+    <Category>Utilities</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-06T17:52:28.7513291+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>790ce431-e3e2-476a-8f3b-4923a0188573</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>2000</Amount>
+    <Description>Movie Tickets</Description>
+    <Category>Entertainment</Category>
+    <PMethod>BankTransfer</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-09T17:53:35.4488619+05:00</Date>
+    <IsRecurring>true</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>33a20ad8-cb71-424f-b7a3-f658b4ef9c88</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>3500</Amount>
+    <Description>School Fee</Description>
+    <Category>Education</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-06T17:54:07.1429012+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>caa9e04d-d598-40af-83f3-3fe90edf71f8</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>12000</Amount>
+    <Description>Xanders</Description>
+    <Category>Food</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-07T09:40:21.4894271+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>49f775a9-f8cd-43b1-958a-9b4a19c64f4f</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>3000</Amount>
+    <Description>Toilet Paper</Description>
+    <Category>Utilities</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-07T09:42:06.9769142+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>38f8bd01-14b0-4287-8260-49ef61cce403</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1500</Amount>
+    <Description>Bandages</Description>
+    <Category>Health</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Completed</Status>
+    <Date>2026-05-07T10:42:32.5817992+05:00</Date>
+    <IsRecurring>true</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>6b21ebc1-993b-4a6d-8d84-44aa515060f3</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1215</Amount>
+    <Description>testing</Description>
+    <Category>Others</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-07T12:16:19.4669702+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>0b630c32-5557-4c02-be6c-93c3805ad270</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1500</Amount>
+    <Description>chalo</Description>
+    <Category>Others</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-07T13:24:13.1747333+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>489c7596-e004-4853-a4f9-677f528563ab</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1500</Amount>
+    <Description>Car for Compay Drive</Description>
+    <Category>Transport</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Approved</Status>
+    <Date>2025-05-07T16:03:31.4913396+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees>
+      <string>red</string>
+    </Payees>
+  </Expenses>
+  <Expenses>
+    <Id>2d647b65-029d-4667-8112-fdc49258a31b</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1300</Amount>
+    <Description>Weird Stuff</Description>
+    <Category>Other</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Approved</Status>
+    <Date>2025-05-07T16:41:10.5566292+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees>
+      <string>amin</string>
+      <string>red</string>
+    </Payees>
+  </Expenses>
+  <Expenses>
+    <Id>4e9efce4-3939-4769-a633-f8ba4798d24b</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>10000</Amount>
+    <Description>Class 3</Description>
+    <Category>Education</Category>
+    <PMethod>CreditCard</PMethod>
+    <Status>Approved</Status>
+    <Date>2025-05-07T16:41:33.3782418+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees>
+      <string>amin</string>
+      <string>red</string>
+    </Payees>
+  </Expenses>
 </ArrayOfExpenses>

@@ -7,6 +7,7 @@ using ProjectVersion2.Services;
 using ProjectVersion2.Utilities;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using DevExpress.Xpf.Core.ConditionalFormatting.Native;
 
 namespace ProjectVersion2.ViewModels
 {
@@ -18,21 +19,30 @@ namespace ProjectVersion2.ViewModels
         Dictionary<Guid, Users>? users; // Dictionary to hold users
         Dictionary<Guid, Expenses> expenses;
         Dictionary<Guid, Salary> salaries;
+        Dictionary<Guid, Notification> notifcations;
+
+
         public ObservableCollection<string>? expensesCategory;
         public ObservableCollection<string>? paymentMethod;
         public ObservableCollection<string>? salaryType;
         private ObservableCollection<String> _availableUsernames;
 
+
         private UserDataService userDataService = new();
         private ExpenseDataService expenseDataService = new();
         private SalaryService salaryService = new();
+        private ExpenseCategoriesService expenseCategoriesService = new();
+        private NotificationService notificationService = new();
 
-        public ObservableCollection<string> Categories { get { return expensesCategory; } }
         public ObservableCollection<string> PaymentMethods { get { return paymentMethod; } }
         public ObservableCollection<string> Salaries { get { return salaryType; } }
 
+
         public ObservableCollection<Expenses> ExpensesList { get; set; }
         public ObservableCollection<Salary> SalariesList { get; set; }
+
+
+
 
         public ObservableCollection<string> AvailableUsernames { get { return _availableUsernames; } }
 
@@ -41,6 +51,11 @@ namespace ProjectVersion2.ViewModels
         private decimal _totalExpenses;
         private decimal _percentSpent;
         private Users? _activeUser;
+        private ObservableCollection<Expenses> _upcomingExpenses;
+        private int _upcomingExpensesCount;
+        private ExpenseCategory? _category;
+        private ObservableCollection<Notification> _notificationList;
+
         public Users? ActiveUser
         {
             get => _activeUser;
@@ -54,6 +69,35 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
+        public ObservableCollection<Expenses> UpcomingExpenses { get { return _upcomingExpenses; } set { _upcomingExpenses = value; OnPropertyChanged(nameof(UpcomingExpenses)); } }
+        public ObservableCollection<String> Categories { get { return expensesCategory; } set { expensesCategory = value; OnPropertyChanged(nameof(Categories)); } }
+
+        public int UpcomingExpensesCount
+        {
+            get { return _upcomingExpensesCount; }
+            set
+            {
+                if (_upcomingExpensesCount != value)
+                {
+                    _upcomingExpensesCount = value;
+                    OnPropertyChanged(nameof(UpcomingExpensesCount));
+                }
+            }
+        }
+
+
+        public ObservableCollection<Notification> NotificationList
+        {
+            get { return _notificationList; }
+            set
+            {
+                if (_notificationList != value)
+                {
+                    _notificationList = value;
+                    OnPropertyChanged(nameof(NotificationList));
+                }
+            }
+        }
 
         public decimal TotalExpenses
         {
@@ -94,7 +138,7 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
-       
+        public ObservableDictionary<string, double> PieData { get; set; }
 
 
         public UserViewModel()
@@ -107,12 +151,18 @@ namespace ProjectVersion2.ViewModels
             users = userDataService.LoadUsersAsDictionary(); // Load users as a dictionary
             expenses = expenseDataService.LoadExpensesAsDictionary(); // Load expenses as a dictionary
             salaries = salaryService.LoadSalariesAsDictionary(); // Load salaries as a dictionary
+            notifcations = notificationService.LoadNotificationsAsDictionary(); // Load notifications as a dictionary
+
+            _category = new();
 
             _activeUser = users.TryGetValue(UserID, out var user) ? user : null;
             expenses = GetExpensesByUserId(UserID).ToDictionary(e => e.Id); // Filter expenses for the current user
             salaries = GetSalariesByUserId(UserID).ToDictionary(s => s.Id); // Filter salaries for the current user
+            notifcations=GetNotificationsByID(UserID).ToDictionary(n => n.Id); // Filter notifications for the current user
+            expensesCategory = new();
+            InitExpenseCategories();
+           
 
-            expensesCategory = [.. Enum.GetNames(typeof(ExpenseCategories))];
             paymentMethod = [.. Enum.GetNames(typeof(PaymentMethod))];
             salaryType = [.. Enum.GetNames(typeof(SalaryType))];
 
@@ -123,8 +173,76 @@ namespace ProjectVersion2.ViewModels
             _remainingBalance = GetTotalIncomeByUserId(UserID); // Initialize remaining balance for the current user
             _percentSpent = GetPercentSpent(UserID); // Initialize percent spent for the current user
             _availableUsernames = GetApprovedUsernames();
+            _upcomingExpenses = new ObservableCollection<Expenses>(GetUpcomingExpensesByUserId(UserID));
+            _upcomingExpensesCount = _upcomingExpenses.Count;
+            _notificationList = new ObservableCollection<Notification>(GetNotificationsByID(UserID));
 
+
+            PieData = new ObservableDictionary<string, double>();
+             var pieData = GetPieData();
+            foreach (var data in pieData)
+            {
+                PieData.Add(data.Argument.ToString(), data.Value);
+            }
         }
+        
+        public void InitExpenseCategories()
+        {
+            //Add all the categories inside the private variable _category to expensesCategories
+            foreach(var category in _category.Categories)
+            {
+                expensesCategory.Add(category);
+            }
+            var temp = expenseCategoriesService.LoadExpenseCategories();
+            //Convert all the categories to string in temp
+
+            foreach (var category in temp)
+            {
+                if (!expensesCategory.Contains(category.ToString()))
+                {
+                    expensesCategory.Add(category.ToString());
+                }
+            }
+
+            if (!expensesCategory.Contains("Add New"))
+            {
+                expensesCategory.Add("Add New");
+            }
+            else
+            {
+                //If the category exists, move it to the bottom of the list
+                expensesCategory.Remove("Add New");
+                expensesCategory.Add("Add New");
+            }
+        }
+
+        public ObservableCollection<Notification> GetNotificationsByID(Guid userId)
+        {
+            //Get all the notifications for the user
+            var notificationList = notifcations.Values.Where(n => n.UserId == userId).ToList();
+            //Convert the list to observable collection
+            var observableCollection = new ObservableCollection<Notification>(notificationList);
+            //Rearrange the list so that all the unread notifications are at the top while the read ones are at the bottom
+            foreach (var notification in notificationList) {
+                if (notification.IsRead)
+                {
+                    observableCollection.Remove(notification);
+                    observableCollection.Add(notification);
+                }
+            }
+            return observableCollection;
+        }
+
+        public void ReArrangeNotifications()
+        {
+            var readNotifications = NotificationList.Where(n => n.IsRead).ToList();
+            foreach (var notification in readNotifications)
+            {
+                NotificationList.Remove(notification);
+                NotificationList.Add(notification);
+            }
+        }
+
 
         public decimal GetPercentSpent(Guid userId)
         {
@@ -142,6 +260,17 @@ namespace ProjectVersion2.ViewModels
             }
 
             return (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
+        }
+
+        public List<DataPoint> GetPieData()
+        {
+            var pieData = new List<DataPoint>();
+            foreach (var category in expensesCategory)
+            {
+                var total = expenses.Values.Where(e => e.Category.ToString() == category).Sum(e => e.Amount);
+                pieData.Add(new DataPoint(category, (double)total));
+            }
+            return pieData;
         }
 
         public Users? GetUser()
@@ -194,6 +323,22 @@ namespace ProjectVersion2.ViewModels
             RemainingBalance -= expense.Amount; 
             TotalExpenses += expense.Amount;
             PercentSpent=GetPercentSpent(ActiveUser.Id);
+            //If the observable dictionary contains the key, update the value
+            if (PieData.ContainsKey(expense.Category.ToString()))
+            {
+                PieData[expense.Category.ToString()] += (double)expense.Amount;
+            }
+            else
+            {
+                PieData.Add(expense.Category.ToString(), (double)expense.Amount);
+            }
+
+            //if the expense was recurring add it to the upcoming expenses list
+            if (expense.IsRecurring)
+            {
+                UpcomingExpenses.Add(expense);
+                UpcomingExpensesCount ++;
+            }
 
         }
 
@@ -208,14 +353,45 @@ namespace ProjectVersion2.ViewModels
             return expense;
         }
 
+        public void AddExpenseCategory(string category)
+        {
+            if (!expensesCategory.Contains(category))
+            {
+                expensesCategory.Add(category);
+                // Save the new category to the file
+                SaveExpensesCategories();
+            }
+        }
+
         public List<Expenses> GetExpensesByUserId(Guid userId)
         {
             return expenses.Values.Where(e => e.UserId == userId).ToList();
         }
 
+        public List<Expenses> GetUpcomingExpensesByUserId(Guid userId)
+        {
+            //Return all the expenses for the user that are recurring and have a date greater than today
+            var expenseList = expenses.Values.Where(e => e.UserId == userId && e.IsRecurring).ToList();
+            //Check each expense where the date is less than today and add 1 to the year of that date
+            foreach (var expense in expenseList)
+            {
+                if (expense.Date <= DateTime.Now)
+                {
+                    expense.Date = expense.Date.AddYears(1);
+                }
+            }
+            return expenseList;
+        }
+
         private void SaveExpenses()
         {
             expenseDataService.SaveExpensesFromDictionary(expenses); 
+        }
+
+        private void SaveExpensesCategories()
+        {
+           ExpenseCategoriesService expenseCategoriesService = new ExpenseCategoriesService();
+            expenseCategoriesService.SaveExpenseCategories(expensesCategory.ToList());
         }
 
         public Guid GetUserID()
@@ -328,10 +504,25 @@ namespace ProjectVersion2.ViewModels
                 PercentSpent = (GetTotalExpensesByUserId(userId) / GetTotalSalariesByUserId(userId));
         }
 
+        public int GetUnreadNotificationCount()
+        {
+            //Get all the unread notifications for the user
+            var unreadNotifications = NotificationList.Where(n => n.UserId == ActiveUser.Id && !n.IsRead).ToList();
+            return unreadNotifications.Count;
+        }
+
+        public void SaveNotifications()
+        {
+            notificationService.SaveNotificationsFromDictionary(notifcations); // Save notifications as a dictionary
+        }
+
         public void Save()
         {
             SaveExpenses();
             SaveSalaries();
+            SaveExpensesCategories();
+            SaveNotifications();
+            
 
         }
 

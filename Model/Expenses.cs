@@ -54,8 +54,8 @@ namespace ProjectVersion2.Model
             }
         }
 
-        private ExpenseCategories _category = ExpenseCategories.Other;
-        public required ExpenseCategories Category
+        private string _category = "Other";
+        public required string Category
         {
             get => _category;
             set

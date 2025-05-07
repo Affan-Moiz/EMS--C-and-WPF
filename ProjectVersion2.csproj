@@ -9,10 +9,6 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\AdminControls\" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<Using Remove="System.Windows.Forms" />
 	</ItemGroup>

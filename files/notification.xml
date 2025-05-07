@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Notification>
+    <Id>80488b55-426c-4482-b89f-c129da3c21b9</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your expense 'Car for Compay Drive' has been approved.</Message>
+    <CreatedAt>2025-05-07T16:11:20.8746341+05:00</CreatedAt>
+    <IsRead>true</IsRead>
+  </Notification>
+  <Notification>
+    <Id>7a44694a-49b1-4048-bc31-f68691e2e4e4</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your expense 'Class 3' has been approved.</Message>
+    <CreatedAt>2025-05-07T16:41:58.0450582+05:00</CreatedAt>
+    <IsRead>true</IsRead>
+  </Notification>
+  <Notification>
+    <Id>bfb2f396-f552-4099-8d17-c747f5a64ebb</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your expense 'Weird Stuff' has been approved.</Message>
+    <CreatedAt>2025-05-07T16:42:08.2109991+05:00</CreatedAt>
+    <IsRead>true</IsRead>
+  </Notification>
+</ArrayOfNotification>

@@ -49,8 +49,13 @@
 
             <!-- Category -->
             <TextBlock Text="Category:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14" Foreground="#555555"/>
-            <ComboBox x:Name="CategoryComboBox" Grid.Row="3" Grid.Column="1" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" 
-                      ItemsSource="{Binding Path=Categories}" />
+            <StackPanel Grid.Row="3" Grid.Column="1" Margin="5">
+                <ComboBox x:Name="CategoryComboBox" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" 
+           ItemsSource="{Binding Path=Categories}"
+                          SelectionChanged="CategoryComboBox_SelectionChanged"/>
+                <TextBox x:Name="NewExpenseCategoryTextBox" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" Visibility="Collapsed" />
+            </StackPanel>
+
 
             <!-- Description -->
             <TextBlock Text="Description:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14" Foreground="#555555"/>

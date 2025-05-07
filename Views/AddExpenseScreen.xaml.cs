@@ -16,6 +16,7 @@ namespace ProjectVersion2.Views
         private bool _isRecurring;
         private bool _isAdmin=false;
         private bool _isRequest = false;
+        private bool _newExpenseCategory = false;
 
 
         public AddExpenseScreen(Guid userId, ref UserViewModel UVModel, bool IsRequest)
@@ -69,6 +70,7 @@ namespace ProjectVersion2.Views
 
         private void SubmitExpense_Click(object sender, RoutedEventArgs e)
         {
+            
             try
             {
                 // Validate input fields
@@ -109,12 +111,30 @@ namespace ProjectVersion2.Views
                     UserId = Guid.Empty,
                     Amount = amount,
                     Description = DescriptionTextBox.Text,
-                    Category = (ExpenseCategories)Enum.Parse(typeof(ExpenseCategories), CategoryComboBox.SelectedItem.ToString()),
+                    Category = "Other",
                     PMethod = (PaymentMethod)Enum.Parse(typeof(PaymentMethod), PaymentMethodComboBox.SelectedItem.ToString()),
                     Status = ExpenseStatus.Completed,
                     Date = DateTime.Now,
                     IsRecurring = _isRecurring
                 };
+
+                if(_newExpenseCategory)
+                {
+                    if (!_isAdmin)
+                    {
+                        userViewModel.AddExpenseCategory(NewExpenseCategoryTextBox.Text);
+                        newExpense.Category = NewExpenseCategoryTextBox.Text;
+                    }
+                    else
+                    {
+                        adminView.AddExpenseCategory(NewExpenseCategoryTextBox.Text);
+                        newExpense.Category = NewExpenseCategoryTextBox.Text;
+                    }
+                }
+                else
+                {
+                    newExpense.Category = CategoryComboBox.SelectedItem.ToString();
+                }
 
                 if (_isAdmin)
                 {
@@ -261,6 +281,15 @@ namespace ProjectVersion2.Views
             else
             {
                 DeletePayeeButton.IsEnabled = false;
+            }
+        }
+
+        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CategoryComboBox.SelectedItem != null && CategoryComboBox.SelectedItem.Equals("Add New")){
+                NewExpenseCategoryTextBox.Visibility = Visibility.Visible;
+                NewExpenseCategoryTextBox.Focus();
+                _newExpenseCategory = true;
             }
         }
     }
