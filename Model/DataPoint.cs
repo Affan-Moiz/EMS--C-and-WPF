@@ -8,8 +8,8 @@ namespace ProjectVersion2.Model
 {
     public class DataPoint
     {
-        public string Argument { get; private set; }
-        public double Value { get; private set; }
+        public string Argument { get; set; }
+        public double Value { get; set; }
         public DataPoint(string argument, double value)
         {
             Argument = argument;

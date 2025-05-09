@@ -55,7 +55,7 @@ namespace ProjectVersion2.Views
                 {
                     Id = Guid.NewGuid(),
                     UserId = _userViewModel.GetUserID(),
-                    Amount = decimal.Parse(AmountTextBox.Text),
+                    Amount = double.Parse(AmountTextBox.Text),
                     Description = DescriptionTextBox.Text,
                     SalaryType = (SalaryType)Enum.Parse(typeof(SalaryType), SalaryTypeComboBox.SelectedItem.ToString()),
                     Date = DatePicker.SelectedDate.Value,

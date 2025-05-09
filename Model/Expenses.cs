@@ -26,8 +26,8 @@ namespace ProjectVersion2.Model
             }
         }
 
-        private decimal _amount = 0;
-        public required decimal Amount
+        private double _amount = 0;
+        public required double Amount
         {
             get => _amount;
             set

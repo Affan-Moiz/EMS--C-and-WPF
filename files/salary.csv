@@ -1,2 +1,3 @@
 ID,UserID,Description,Amount,Date,Type
-9b57de2d-d09c-48a3-a1a4-c32d41bcafba,f76848cc-5f2c-4f17-a97b-a35e0f03647b,Monthly Salary,100000,5/1/2025 12:00:00 AM,Fixed
+9b57de2d-d09c-48a3-a1a4-c32d41bcafba,f76848cc-5f2c-4f17-a97b-a35e0f03647b,Monthly Salary,100010,5/1/2025 12:00:00 AM,Fixed
+6f4d5138-a923-46d9-a716-aa57cf1ed0d8,f76848cc-5f2c-4f17-a97b-a35e0f03647b,test,150,2/7/2023 12:00:00 AM,Fixed

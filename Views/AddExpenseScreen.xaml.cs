@@ -74,7 +74,7 @@ namespace ProjectVersion2.Views
             try
             {
                 // Validate input fields
-                if (string.IsNullOrWhiteSpace(AmountTextBox.Text) || !decimal.TryParse(AmountTextBox.Text, out var amount))
+                if (string.IsNullOrWhiteSpace(AmountTextBox.Text) || !double.TryParse(AmountTextBox.Text, out var amount))
                 {
                     MessageBox.Show("Please enter a valid amount.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;

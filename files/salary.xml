@@ -9,4 +9,13 @@
     <SalaryType>Fixed</SalaryType>
     <IsRecurring>true</IsRecurring>
   </Salary>
+  <Salary>
+    <Id>6f4d5138-a923-46d9-a716-aa57cf1ed0d8</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>150</Amount>
+    <Date>2023-02-07T00:00:00</Date>
+    <Description>test</Description>
+    <SalaryType>Fixed</SalaryType>
+    <IsRecurring>false</IsRecurring>
+  </Salary>
 </ArrayOfSalary>

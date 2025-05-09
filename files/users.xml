@@ -7,6 +7,8 @@
     <Email>amin@amin.com</Email>
     <Role>Admin</Role>
     <IsApproved>true</IsApproved>
+    <WeeklyBudget>0</WeeklyBudget>
+    <MonthlyBudget>0</MonthlyBudget>
   </Users>
   <Users>
     <Id>f76848cc-5f2c-4f17-a97b-a35e0f03647b</Id>
@@ -15,6 +17,8 @@
     <Email>test@test.com</Email>
     <Role>User</Role>
     <IsApproved>true</IsApproved>
+    <WeeklyBudget>20000</WeeklyBudget>
+    <MonthlyBudget>90000</MonthlyBudget>
   </Users>
   <Users>
     <Id>b8d1f768-a1a5-4c01-b0be-b4fa99bb53b4</Id>
@@ -23,6 +27,8 @@
     <Email>test2@gmail.com</Email>
     <Role>User</Role>
     <IsApproved>false</IsApproved>
+    <WeeklyBudget>0</WeeklyBudget>
+    <MonthlyBudget>0</MonthlyBudget>
   </Users>
   <Users>
     <Id>ffaa60a2-8d7f-4aa1-9f30-5a83a113cf4c</Id>
@@ -31,6 +37,8 @@
     <Email>NU@gmail.com</Email>
     <Role>User</Role>
     <IsApproved>false</IsApproved>
+    <WeeklyBudget>0</WeeklyBudget>
+    <MonthlyBudget>0</MonthlyBudget>
   </Users>
   <Users>
     <Id>235ce6ca-135d-40da-b90d-186b04adb7be</Id>
@@ -39,5 +47,7 @@
     <Email>red@hotmail.com</Email>
     <Role>User</Role>
     <IsApproved>true</IsApproved>
+    <WeeklyBudget>0</WeeklyBudget>
+    <MonthlyBudget>0</MonthlyBudget>
   </Users>
 </ArrayOfUsers>

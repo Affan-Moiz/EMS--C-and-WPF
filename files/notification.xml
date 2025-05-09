@@ -1,11 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfNotification xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Notification>
-    <Id>80488b55-426c-4482-b89f-c129da3c21b9</Id>
+    <Id>2af6699f-c92c-4fb9-9c6f-0ac0af9c4b6d</Id>
     <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
-    <Message>Your expense 'Car for Compay Drive' has been approved.</Message>
-    <CreatedAt>2025-05-07T16:11:20.8746341+05:00</CreatedAt>
-    <IsRead>true</IsRead>
+    <Message>Your Expenses are close to the set monthly budget. Please spend carefully</Message>
+    <CreatedAt>2025-05-08T11:05:03.0518975+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>75449169-45b0-41ea-8f2b-6f8266b4c76a</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your Expenses crossed the weekly budget threshold. Please avoid any expenses before the next week</Message>
+    <CreatedAt>2025-05-08T11:04:50.7053375+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>2e544a4e-b26a-44b2-b06a-7e061ed44941</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your Expenses are close to the set monthly budget. Please spend carefully</Message>
+    <CreatedAt>2025-05-08T13:17:12.7514458+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>a0f4e996-e0df-4aec-88b0-11a89442d613</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your Expenses crossed the weekly budget threshold. Please avoid any expenses before the next week</Message>
+    <CreatedAt>2025-05-08T13:17:09.752589+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>a533cb06-eda9-4b55-b57f-213fcb03e5c8</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>guest has paid 15 for Cold Drinks. Remaining amount is 75.</Message>
+    <CreatedAt>2025-05-08T16:21:15.1088195+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>2d78fe2d-778a-4548-92b1-b67e11573a3b</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>guest has paid 10 for beyblade. Remaining amount is 110.</Message>
+    <CreatedAt>2025-05-08T16:35:04.6523096+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>e7fddafe-319c-4ee2-bed0-33fcd9c560c8</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your expense 'beyblade' has been approved.</Message>
+    <CreatedAt>2025-05-08T17:55:12.4899552+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>640eed95-19eb-4093-9170-2734dc26247b</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your Expenses are close to the set monthly budget. Please spend carefully</Message>
+    <CreatedAt>2025-05-09T10:44:29.3835485+05:00</CreatedAt>
+    <IsRead>false</IsRead>
+  </Notification>
+  <Notification>
+    <Id>c06618c4-edfb-4fc0-a90a-b5a8d83ce8c1</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your Expenses crossed the weekly budget threshold. Please avoid any expenses before the next week</Message>
+    <CreatedAt>2025-05-09T10:44:29.3835479+05:00</CreatedAt>
+    <IsRead>false</IsRead>
   </Notification>
   <Notification>
     <Id>7a44694a-49b1-4048-bc31-f68691e2e4e4</Id>
@@ -19,6 +75,13 @@
     <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
     <Message>Your expense 'Weird Stuff' has been approved.</Message>
     <CreatedAt>2025-05-07T16:42:08.2109991+05:00</CreatedAt>
+    <IsRead>true</IsRead>
+  </Notification>
+  <Notification>
+    <Id>80488b55-426c-4482-b89f-c129da3c21b9</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Message>Your expense 'Car for Compay Drive' has been approved.</Message>
+    <CreatedAt>2025-05-07T16:11:20.8746341+05:00</CreatedAt>
     <IsRead>true</IsRead>
   </Notification>
 </ArrayOfNotification>

@@ -1,28 +1,26 @@
 ﻿using ProjectVersion2.Utilities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ProjectVersion2.Model
 {
-    public class Users: INotifyPropertyChanged
+    public class Guest
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public required string Username { get { return _username; } set { _username = value; OnPropertyChanged(); } }
-        public required string HashedPassword { get { return _password; } set { _password = value; OnPropertyChanged(); } }
         public required string Email { get { return _email; } set { _email = value; OnPropertyChanged(); } }
         public Role Role { get { return _role; } set { _role = value; OnPropertyChanged(); } }
         public bool IsApproved { get { return _isApproved; } set { _isApproved = value; OnPropertyChanged(); } }
-        public double WeeklyBudget { get { return _weeklyBudget; } set { _weeklyBudget = value; OnPropertyChanged(); } }
-        public double MonthlyBudget { get { return _monthlyBudget; } set { _monthlyBudget = value; OnPropertyChanged(); } }
 
 
         private string _username = "";
-        private string _password = "";
-        private string _email="";
+        private string _email = "";
         private Role _role;
-        private bool _isApproved=false;
-        private double _weeklyBudget = 0;
-        private double _monthlyBudget = 0;
+        private bool _isApproved = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -31,8 +29,4 @@ namespace ProjectVersion2.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    
-
-
 }

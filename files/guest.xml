@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGuest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Guest>
+    <Id>9baa3b39-4850-4480-bd48-067b521c41b2</Id>
+    <Username>guest</Username>
+    <Email>guest@guest.com</Email>
+    <Role>Guest</Role>
+    <IsApproved>true</IsApproved>
+  </Guest>
+</ArrayOfGuest>

@@ -56,12 +56,30 @@ namespace ProjectVersion2.Views
             }
             if (string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Password cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Guest? CurrGuest = authService.Login(username);
+                if (CurrGuest != null)
+                {
+                    if (CurrGuest.IsApproved)
+                    {
+                        // Open Guest Dashboard
+                        GuestDashboard guestDashboard = new GuestDashboard(CurrGuest.Id);
+                        guestDashboard.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your account is not approved yet. Please contact the administrator.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }else
+                {
+                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 return;
             }
             // Attempt login
             try
             {
+                //Check if the guest dictionary has the username
                 Users? CurrUser = authService.Login(username, password);
 
                 if (CurrUser != null)
@@ -88,9 +106,11 @@ namespace ProjectVersion2.Views
                         MessageBox.Show("Your account is not approved yet. Please contact the administrator.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
+                
+                
                 else
                 {
-                    MessageBox.Show("Invalid username or password. Please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
@@ -101,25 +121,49 @@ namespace ProjectVersion2.Views
 
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
-            Users newUser = new Users()
+            Users newUser = null; // Initialize newUser to avoid CS0165
+            Guest guest = null;   // Initialize guest to avoid potential issues
+
+            if (SignupRoleComboBox.SelectedItem is ComboBoxItem selectedItem && selectedItem.Content.ToString() == "Guest")
             {
-                Username = SignupUsernameTextBox.Text.Trim(),
-                Email = SignupEmailTextBox.Text.Trim(),
-                HashedPassword = SignupPasswordBox.Password.Trim(),
-                IsApproved = true
-            };
+                guest = new Guest()
+                {
+                    Username = SignupUsernameTextBox.Text.Trim(),
+                    Email = SignupEmailTextBox.Text.Trim(),
+                    IsApproved = true
+                };
+            }
+            else
+            {
+                newUser = new Users()
+                {
+                    Username = SignupUsernameTextBox.Text.Trim(),
+                    Email = SignupEmailTextBox.Text.Trim(),
+                    HashedPassword = SignupPasswordBox.Password.Trim(),
+                    IsApproved = true
+                };
+            }
 
             // Check if a role is selected
             if (SignupRoleComboBox.SelectedItem is ComboBoxItem selectedRole)
             {
                 string role = selectedRole.Content.ToString();
-                if (role == "User")
+                if (role == "User" && newUser != null)
                 {
                     newUser.Role = Role.User;
                 }
-                else if (role == "Admin")
+                else if (role == "Admin" && newUser != null)
                 {
                     newUser.Role = Role.Admin;
+                }
+                else if (role == "Guest" && guest != null)
+                {
+                    guest.Role = Role.Guest;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid role selected.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             else
@@ -129,37 +173,58 @@ namespace ProjectVersion2.Views
             }
 
             // Input validation
-            if (string.IsNullOrWhiteSpace(newUser.Username))
+            if (newUser != null && guest == null)
             {
-                MessageBox.Show("Username cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(newUser.HashedPassword))
-            {
-                MessageBox.Show("Password cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(newUser.Email))
-            {
-                MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                if (string.IsNullOrWhiteSpace(newUser.Username))
+                {
+                    MessageBox.Show("Username cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(newUser.HashedPassword))
+                {
+                    MessageBox.Show("Password cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(newUser.Email))
+                {
+                    MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
 
             // Attempt signup
             try
             {
                 AuthService authService = new AuthService();
-                bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email, newUser.Role);
-                if (isSignedUp)
+                if (newUser != null)
                 {
-                    MessageBox.Show("Signup successful! You can log in once an admin approves your request.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    SignupGrid.Visibility = Visibility.Collapsed;
-                    LoginGrid.Visibility = Visibility.Visible;
-                    LoginUsernameTextBox.Focus();
+                    bool isSignedUp = authService.SignUp(newUser.Username, newUser.HashedPassword, newUser.Email, newUser.Role);
+                    if (isSignedUp)
+                    {
+                        MessageBox.Show("Signup successful! You can log in once an admin approves your request.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        SignupGrid.Visibility = Visibility.Collapsed;
+                        LoginGrid.Visibility = Visibility.Visible;
+                        LoginUsernameTextBox.Focus();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username or email already exists. Please try again.", "Signup Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                else
+                else if (guest != null)
                 {
-                    MessageBox.Show("Username or email already exists. Please try again.", "Signup Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    bool isGuestSignedUp = authService.SignUp(guest.Username, guest.Email, true);
+                    if (isGuestSignedUp)
+                    {
+                        MessageBox.Show("Signup successful! You can log in once an admin approves your request.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        SignupGrid.Visibility = Visibility.Collapsed;
+                        LoginGrid.Visibility = Visibility.Visible;
+                        LoginUsernameTextBox.Focus();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username or email already exists. Please try again.", "Signup Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             catch (Exception ex)

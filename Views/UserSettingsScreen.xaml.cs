@@ -69,6 +69,7 @@ namespace ProjectVersion2.Views
         {
             EditDetailsGrid.Visibility = Visibility.Visible;
             PasswordUpdateGrid.Visibility = Visibility.Collapsed;
+            BudgetDetailsGrid.Visibility = Visibility.Collapsed;
         }
 
         private void SavePasswordButton_Click(object sender, RoutedEventArgs e)
@@ -96,6 +97,26 @@ namespace ProjectVersion2.Views
             }
 
 
+        }
+
+        private void SaveBudgetButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(WeeklyBudgetBox.Text, out double weeklyBudget) &&
+                double.TryParse(MonthlyBudgetBox.Text, out double monthlyBudget))
+            {
+                _userViewModel.UpdateUserBudget(weeklyBudget, monthlyBudget);
+                MessageBox.Show("Budget updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please enter valid numeric values for the budget.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateBudgetButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditDetailsGrid.Visibility=Visibility.Collapsed;
+            BudgetDetailsGrid.Visibility = Visibility.Visible;
         }
     }
 }

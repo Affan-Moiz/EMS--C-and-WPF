@@ -61,7 +61,7 @@
                     Width="90" Height="31" 
                     Margin="10"  HorizontalAlignment="Left"
                     Background="#007ACC" Foreground="White" FontWeight="Bold" 
-                    Click="UpdatePasswordButton_Click" />
+                    Click="UpdateBudgetButton_Click" />
             </StackPanel>
 
                 <!-- Update Password Button -->
@@ -130,6 +130,45 @@
                         Foreground="White" 
                         FontWeight="Bold" 
                         Click="BackToEditDetailsButton_Click"/>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="BudgetDetailsGrid" Visibility="Collapsed" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Weekly Budget -->
+            <TextBlock Text="Weekly Budget:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14" Foreground="#555555"/>
+            <TextBox x:Name="WeeklyBudgetBox" Grid.Row="0" Grid.Column="1" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" Text="{Binding WeeklyBudget}"/>
+
+            <!-- Monthly Budget -->
+            <TextBlock Text="Monthly Budget:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="14" Foreground="#555555"/>
+            <TextBox x:Name="MonthlyBudgetBox" Grid.Row="1" Grid.Column="1" Margin="5" Padding="5" BorderBrush="#E0E0E0" BorderThickness="1" Text="{Binding MonthlyBudget}" />
+
+            <!-- Save and Back Buttons -->
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Save Budget" 
+                 Width="120"
+                 Margin="5" 
+                 Padding="5" 
+                 Background="#28A745" 
+                 Foreground="White" 
+                 FontWeight="Bold" 
+                 Click="SaveBudgetButton_Click"/>
+                <Button Content="Back to Edit Details" 
+                 Width="150"
+                 Margin="5" 
+                 Padding="5" 
+                 Background="#D9534F" 
+                 Foreground="White" 
+                 FontWeight="Bold" 
+                 Click="BackToEditDetailsButton_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

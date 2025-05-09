@@ -111,16 +111,12 @@ namespace ProjectVersion2.Views
         private void Logout()
         {
             adminUserModel.Save();
-            var loginScreen = new LoginScreen();
+            var loginScreen = new LoginSignupWindow();
             loginScreen.Show();
       
         }
 
-        public void ShowPendingUserApprovals()
-        {
-            var pendingUserApprovalsScreen = new PendingUserApprovalsScreen(ref adminUserModel);
-            pendingUserApprovalsScreen.Show();  
-        }
+        
 
         private void PendingUserApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -131,6 +127,8 @@ namespace ProjectVersion2.Views
                 var IdColumn = gridControl.Columns["Id"];
                 var IsApprovedColumn = gridControl.Columns["IsApproved"];
                 var HashedPasswordColumn = gridControl.Columns["HashedPassword"];
+                var WeeklyBudget = gridControl.Columns["WeeklyBudget"];
+                var MonthlyBudget = gridControl.Columns["MonthlyBudget"];
 
                 if (IdColumn != null)
                 {
@@ -145,7 +143,18 @@ namespace ProjectVersion2.Views
                 {
                     HashedPasswordColumn.Visible = false;
                 }
+
+                if (WeeklyBudget != null)
+                {
+                    WeeklyBudget.Visible = false;
                 }
+
+                if (MonthlyBudget != null)
+                {
+                    MonthlyBudget.Visible = false;
+                }
+
+            }
         }
 
         private void PendingExpensesApprovalsGridControl_Loaded(object sender, RoutedEventArgs e)
@@ -182,8 +191,11 @@ namespace ProjectVersion2.Views
 
             if (gridControl != null)
             {
+                var IdColumn = gridControl.Columns["Id"];
                 var IsApprovedColumn = gridControl.Columns["IsApproved"];
                 var HashedPasswordColumn = gridControl.Columns["HashedPassword"];
+                var WeeklyBudget = gridControl.Columns["WeeklyBudget"];
+                var MonthlyBudget = gridControl.Columns["MonthlyBudget"];
 
                 if (IsApprovedColumn != null)
                 {
@@ -193,6 +205,18 @@ namespace ProjectVersion2.Views
                 if (HashedPasswordColumn != null)
                 {
                     HashedPasswordColumn.Visible = false;
+                }
+                if (WeeklyBudget != null)
+                {
+                    WeeklyBudget.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                }
+                if (MonthlyBudget != null)
+                {
+                    MonthlyBudget.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                }
+                if (IdColumn != null)
+                {
+                    IdColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
                 }
             }
         }
@@ -225,10 +249,15 @@ namespace ProjectVersion2.Views
             if (gridControl != null)
             {
                 var RecurringColumn = gridControl.Columns["IsRecurring"];
+                var IdColumn = gridControl.Columns["Id"];
 
                 if (RecurringColumn != null)
                 {
                     RecurringColumn.Header = "Recurring";
+                }
+                if (IdColumn != null)
+                {
+                    IdColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
                 }
             }
         }
@@ -263,7 +292,16 @@ namespace ProjectVersion2.Views
 
         private void SalaryTableView_Loaded(object sender, RoutedEventArgs e)
         {
-
+            var gridControl = sender as GridControl;
+            if (gridControl != null)
+            {
+                var IdColumn = gridControl.Columns["Id"];
+                if (IdColumn != null)
+                {
+                    IdColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                }
+                
+            }
         }
 
         private void TableView_CellValueChanged_1(object sender, CellValueChangedEventArgs e)
@@ -290,6 +328,7 @@ namespace ProjectVersion2.Views
 
         private void ExportPendingUserData_Click(object sender, RoutedEventArgs e)
         {
+            
             adminUserModel.ExportUsersToCSV(adminUserModel.PendingUserList,false);
             MessageBox.Show("Pending user data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -302,20 +341,87 @@ namespace ProjectVersion2.Views
 
         private void ExportPendingExpensesData_Click(object sender, RoutedEventArgs e)
         {
-            adminUserModel.ExportExpensesToCSV(adminUserModel.PendingExpensesList, false);
-            MessageBox.Show("Pending expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+            MonthlyYearlyWindow monthlyYearlyWindow = new MonthlyYearlyWindow();
+            bool? result=monthlyYearlyWindow.ShowDialog();
+
+            if (result ==  true)
+            {
+              int returnedData = monthlyYearlyWindow.option;
+                if (returnedData != -1)
+                {
+                    adminUserModel.ExportExpensesToCSV(adminUserModel.PendingExpensesList, false, returnedData);
+                    if (returnedData == 0)
+                    {
+                        MessageBox.Show("Pending monthly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 1)
+                    {
+                        MessageBox.Show("Pending yearly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 2)
+                    {
+                        MessageBox.Show("Pending expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            
+           
+            
         }
 
         private void ExportExpensesData_Click(object sender, RoutedEventArgs e)
         {
-            adminUserModel.ExportExpensesToCSV(adminUserModel.ExpensesList, true);
-            MessageBox.Show("Total expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            MonthlyYearlyWindow monthlyYearlyWindow = new MonthlyYearlyWindow();
+            bool? result = monthlyYearlyWindow.ShowDialog();
+
+            if (result == true)
+            {
+                int returnedData = monthlyYearlyWindow.option;
+                if (returnedData != -1)
+                {
+                    adminUserModel.ExportExpensesToCSV(adminUserModel.ExpensesList, true, returnedData);
+                    if (returnedData == 0)
+                    {
+                        MessageBox.Show("Monthly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 1)
+                    {
+                        MessageBox.Show("Yearly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 2)
+                    {
+                        MessageBox.Show("Expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
         }
 
         private void ExportSalaryData_Click(object sender, RoutedEventArgs e)
         {
-            adminUserModel.ExportSalariesToCSV(adminUserModel.SalariesList, true);
-            MessageBox.Show("Total salary data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            MonthlyYearlyWindow monthlyYearlyWindow = new MonthlyYearlyWindow();
+            bool? result = monthlyYearlyWindow.ShowDialog();
+
+            if (result == true)
+            {
+                int returnedData = monthlyYearlyWindow.option;
+                if (returnedData != -1)
+                {
+                    adminUserModel.ExportSalariesToCSV(adminUserModel.SalariesList, true, returnedData);
+                    if (returnedData == 0)
+                    {
+                        MessageBox.Show("Monthly salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 1)
+                    {
+                        MessageBox.Show("Yearly salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 2)
+                    {
+                        MessageBox.Show("Salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -337,6 +443,11 @@ namespace ProjectVersion2.Views
         }
 
         private void CategoriesCellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+
+        }
+
+        private void DashboardGridControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }

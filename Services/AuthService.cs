@@ -11,11 +11,14 @@ namespace ProjectVersion2.Services
     {
 
         Dictionary<Guid, Users> users;
+        Dictionary<Guid, Guest> guests;
         EncryptorDecryptor encryptorDecryptor = new();
         UserDataService userDataService = new UserDataService();
+        GuestService guestService = new GuestService();
 
         public AuthService() {
             users = userDataService.LoadUsersAsDictionary();
+            guests = guestService.LoadGuestsAsDictionary();
         }
 
 
@@ -25,12 +28,13 @@ namespace ProjectVersion2.Services
             if (user == null || !VerifyPassword(password, user.HashedPassword)) return null;
             return user;
         }
-        //public Users? Login(string username, string password, Dictionary<Guid, Users> usersDictionary)
-        //{
-        //    var user = usersDictionary.Values.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
-        //    if (user == null || !VerifyPassword(password, user.HashedPassword)) return null;
-        //    return user.IsApproved ? user : null;
-        //}
+
+        public Guest? Login(string username)
+        {
+            var guest = guests.Values.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            if (guest == null) return null;
+            return guest;
+        }
 
         private bool VerifyPassword(string input, string hashed)
         {
@@ -56,6 +60,22 @@ namespace ProjectVersion2.Services
             return true;
         }
 
+        public bool SignUp(string username,string email, bool isApproved)
+        {
+            if (users.Values.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase))) return false;
+            var newUser = new Guest
+            {
+                Id = Guid.NewGuid(),
+                Username = username,
+                Email = email,
+                IsApproved = isApproved,
+                Role = Role.Guest
+            };
+            guests[newUser.Id] = newUser;
+            SaveGuests();
+            return true;
+        }
+
         public bool SignUp(Users user)
         {
             if (users.Values.Any(u => u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase))) return false;
@@ -66,9 +86,25 @@ namespace ProjectVersion2.Services
             SaveUsers();
             return false;
         }
+
+        public bool SignUp(Guest guest)
+        {
+            if (guests.Values.Any(u => u.Username.Equals(guest.Username, StringComparison.OrdinalIgnoreCase))) return false;
+            guest.Id = Guid.NewGuid();
+            guest.IsApproved = true;
+            guests[guest.Id] = guest;
+            SaveGuests();
+            return false;
+        }
+
         private void SaveUsers()
         {
             userDataService.SaveUsersFromDictionary(users);
+        }
+
+        private void SaveGuests()
+        {
+            guestService.SaveGuestsFromDictionary(guests);
         }
     }
 }

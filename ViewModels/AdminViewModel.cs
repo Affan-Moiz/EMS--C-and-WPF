@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using DevExpress.Mvvm.Native;
 using ProjectVersion2.Model;
 using ProjectVersion2.Services;
 using ProjectVersion2.Utilities;
+using ProjectVersion2.Views;
 
 namespace ProjectVersion2.ViewModels
 {
@@ -30,6 +32,10 @@ namespace ProjectVersion2.ViewModels
         private Users _activeUser;
         private EncryptorDecryptor _encryptorDecryptor;
         private ExpenseCategory _category = new();
+        private int _userCount = 0;
+        private int _pendingUserCount = 0;
+        private int _totalExpensesCount = 0;
+        private int _pendingExpensesCount = 0;
 
 
         private ObservableCollection<string>? rolesCategory;
@@ -37,19 +43,22 @@ namespace ProjectVersion2.ViewModels
         private ObservableCollection<string>? paymentMethod;
 
         // Services
-        private readonly UserDataService userDataService = new UserDataService();
-        private readonly ExpenseDataService expenseDataService = new ExpenseDataService();
-        private readonly SalaryService salaryDataService = new SalaryService();
-        private ExportUserServices exportUserServices = new ExportUserServices();
-        private ExportSalaryService exportSalaryService = new ExportSalaryService();
-        private ExportExpensesService exportExpenseService = new ExportExpensesService();
-        private ExpenseCategoriesService expenseCategoriesService = new ExpenseCategoriesService();
+        private readonly UserDataService userDataService = new();
+        private readonly ExpenseDataService expenseDataService = new();
+        private readonly SalaryService salaryDataService = new();
+        private ExportUserServices exportUserServices = new();
+        private ExportSalaryService exportSalaryService = new();
+        private ExportExpensesService exportExpenseService = new();
+        private ExpenseCategoriesService expenseCategoriesService = new();
         private NotificationService notificationService = new();
 
 
         // Properties
         public ObservableCollection<string> Roles => rolesCategory;
         public ObservableCollection<string> PaymentMethods => paymentMethod;
+
+        public ObservableDictionary<string, double> PieData { get; set; }
+
 
         public Users ActiveUser
         {
@@ -59,6 +68,58 @@ namespace ProjectVersion2.ViewModels
                 if (_activeUser != value)
                 {
                     _activeUser = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int UserCount
+        {
+            get => _userCount;
+            set
+            {
+                if (_userCount != value)
+                {
+                    _userCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int PendingUserCount
+        {
+            get => _pendingUserCount;
+            set
+            {
+                if (_pendingUserCount != value)
+                {
+                    _pendingUserCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int TotalExpensesCount
+        {
+            get => _totalExpensesCount;
+            set
+            {
+                if (_totalExpensesCount != value)
+                {
+                    _totalExpensesCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int PendingExpensesCount
+        {
+            get => _pendingExpensesCount;
+            set
+            {
+                if (_pendingExpensesCount != value)
+                {
+                    _pendingExpensesCount = value;
                     OnPropertyChanged();
                 }
             }
@@ -170,10 +231,21 @@ namespace ProjectVersion2.ViewModels
             _availableUsersList = new ObservableCollection<String>(GetApprovedUsernames());
             _activeUser = GetUserById(Id);
             _encryptorDecryptor = new();
+            _userCount = users.Count;
+            _pendingUserCount = PendingUserList.Count;
+            _totalExpensesCount = expenses.Count;
+            _pendingExpensesCount = PendingExpensesList.Count;
 
             rolesCategory = new ObservableCollection<string>(Enum.GetNames(typeof(Role)));
             InitExpenseCategories();
             paymentMethod = new ObservableCollection<string>(Enum.GetNames(typeof(PaymentMethod)));
+
+            PieData = new ObservableDictionary<string, double>();
+            var pieData = GetPieData();
+            foreach (var data in pieData)
+            {
+                PieData.Add(data.Argument.ToString(), data.Value);
+            }
         }
 
 
@@ -212,6 +284,7 @@ namespace ProjectVersion2.ViewModels
             user.HashedPassword = _encryptorDecryptor.MD5Hash(user.HashedPassword);
             users[user.Id] = user;
             UsersList.Add(user);
+            UserCount++;
         }
 
         public void RemoveUser(Users user)
@@ -224,6 +297,16 @@ namespace ProjectVersion2.ViewModels
             }
         }
 
+        public List<DataPoint> GetPieData()
+        {
+            var pieData = new List<DataPoint>();
+            foreach (var category in expensesCategory)
+            {
+                var total = expenses.Values.Where(e => e.Category.ToString() == category).Sum(e => e.Amount);
+                pieData.Add(new DataPoint(category, (double)total));
+            }
+            return pieData;
+        }
         public Users? GetUserById(Guid id) => users.TryGetValue(id, out var user) ? user : null;
 
         //Get a list of all the usernames of the users that are approved
@@ -250,11 +333,19 @@ namespace ProjectVersion2.ViewModels
                 var pendingUser = PendingUserList.FirstOrDefault(u => u.Id == user.Id);
                 if (user.IsApproved)
                 {
-                    if (pendingUser != null) PendingUserList.Remove(pendingUser);
+                    if (pendingUser != null)
+                    {
+                        PendingUserList.Remove(pendingUser);
+                        PendingUserCount--;
+                    } 
                 }
                 else
                 {
-                    if (pendingUser == null) PendingUserList.Add(user);
+                    if (pendingUser == null)
+                    {
+                        PendingUserList.Add(user);
+                        PendingUserCount++;
+                    }
                 }
             }
         }
@@ -266,6 +357,7 @@ namespace ProjectVersion2.ViewModels
                 users[user.Id].IsApproved = true;
                 PendingUserList.Remove(user);
                 UsersList[UsersList.IndexOf(user)].IsApproved = true;
+                PendingUserCount--;
             }
         }
 
@@ -276,6 +368,7 @@ namespace ProjectVersion2.ViewModels
                 PendingUserList.Remove(user);
                 users.Remove(userId);
                 UsersList.Remove(user);
+                PendingUserCount--;
             }
         }
 
@@ -286,6 +379,8 @@ namespace ProjectVersion2.ViewModels
                 users.Remove(user.Id);
                 PendingUserList.Remove(user);
                 UsersList.Remove(user);
+                PendingUserCount--;
+                UserCount--;
             }
         }
 
@@ -300,10 +395,21 @@ namespace ProjectVersion2.ViewModels
             if (expense.Status == ExpenseStatus.Pending)
             {
                 PendingExpensesList.Add(expense);
+                PendingExpensesCount++;
             }
             else
             {
                 ExpensesList.Add(expense);
+                TotalExpensesCount++;
+            }
+
+            if (PieData.ContainsKey(expense.Category.ToString()))
+            {
+                PieData[expense.Category.ToString()] += (double)expense.Amount;
+            }
+            else
+            {
+                PieData.Add(expense.Category.ToString(), (double)expense.Amount);
             }
         }
 
@@ -371,6 +477,8 @@ namespace ProjectVersion2.ViewModels
             {
                 ExpensesList.Remove(expense);
                 PendingExpensesList.Remove(expense);
+                PendingExpensesCount--;
+                TotalExpensesCount--;
             }
         }
 
@@ -387,15 +495,24 @@ namespace ProjectVersion2.ViewModels
                 else
                 {
                     ExpensesList.Add(expense);
+                    TotalExpensesCount++;
                 }
                 var pendingExpense = PendingExpensesList.FirstOrDefault(e => e.Id == expense.Id);
                 if (expense.Status == ExpenseStatus.Pending)
                 {
-                    if (pendingExpense == null) PendingExpensesList.Add(expense);
+                    if (pendingExpense == null)
+                    {
+                        PendingExpensesList.Add(expense);
+                        PendingExpensesCount++;
+                    }
                 }
                 else
                 {
-                    if (pendingExpense != null) PendingExpensesList.Remove(pendingExpense);
+                    if (pendingExpense != null)
+                    {
+                        PendingExpensesList.Remove(pendingExpense);
+                        PendingExpensesCount--;
+                    }
                 }
             }
         }
@@ -407,6 +524,8 @@ namespace ProjectVersion2.ViewModels
                 expenses.Remove(expense.Id);
                 ExpensesList.Remove(expense);
                 PendingExpensesList.Remove(expense);
+                TotalExpensesCount--;
+                PendingExpensesCount--;
             }
         }
 
@@ -426,6 +545,7 @@ namespace ProjectVersion2.ViewModels
                 AddNotification(notification);
 
                 PendingExpensesList.Remove(expense);
+                PendingExpensesCount--;
                 //All the users with the usernames stored inside the "Payees" list in this expense should have an expense added to their list
                 foreach (var payee in expense.Payees)
                 {
@@ -465,6 +585,7 @@ namespace ProjectVersion2.ViewModels
             {
                 expenses.Remove(expense.Id);
                 PendingExpensesList.Remove(expense);
+                PendingExpensesCount--;
             }
         }
 
@@ -546,16 +667,36 @@ namespace ProjectVersion2.ViewModels
             exportUserServices.ExportUsersToCSV(usersList, flag);
         }
 
-        public void ExportSalariesToCSV(ObservableCollection<Salary> salaries, bool flag)
+        public void ExportSalariesToCSV(ObservableCollection<Salary> salaries, bool flag, int option)
         {
             var salariesList = salaries.ToList();
+
+            if (option == 0)
+            {
+                salariesList = salariesList.Where(e => e.Date >= DateTime.Now.AddDays(-30)).ToList();
+            }
+            else if (option == 1)
+            {
+                //Past year
+                salariesList = salariesList.Where(e => e.Date >= DateTime.Now.AddYears(-1)).ToList();
+            }
+
             exportSalaryService.ExportSalaryToCSV(salariesList, flag);
         }
 
-        public void ExportExpensesToCSV(ObservableCollection<Expenses> expenses, bool flag)
+        public void ExportExpensesToCSV(ObservableCollection<Expenses> expenses, bool flag , int option)
         {
             var expensesList = expenses.ToList();
-            exportExpenseService.ExportExpensesToCSV(expensesList, flag);
+            //If option is 0, then export the expenses for the past 30 days
+            if (option == 0)
+            {
+                expensesList = expensesList.Where(e => e.Date >= DateTime.Now.AddDays(-30)).ToList();
+            }else if (option == 1)
+            {
+                //Past year
+                expensesList = expensesList.Where(e => e.Date >= DateTime.Now.AddYears(-1)).ToList();
+            }
+                exportExpenseService.ExportExpensesToCSV(expensesList, flag);
         }
 
         // PropertyChanged Helper

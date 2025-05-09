@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:ProjectVersion2.ViewModels" xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
         mc:Ignorable="d"
-        Title="Manager Dashboard" Height="610" Width="500" WindowStartupLocation="CenterScreen" Background="#F9F9F9" Closing="Window_Closing" SizeToContent="Width"  >
+        Title="Manager Dashboard" Height="610" Width="450" WindowStartupLocation="CenterScreen" Background="#F9F9F9" Closing="Window_Closing" SizeToContent="Width"  >
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,6 +35,99 @@
 
         <!-- TabControl -->
         <TabControl Grid.Row="1" Margin="0,20,0,0" SelectionChanged="TabControl_SelectionChanged">
+
+
+            <TabItem Header="Dashboard">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Total Expenses -->
+                        <Border Grid.Row="0" MaxWidth="500" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Total Users" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                                <TextBlock x:Name="TotalUsersTextBlock" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#007ACC" 
+                               Margin="0,5,0,0" 
+                               Text="{Binding UserCount}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Remaining Budget -->
+                        <Border Grid.Row="0" Grid.Column="1" MaxWidth="500" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Pending Users" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                                <TextBlock x:Name="PendingUsersTextBlock" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#28A745" 
+                               Margin="0,5,0,0"
+                               Text="{Binding PendingUserCount}" />
+                            </StackPanel>
+                        </Border>
+                        
+                        <Border Grid.Row="1" MaxWidth="500" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Total Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                                <TextBlock x:Name="TotalExpenssTextBlock" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#007ACC" 
+                               Margin="0,5,0,0" 
+                               Text="{Binding TotalExpensesCount}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Remaining Budget -->
+                        <Border Grid.Row="1" Grid.Column="1" MaxWidth="500" Margin="10" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Pending Expenses" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                                <TextBlock x:Name="PendingExpensesTextBlock" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="#28A745" 
+                               Margin="0,5,0,0"
+                               Text="{Binding PendingExpensesCount}" />
+                            </StackPanel>
+                        </Border>
+
+                       
+                        <!-- Expense Categories Overview -->
+                        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="10" MaxWidth="800" Height="400" Padding="15" Background="White" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Expense Categories Overview" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+                                <Grid x:Name="ExpenseCategoriesGraph" Background="#F5F5F5" Margin="0,10,0,0">
+                                    <dxc:ChartControl>
+                                        <dxc:ChartControl.Diagram>
+                                            <dxc:SimpleDiagram2D>
+                                                <dxc:SimpleDiagram2D.Series>
+                                                    <dxc:PieSeries2D x:Name="pieSeries" 
+                                                         ArgumentDataMember="Key" 
+                                                         ValueDataMember="Value" 
+                                                         DataSource="{Binding PieData}" />
+                                                </dxc:SimpleDiagram2D.Series>
+                                            </dxc:SimpleDiagram2D>
+                                        </dxc:ChartControl.Diagram>
+                                    </dxc:ChartControl>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+
             <!-- Pending User Approvals Tab -->
             <TabItem Header="Pending User Approvals">
                 <Grid Margin="10">
@@ -46,12 +139,12 @@
                         <StackPanel>
                             <TextBlock Text="Pending User Approvals" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="PendingUserApprovalsGridControl" 
-                                             AutoGenerateColumns="AddNew" 
-                                             Loaded="PendingUserApprovalsGridControl_Loaded"
-                                             ItemsSource="{Binding PendingUserList}" 
-                                             Margin="0"
-                                             MaxHeight="1000"
-                                             Height="300">
+                                 AutoGenerateColumns="AddNew" 
+                                 Loaded="PendingUserApprovalsGridControl_Loaded"
+                                 ItemsSource="{Binding PendingUserList}" 
+                                 Margin="0"
+                                 MaxHeight="1000"
+                                 Height="300">
                                 <dxg:GridControl.Resources>
                                     <!-- Header Style -->
                                     <Style TargetType="dxg:GridColumnHeader">
@@ -89,6 +182,9 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            
+            
+            
 
             <!-- Pending Expense Approvals Tab -->
             <TabItem Header="Pending Expense Approvals" >
@@ -256,7 +352,7 @@
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
                         <StackPanel >
-                            <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
+                            <TextBlock Text="Salary Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="SalariesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                  AutoGenerateColumns="AddNew" 
                                  ItemsSource="{Binding SalariesList}" 
@@ -304,7 +400,7 @@
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Background="White" Padding="10">
                         <StackPanel >
-                            <TextBlock Text="Expense Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
+                            <TextBlock Text="Categories Management" FontWeight="Bold" FontSize="18" Foreground="#555555" Margin="0,0,0,10" />
                             <dxg:GridControl x:Name="ExpensesCategoriesGridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      AutoGenerateColumns="AddNew" 
                                      ItemsSource="{Binding Categories}" 

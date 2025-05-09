@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Log>
+    <Id>06d48d9c-1d9a-44f9-ad0b-8ecd9a52ee90</Id>
+    <Message>guest has paid 10 for beyblade with the ID 67eb1c71-ed9c-4de9-859b-dc4bac558bf3 for the user with the ID f76848cc-5f2c-4f17-a97b-a35e0f03647b. Remaining amount is 110.</Message>
+    <Timestamp>2025-05-08T16:35:05.8735684+05:00</Timestamp>
+  </Log>
+</ArrayOfLog>

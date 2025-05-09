@@ -22,9 +22,13 @@ namespace ProjectVersion2.Views
             InitializeComponent();
             UserViewModel = new UserViewModel(UserId);
             DataContext = UserViewModel;
+            exportExpensesService = new();
+            exportSalaryService = new ExportSalaryService();
+
+
         }
 
-        
+
 
         private void AddExpense_Click(object sender, RoutedEventArgs e)
         {
@@ -56,7 +60,7 @@ namespace ProjectVersion2.Views
         private void Logout()
         {
             UserViewModel.Save();
-            var loginScreen = new LoginScreen();
+            var loginScreen = new LoginSignupWindow();
             loginScreen.Show();
         }
 
@@ -98,17 +102,63 @@ namespace ProjectVersion2.Views
         }
         private void ExportExpenses_Click(object sender, RoutedEventArgs e)
         {
-            exportExpensesService = new();
-            exportExpensesService.ExportExpensesToCSV(UserViewModel.ExpensesList.ToList(),true);
-            MessageBox.Show("Operation Successful", "Export to CSV");
+            MonthlyYearlyWindow monthlyYearlyWindow = new MonthlyYearlyWindow();
+            bool? result = monthlyYearlyWindow.ShowDialog();
+
+            if (result == true)
+            {
+                int returnedData = monthlyYearlyWindow.option;
+                if (returnedData != -1)
+                {
+                    UserViewModel.ExportExpensesToCSV(UserViewModel.ExpensesList, true, returnedData);
+                    if (returnedData == 0)
+                    {
+                        MessageBox.Show("Monthly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 1)
+                    {
+                        MessageBox.Show("Yearly expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 2)
+                    {
+                        MessageBox.Show("Expenses data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+
+
+            //exportExpensesService.ExportExpensesToCSV(UserViewModel.ExpensesList.ToList(),true);
+            //MessageBox.Show("Operation Successful", "Export to CSV");
 
         }
 
         private void ExportSalary_Click(object sender, RoutedEventArgs e)
         {
-            exportSalaryService = new ExportSalaryService();
-            exportSalaryService.ExportSalaryToCSV(UserViewModel.SalariesList.ToList(),true);
-            MessageBox.Show("Operation Successful", "Export to CSV");
+            MonthlyYearlyWindow monthlyYearlyWindow = new MonthlyYearlyWindow();
+            bool? result = monthlyYearlyWindow.ShowDialog();
+
+            if (result == true)
+            {
+                int returnedData = monthlyYearlyWindow.option;
+                if (returnedData != -1)
+                {
+                    UserViewModel.ExportSalariesToCSV(UserViewModel.SalariesList, true, returnedData);
+                    if (returnedData == 0)
+                    {
+                        MessageBox.Show("Monthly salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 1)
+                    {
+                        MessageBox.Show("Yearly salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (returnedData == 2)
+                    {
+                        MessageBox.Show("Salaries data has been exported to CSV.", "Export Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                //exportSalaryService.ExportSalaryToCSV(UserViewModel.SalariesList.ToList(),true);
+                //MessageBox.Show("Operation Successful", "Export to CSV");
+            }
         }
 
         private void UpcomingExpensesGridControl_Loaded(object sender, RoutedEventArgs e)

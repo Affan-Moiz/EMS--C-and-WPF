@@ -8,18 +8,18 @@
     <Category>Food</Category>
     <PMethod>Cash</PMethod>
     <Status>Completed</Status>
-    <Date>2025-05-06T16:02:43.1351625+05:00</Date>
+    <Date>2025-04-06T16:02:43.1351625+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
   <Expenses>
     <Id>67eb1c71-ed9c-4de9-859b-dc4bac558bf3</Id>
     <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
-    <Amount>150</Amount>
+    <Amount>110</Amount>
     <Description>beyblade</Description>
     <Category>Entertainment</Category>
     <PMethod>DebitCard</PMethod>
-    <Status>Pending</Status>
+    <Status>Approved</Status>
     <Date>2025-05-06T16:03:05.9245658+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees>
@@ -34,7 +34,7 @@
     <Category>Utilities</Category>
     <PMethod>Cash</PMethod>
     <Status>Completed</Status>
-    <Date>2025-05-06T17:52:28.7513291+05:00</Date>
+    <Date>2025-03-06T17:52:28.7513291+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
@@ -103,10 +103,10 @@
     <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
     <Amount>1215</Amount>
     <Description>testing</Description>
-    <Category>Others</Category>
+    <Category>Other</Category>
     <PMethod>Cash</PMethod>
     <Status>Completed</Status>
-    <Date>2025-05-07T12:16:19.4669702+05:00</Date>
+    <Date>1985-05-07T12:16:19.4669702+05:00</Date>
     <IsRecurring>false</IsRecurring>
     <Payees />
   </Expenses>
@@ -115,7 +115,7 @@
     <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
     <Amount>1500</Amount>
     <Description>chalo</Description>
-    <Category>Others</Category>
+    <Category>Other</Category>
     <PMethod>DebitCard</PMethod>
     <Status>Completed</Status>
     <Date>2025-05-07T13:24:13.1747333+05:00</Date>
@@ -163,6 +163,46 @@
     <IsRecurring>false</IsRecurring>
     <Payees>
       <string>amin</string>
+      <string>red</string>
+    </Payees>
+  </Expenses>
+  <Expenses>
+    <Id>6ea59def-d4c7-44ce-87c0-f23b7a331bb2</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>30000</Amount>
+    <Description>Netflix</Description>
+    <Category>Entertainment</Category>
+    <PMethod>DebitCard</PMethod>
+    <Status>Completed</Status>
+    <Date>2025-05-08T11:04:38.9985968+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees />
+  </Expenses>
+  <Expenses>
+    <Id>602cca8e-fca6-480a-9ec1-b4a5bf2fbf39</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>75</Amount>
+    <Description>Cold Drinks</Description>
+    <Category>Food</Category>
+    <PMethod>Cash</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-05-08T13:17:03.8756696+05:00</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees>
+      <string>red</string>
+    </Payees>
+  </Expenses>
+  <Expenses>
+    <Id>f341adc3-46c2-463c-a819-3c12df6c7538</Id>
+    <UserId>f76848cc-5f2c-4f17-a97b-a35e0f03647b</UserId>
+    <Amount>1500</Amount>
+    <Description>Nathia Gali</Description>
+    <Category>Travel</Category>
+    <PMethod>JazzCash</PMethod>
+    <Status>Pending</Status>
+    <Date>2025-03-04T10:44:29.3685652</Date>
+    <IsRecurring>false</IsRecurring>
+    <Payees>
       <string>red</string>
     </Payees>
   </Expenses>
